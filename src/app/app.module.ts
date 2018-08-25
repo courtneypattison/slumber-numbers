@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { SleepChartComponent } from './sleep-chart/sleep-chart.component';
+import { SleepService } from './sleep.service';
 
 @NgModule({
   declarations: [
@@ -12,7 +13,7 @@ import { SleepChartComponent } from './sleep-chart/sleep-chart.component';
   imports: [
     BrowserModule
   ],
-  providers: [],
+  providers: [SleepService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
