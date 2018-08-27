@@ -1,5 +1,5 @@
 {
-  "name": "child-sleep-tracker",
+  "name": "sleep-log",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",

@@ -5,7 +5,7 @@ import { SleepLogService } from '../sleep-log.service';
 declare var google: any;
 
 @Component({
-  selector: 'cst-sleep-chart',
+  selector: 'sl-sleep-chart',
   templateUrl: './sleep-chart.component.html',
   styleUrls: ['./sleep-chart.component.css']
 })
