@@ -1,9 +1,14 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
+
+import { AppRoutingModule } from './app-routing.module';
+
+import { CoreModule } from './core/core.module';
 
 import { AppComponent } from './app.component';
 import { SleepChartComponent } from './sleep-chart/sleep-chart.component';
-import { SleepService } from './sleep.service';
+import { SleepLogService } from './sleep-log.service';
 
 @NgModule({
   declarations: [
@@ -11,9 +16,12 @@ import { SleepService } from './sleep.service';
     SleepChartComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    BrowserAnimationsModule,
+    CoreModule,
+    AppRoutingModule
   ],
-  providers: [SleepService],
+  providers: [SleepLogService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
