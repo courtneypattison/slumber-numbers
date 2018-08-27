@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { SleepLogService } from '../sleep-log.service';
+import { SleepService } from '../shared/sleep.service';
 
 declare var google: any;
 
@@ -12,16 +12,23 @@ declare var google: any;
 export class SleepChartComponent implements OnInit {
   sleepRows: [string, string, Date, Date];
 
-  constructor(private sleepLogService: SleepLogService) { }
+  constructor(private sleepService: SleepService) { }
 
   ngOnInit() {
     google.charts.load('current', {packages: ['timeline']});
     google.charts.setOnLoadCallback(drawChart);
-    const sleepArray = this.sleepLogService.getSleepLog().map(sleepRecord => {
-      const recordArray = Object.values(sleepRecord);
-      recordArray.unshift(recordArray[0].toDateString());
-      return recordArray;
-    });
+
+    this.sleepService.addTestSleep();
+
+    const sleepArray = this.sleepService.getSleepLog();
+    const sleepChartRows = this.sleepService.getSleepChartRows();
+    console.log(sleepArray);
+    console.log(sleepChartRows);
+    // .map(sleepRecord => {
+    //   const recordArray = Object.values(sleepRecord);
+    //   recordArray.unshift(recordArray[0].toDateString());
+    //   return recordArray;
+    // });
     function drawChart() {
       const container = document.getElementById('sleep-chart');
       const chart = new google.visualization.Timeline(container);
@@ -30,7 +37,7 @@ export class SleepChartComponent implements OnInit {
       dataTable.addColumn({ type: 'string', id: 'State' });
       dataTable.addColumn({ type: 'date', id: 'Start' });
       dataTable.addColumn({ type: 'date', id: 'End' });
-      dataTable.addRows(sleepArray);
+      dataTable.addRows(sleepChartRows);
 
       const options = {
         avoidOverlappingGridLines: false

@@ -1,15 +1,15 @@
 import { TestBed, inject } from '@angular/core/testing';
 
-import { SleepLogService } from './sleep-log.service';
+import { SleepService } from './sleep.service';
 
 describe('SleepLogService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [SleepLogService]
+      providers: [SleepService]
     });
   });
 
-  it('should be created', inject([SleepLogService], (service: SleepLogService) => {
+  it('should be created', inject([SleepService], (service: SleepService) => {
     expect(service).toBeTruthy();
   }));
 });

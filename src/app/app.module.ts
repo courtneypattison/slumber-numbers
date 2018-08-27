@@ -7,8 +7,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { CoreModule } from './core/core.module';
 
 import { AppComponent } from './app.component';
-import { SleepChartComponent } from './sleep-chart/sleep-chart.component';
-import { SleepLogService } from './sleep-log.service';
+import { SleepChartComponent } from './sleep/sleep-chart/sleep-chart.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +20,6 @@ import { SleepLogService } from './sleep-log.service';
     CoreModule,
     AppRoutingModule
   ],
-  providers: [SleepLogService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
