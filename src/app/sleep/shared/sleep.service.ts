@@ -4,15 +4,19 @@ import { SleepChartRow } from './sleep-chart-row.model';
 import { SleepRecord } from './sleep-record.model';
 import { SleepState } from './sleep-state.model';
 
+import { LoggerService } from '../../core/logger.service';
+
 @Injectable({
   providedIn: 'root'
 })
 export class SleepService {
   sleepLog: SleepRecord[] = [];
 
-  constructor() { }
+  constructor(private logger: LoggerService) { }
 
   add(startDateTime: Date, sleepState: SleepState) {
+    this.logger.log(`Add sleep: (startDateTime: ${startDateTime.toDateString()}, sleepState: ${sleepState})`);
+
     this.sleepLog.push({
       startDateTime: startDateTime,
       sleepState: sleepState
@@ -105,7 +109,10 @@ export class SleepService {
   }
 
   getSleepChartRows(): SleepChartRow[] {
+    this.logger.log('Get sleep chart rows');
+
     const sleepChartRows = [];
+
     for (let i = 0, j = 0; i < this.sleepLog.length; i++, j++) {
       const currStartDateTime = this.sleepLog[i].startDateTime;
       const currStartTime = new Date(0, 0, 0, currStartDateTime.getHours(), currStartDateTime.getMinutes());
@@ -140,6 +147,8 @@ export class SleepService {
   }
 
   getSleepLog() {
+    this.logger.log('Get sleep log');
+
     return this.sleepLog;
   }
 }
