@@ -6,7 +6,7 @@ import { SleepModule } from './sleep/sleep.module';
 import { PageNotFoundComponent } from './core/page-not-found/page-not-found.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'sleepchart', pathMatch: 'full' },
+  { path: '', redirectTo: 'sleep', pathMatch: 'full' },
   { path: '**', pathMatch: 'full', component: PageNotFoundComponent }
 ];
 

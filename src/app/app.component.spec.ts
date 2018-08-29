@@ -1,13 +1,11 @@
 import { TestBed, async } from '@angular/core/testing';
 import { AppComponent } from './app.component';
 
-import { SleepChartComponent } from './sleep-chart/sleep-chart.component';
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        AppComponent,
-        SleepChartComponent
+        AppComponent
       ],
     }).compileComponents();
   }));
