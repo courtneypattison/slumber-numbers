@@ -19,16 +19,8 @@ export class SleepChartComponent implements OnInit {
     google.charts.setOnLoadCallback(drawChart);
 
     this.sleepService.addTestSleep();
-
-    const sleepArray = this.sleepService.getSleepLog();
     const sleepChartRows = this.sleepService.getSleepChartRows();
-    console.log(sleepArray);
-    console.log(sleepChartRows);
-    // .map(sleepRecord => {
-    //   const recordArray = Object.values(sleepRecord);
-    //   recordArray.unshift(recordArray[0].toDateString());
-    //   return recordArray;
-    // });
+
     function drawChart() {
       const container = document.getElementById('sleep-chart');
       const chart = new google.visualization.Timeline(container);

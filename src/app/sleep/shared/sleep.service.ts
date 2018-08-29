@@ -17,21 +17,9 @@ export class SleepService {
       startDateTime: startDateTime,
       sleepState: sleepState
     });
-    // if (this.sleepLog.length) {
-    //   if (this.sleepLog[this.sleepLog.length - 1].startDateTime.toDateString() === startDateTime.toDateString()) { // Same day
-    //     this.sleepLog[this.sleepLog.length - 1].endDateTime = startDateTime;
-    //   } else { // New day
-    //     this.sleepLog[this.sleepLog.length - 1].endDateTime = new Date(0, 0, 0, 24, 0); // End of day
-    //     this.sleepLog.push({
-    //       sleepState: this.sleepLog[this.sleepLog.length - 1].sleepState,
-    //       startDateTime: new Date(0, 0, 0, 0, 0), // Beginning of day
-    //     });
-    //   }
-    // }
   }
 
   addTestSleep(): void {
-    this.add(new Date(2018, 7, 23, 0, 0), SleepState.Asleep);
     this.add(new Date(2018, 7, 23, 2, 15), SleepState.Awake);
     this.add(new Date(2018, 7, 23, 2, 45), SleepState.Asleep);
     this.add(new Date(2018, 7, 23, 5, 45), SleepState.Awake);
@@ -91,16 +79,60 @@ export class SleepService {
     this.add(new Date(2018, 7, 27, 9, 5), SleepState.Asleep);
     this.add(new Date(2018, 7, 27, 10, 25), SleepState.Awake);
     this.add(new Date(2018, 7, 27, 13, 0), SleepState.Asleep);
+    this.add(new Date(2018, 7, 27, 15, 10), SleepState.Awake);
+    this.add(new Date(2018, 7, 27, 19, 5), SleepState.Asleep);
+    this.add(new Date(2018, 7, 27, 23, 40), SleepState.Awake);
+    this.add(new Date(2018, 7, 27, 24, 0), SleepState.Asleep);
+
+    this.add(new Date(2018, 7, 28, 5, 15), SleepState.Awake);
+    this.add(new Date(2018, 7, 28, 6, 55), SleepState.Asleep);
+    this.add(new Date(2018, 7, 28, 8, 0), SleepState.Awake);
+    this.add(new Date(2018, 7, 28, 10, 0), SleepState.Asleep);
+    this.add(new Date(2018, 7, 28, 11, 0), SleepState.Awake);
+    this.add(new Date(2018, 7, 28, 13, 0), SleepState.Asleep);
+    this.add(new Date(2018, 7, 28, 13, 55), SleepState.Awake);
+    this.add(new Date(2018, 7, 28, 16, 50), SleepState.Asleep);
+    this.add(new Date(2018, 7, 28, 17, 30), SleepState.Awake);
+    this.add(new Date(2018, 7, 28, 19, 0), SleepState.Asleep);
+
+    this.add(new Date(2018, 7, 29, 1, 30), SleepState.Awake);
+    this.add(new Date(2018, 7, 29, 1, 50), SleepState.Asleep);
+    this.add(new Date(2018, 7, 29, 6, 30), SleepState.Awake);
+    this.add(new Date(2018, 7, 29, 8, 40), SleepState.Crying);
+    this.add(new Date(2018, 7, 29, 9, 10), SleepState.Awake);
+    this.add(new Date(2018, 7, 29, 10, 0), SleepState.Crying);
+    this.add(new Date(2018, 7, 29, 10, 30), SleepState.Asleep);
   }
 
   getSleepChartRows(): SleepChartRow[] {
     const sleepChartRows = [];
-    for (let i = 0; i < this.sleepLog.length; i++) {
+    for (let i = 0, j = 0; i < this.sleepLog.length; i++, j++) {
+      const currStartDateTime = this.sleepLog[i].startDateTime;
+      const currStartTime = new Date(0, 0, 0, currStartDateTime.getHours(), currStartDateTime.getMinutes());
+
+      if (i > 0) {
+        const endDateTimeIndex = 3;
+        const prevStartDateTime = this.sleepLog[i - 1].startDateTime;
+
+        if (prevStartDateTime.toDateString() === currStartDateTime.toDateString()) { // Same day
+          sleepChartRows[j - 1][endDateTimeIndex] = currStartTime;
+        } else { // New day
+          sleepChartRows[j - 1][endDateTimeIndex] = new Date(0, 0, 0, 24, 0);
+          sleepChartRows.push([
+            currStartDateTime.toDateString(),
+            this.sleepLog[i - 1].sleepState,
+            new Date(0, 0, 0, 0, 0),
+            currStartTime
+          ]);
+          j++;
+        }
+      }
+
       sleepChartRows.push([
-        this.sleepLog[i].startDateTime.toDateString(),
+        currStartDateTime.toDateString(),
         this.sleepLog[i].sleepState,
-        this.sleepLog[i].startDateTime,
-        (this.sleepLog.length && i + 1 < this.sleepLog.length) ? this.sleepLog[i + 1].startDateTime : this.sleepLog[i].startDateTime
+        currStartTime,
+        currStartTime
       ]);
     }
 
