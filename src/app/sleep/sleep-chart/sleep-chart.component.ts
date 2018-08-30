@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { SleepService } from '../shared/sleep.service';
 
-declare const google: any;
+declare var google: any;
 
 @Component({
   selector: 'sl-sleep-chart',
