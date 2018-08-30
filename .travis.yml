@@ -15,7 +15,7 @@ script:
   - yarn build:ci
   - yarn lint
   - yarn test:ci
-  - yarn e2e
+  - yarn e2e:ci
   - cat coverage/lcov.info | yarn coveralls
 
 deploy:
