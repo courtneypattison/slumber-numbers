@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/courtneypattison/sleep-log.svg?branch=master)](https://travis-ci.org/courtneypattison/sleep-log) [![Coverage Status](https://coveralls.io/repos/github/courtneypattison/sleep-log/badge.svg?branch=master)](https://coveralls.io/github/courtneypattison/sleep-log?branch=master)
+
 # SleepLog
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.0.
