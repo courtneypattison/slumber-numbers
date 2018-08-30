@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { SleepService } from '../shared/sleep.service';
 
-declare var google: any;
+declare const google: any;
 
 @Component({
   selector: 'sl-sleep-chart',
@@ -32,7 +32,13 @@ export class SleepChartComponent implements OnInit {
       dataTable.addRows(sleepChartRows);
 
       const options = {
-        avoidOverlappingGridLines: false
+        avoidOverlappingGridLines: false,
+        colors: [
+          '#FFCA28', // Awake
+          '#7E57C2', // Asleep
+          '#EF5350', // Crying
+        ],
+        timeline: { showBarLabels: false }
       };
 
       chart.draw(dataTable, options);

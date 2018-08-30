@@ -106,6 +106,12 @@ export class SleepService {
     this.add(new Date(2018, 7, 29, 9, 10), SleepState.Awake);
     this.add(new Date(2018, 7, 29, 10, 0), SleepState.Crying);
     this.add(new Date(2018, 7, 29, 10, 30), SleepState.Asleep);
+    this.add(new Date(2018, 7, 29, 11, 25), SleepState.Awake);
+    this.add(new Date(2018, 7, 29, 13, 35), SleepState.Crying);
+    this.add(new Date(2018, 7, 29, 13, 40), SleepState.Asleep);
+    this.add(new Date(2018, 7, 29, 14, 25), SleepState.Awake);
+    this.add(new Date(2018, 7, 29, 18, 45), SleepState.Crying);
+    this.add(new Date(2018, 7, 29, 19, 15), SleepState.Asleep);
   }
 
   getSleepChartRows(): SleepChartRow[] {

@@ -1,11 +1,17 @@
 import { TestBed, inject } from '@angular/core/testing';
 
 import { SleepService } from './sleep.service';
+import { LoggerService } from '../../core/logger.service';
+
+import { MockLoggerService } from '../../../testing/mock-logger.service';
 
 describe('SleepLogService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [SleepService]
+      providers: [
+        SleepService,
+        { provide: LoggerService, useClass: MockLoggerService }
+      ]
     });
   });
 
