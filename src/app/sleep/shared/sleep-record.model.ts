@@ -1,6 +1,7 @@
+import * as firebase from 'firebase';
 import { SleepState } from './sleep-state.model';
 
 export interface SleepRecord {
-  startDateTime: Date;
+  startTimestamp: firebase.firestore.Timestamp;
   sleepState: SleepState;
 }

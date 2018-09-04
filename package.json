@@ -27,6 +27,8 @@
     "@angular/router": "^6.0.0",
     "angularfire2": "^5.0.0-rc.12",
     "core-js": "^2.5.4",
+    "firebase": "^5.4.2",
+    "ngx-take-until-destroy": "^4.1.0",
     "rxjs": "^6.0.0",
     "zone.js": "^0.8.26"
   },
