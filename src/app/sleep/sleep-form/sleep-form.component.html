@@ -1,3 +1,23 @@
-<p>
-  sleep-form works!
-</p>
+<form>
+  <mat-form-field>
+    <input matInput name="startDate" #picker="ngModel" [matDatepicker]="picker" [(ngModel)]="startDate" placeholder="Choose a date" required>
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>  
+
+  <mat-form-field>
+    <input matInput name="startTime" placeholder="Time" value="{{startTime | date:'shortTime'}}" [ngModel]="startTime" required>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-select placeholder="State" [(value)]="startSleepState" required>
+      <mat-option *ngFor="let sleepState of sleepStates" value="{{sleepState.toString()}}">{{sleepState}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <button mat-raised-button color="primary">Submit</button>
+
+  <p>startDate: {{startDate}}</p>
+  <p>startTime: {{startTime}}</p>
+  <p>startSleepState: {{startSleepState}}</p>
+</form>

@@ -6,7 +6,7 @@ import { AngularFirestore } from 'angularfire2/firestore';
 import { Observable } from 'rxjs';
 
 import { SleepChartRow } from './sleep-chart-row.model';
-import { SleepRecord } from './sleep-record.model';
+import { Sleep } from '././sleep.model';
 import { SleepState } from './sleep-state.model';
 
 import { LoggerService } from '../../core/logger.service';
@@ -23,14 +23,14 @@ export class SleepService {
     this.logger.log(`Add sleep: (startTimestamp: ${startTimestamp}, state: ${sleepState})`);
 
     this.angularFirestore
-      .collection<SleepRecord>(this.sleepCollection)
+      .collection<Sleep>(this.sleepCollection)
       .add({
         startTimestamp: startTimestamp,
         sleepState: sleepState
       });
   }
 
-  getSleepChartRows(sleepLog: SleepRecord[]): SleepChartRow[] {
+  getSleepChartRows(sleepLog: Sleep[]): SleepChartRow[] {
     this.logger.log('Get sleep chart rows');
 
     const sleepChartRows = [];
@@ -67,10 +67,10 @@ export class SleepService {
     return sleepChartRows;
   }
 
-  getSleepLog(): Observable<SleepRecord[]> {
+  getSleepLog(): Observable<Sleep[]> {
     this.logger.log('Get sleep log from firestore');
     return this.angularFirestore
-      .collection<SleepRecord>(this.sleepCollection, ref => ref.orderBy('startTimestamp'))
+      .collection<Sleep>(this.sleepCollection, ref => ref.orderBy('startTimestamp'))
       .valueChanges();
   }
 
@@ -245,5 +245,21 @@ export class SleepService {
     this.add(firebase.firestore.Timestamp.fromDate(new Date(2018, 8, 4, 6, 40)), SleepState.Awake);
     this.add(firebase.firestore.Timestamp.fromDate(new Date(2018, 8, 4, 8, 30)), SleepState.Crying);
     this.add(firebase.firestore.Timestamp.fromDate(new Date(2018, 8, 4, 8, 35)), SleepState.Asleep);
+    this.add(firebase.firestore.Timestamp.fromDate(new Date(2018, 8, 4, 10, 10)), SleepState.Awake);
+    this.add(firebase.firestore.Timestamp.fromDate(new Date(2018, 8, 4, 12, 0)), SleepState.Asleep);
+    this.add(firebase.firestore.Timestamp.fromDate(new Date(2018, 8, 4, 12, 30)), SleepState.Awake);
+    this.add(firebase.firestore.Timestamp.fromDate(new Date(2018, 8, 4, 14, 30)), SleepState.Asleep);
+    this.add(firebase.firestore.Timestamp.fromDate(new Date(2018, 8, 4, 16, 5)), SleepState.Awake);
+    this.add(firebase.firestore.Timestamp.fromDate(new Date(2018, 8, 4, 19, 5)), SleepState.Asleep);
+
+    this.add(firebase.firestore.Timestamp.fromDate(new Date(2018, 8, 5, 3, 15)), SleepState.Awake);
+    this.add(firebase.firestore.Timestamp.fromDate(new Date(2018, 8, 5, 3, 45)), SleepState.Asleep);
+    this.add(firebase.firestore.Timestamp.fromDate(new Date(2018, 8, 5, 5, 30)), SleepState.Awake);
+    this.add(firebase.firestore.Timestamp.fromDate(new Date(2018, 8, 5, 7, 30)), SleepState.Asleep);
+    this.add(firebase.firestore.Timestamp.fromDate(new Date(2018, 8, 5, 8, 15)), SleepState.Awake);
+    this.add(firebase.firestore.Timestamp.fromDate(new Date(2018, 8, 5, 9, 40)), SleepState.Asleep);
+    this.add(firebase.firestore.Timestamp.fromDate(new Date(2018, 8, 5, 10, 40)), SleepState.Awake);
+    this.add(firebase.firestore.Timestamp.fromDate(new Date(2018, 8, 5, 13, 30)), SleepState.Crying);
+    this.add(firebase.firestore.Timestamp.fromDate(new Date(2018, 8, 5, 13, 45)), SleepState.Asleep);
   }
 }
