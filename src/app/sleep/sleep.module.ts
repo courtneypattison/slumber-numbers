@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { MatNativeDateModule } from '@angular/material/';
 import { MatButtonModule } from '@angular/material/button';
@@ -18,7 +19,9 @@ import { SleepFormComponent } from './sleep-form/sleep-form.component';
 @NgModule({
   imports: [
     CommonModule,
+    BrowserAnimationsModule,
     FormsModule,
+    ReactiveFormsModule,
     MatNativeDateModule,
     MatButtonModule,
     MatInputModule,
