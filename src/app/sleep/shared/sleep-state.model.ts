@@ -1,5 +1,5 @@
 export enum SleepState {
-  Awake = 'Awake',
   Asleep = 'Asleep',
+  Awake = 'Awake',
   Crying = 'Crying'
 }
