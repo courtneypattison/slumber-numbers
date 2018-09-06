@@ -261,5 +261,14 @@ export class SleepService {
     this.add(firebase.firestore.Timestamp.fromDate(new Date(2018, 8, 5, 10, 40)), SleepState.Awake);
     this.add(firebase.firestore.Timestamp.fromDate(new Date(2018, 8, 5, 13, 30)), SleepState.Crying);
     this.add(firebase.firestore.Timestamp.fromDate(new Date(2018, 8, 5, 13, 45)), SleepState.Asleep);
+    this.add(firebase.firestore.Timestamp.fromDate(new Date(2018, 8, 5, 15, 25)), SleepState.Awake);
+    this.add(firebase.firestore.Timestamp.fromDate(new Date(2018, 8, 5, 19, 0)), SleepState.Asleep);
+
+    this.add(firebase.firestore.Timestamp.fromDate(new Date(2018, 8, 6, 4, 0)), SleepState.Awake);
+    this.add(firebase.firestore.Timestamp.fromDate(new Date(2018, 8, 6, 4, 20)), SleepState.Asleep);
+    this.add(firebase.firestore.Timestamp.fromDate(new Date(2018, 8, 6, 6, 30)), SleepState.Awake);
+    this.add(firebase.firestore.Timestamp.fromDate(new Date(2018, 8, 6, 8, 20)), SleepState.Asleep);
+    this.add(firebase.firestore.Timestamp.fromDate(new Date(2018, 8, 6, 9, 35)), SleepState.Awake);
+    this.add(firebase.firestore.Timestamp.fromDate(new Date(2018, 8, 6, 11, 50)), SleepState.Asleep);
   }
 }
