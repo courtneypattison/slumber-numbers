@@ -1,19 +1,31 @@
-<form [formGroup]="sleepForm" (ngSubmit)="onSubmit()">
+<form [formGroup]="sleepForm" (ngSubmit)="onSave()">
   <mat-form-field>
     <input matInput formControlName="startDate" [matDatepicker]="picker" placeholder="Choose a date" required>
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-datepicker #picker></mat-datepicker>
+    <mat-error *ngIf="sleepForm.get('startDate').hasError()">
+        Enter a valid date
+      </mat-error>
+    <mat-error *ngIf="sleepForm.get('startDate').hasError('required')">
+        Date is <strong>required</strong>
+    </mat-error>
   </mat-form-field>
 
   <mat-form-field>
-    <input matInput formControlName="startTime" placeholder="Time" required>
+    <input matInput formControlName="startTime" placeholder="Start time" required>
+    <mat-error *ngIf="sleepForm.get('startTime').hasError('pattern')">
+      Enter a valid start time 'h:mm a'
+    </mat-error>
+    <mat-error *ngIf="sleepForm.get('startTime').hasError('required')">
+      Start time is <strong>required</strong>
+    </mat-error>
   </mat-form-field>
 
   <mat-form-field>
-    <mat-select formControlName="startSleepState" placeholder="State" required>
+    <mat-select formControlName="sleepState" placeholder="Sleep state" required>
       <mat-option *ngFor="let sleepState of sleepStates" value="{{sleepState.toString()}}">{{sleepState}}</mat-option>
     </mat-select>
   </mat-form-field>
 
-  <button mat-raised-button type="submit" [disabled]="!sleepForm.valid" color="primary">Submit</button>
+  <button mat-raised-button type="submit" [disabled]="!sleepForm.valid" color="primary">Save</button>
 </form>
