@@ -5,8 +5,10 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
-import { LoggerService } from './logger.service';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+
+import { AuthService } from './auth.service';
+import { LoggerService } from './logger.service';
 
 @NgModule({
   imports: [
@@ -23,7 +25,10 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
     HeaderComponent,
     FooterComponent
   ],
-  providers: [LoggerService]
+  providers: [
+    AuthService,
+    LoggerService
+  ]
 })
 export class CoreModule {
   constructor (@Optional() @SkipSelf() parentModule: CoreModule) {
