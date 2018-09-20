@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AngularFireAuth } from 'angularfire2/auth';
+import { auth } from 'firebase/app';
 
 @Component({
   selector: 'sl-header',
@@ -8,9 +10,15 @@ import { Component, OnInit } from '@angular/core';
 export class HeaderComponent implements OnInit {
   title = 'Sleep Log';
 
-  constructor() { }
+  constructor(public angularFireAuth: AngularFireAuth) { }
 
   ngOnInit() {
   }
 
+  signIn() {
+    this.angularFireAuth.auth.signInWithPopup(new auth.GoogleAuthProvider());
+  }
+  signOut() {
+    this.angularFireAuth.auth.signOut();
+  }
 }

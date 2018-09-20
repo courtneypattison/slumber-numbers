@@ -7,7 +7,6 @@ import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
-import { AuthService } from './auth.service';
 import { LoggerService } from './logger.service';
 
 @NgModule({
@@ -25,10 +24,7 @@ import { LoggerService } from './logger.service';
     HeaderComponent,
     FooterComponent
   ],
-  providers: [
-    AuthService,
-    LoggerService
-  ]
+  providers: [LoggerService]
 })
 export class CoreModule {
   constructor (@Optional() @SkipSelf() parentModule: CoreModule) {

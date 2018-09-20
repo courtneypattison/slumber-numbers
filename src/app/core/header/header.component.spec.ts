@@ -4,6 +4,11 @@ import { DebugElement } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
+import { AngularFireModule } from 'angularfire2';
+import { AngularFireAuth } from 'angularfire2/auth';
+
+import { environment } from '../../../environments/environment';
+
 import { HeaderComponent } from './header.component';
 
 describe('HeaderComponent', () => {
@@ -16,9 +21,11 @@ describe('HeaderComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         MatButtonModule,
-        MatToolbarModule
+        MatToolbarModule,
+        AngularFireModule.initializeApp(environment.firebase)
       ],
-      declarations: [ HeaderComponent ]
+      providers: [AngularFireAuth],
+      declarations: [HeaderComponent]
     })
     .compileComponents();
   }));

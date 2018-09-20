@@ -2,10 +2,15 @@
   <nav>
     <mat-toolbar color="primary" class="mat-elevation-z6">
       <a mat-button href="/">{{title}}</a>
+
       <div class="fill-space"></div>
-      <a mat-button href="https://github.com/courtneypattison/sleep-log">
-        <img alt="" src="../../../assets/github-logo.svg"> Github
-      </a>
+
+      <div *ngIf="angularFireAuth.user | async as user; else showSignIn">
+        <button mat-button (click)="signOut()">Sign Out</button>
+      </div>
+      <ng-template #showSignIn>
+        <button mat-button (click)="signIn()">Sign In with Google</button>
+      </ng-template>
     </mat-toolbar>
   </nav>
 </header>
