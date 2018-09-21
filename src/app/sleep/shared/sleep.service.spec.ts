@@ -2,6 +2,7 @@ import { TestBed, inject } from '@angular/core/testing';
 
 import { AngularFireModule } from 'angularfire2';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
+import { AngularFireAuth } from 'angularfire2/auth';
 
 import { config } from '../../../testing/mock-config';
 
@@ -19,7 +20,8 @@ describe('SleepService', () => {
       ],
       providers: [
         SleepService,
-        { provide: LoggerService, useClass: MockLoggerService }
+        { provide: LoggerService, useClass: MockLoggerService },
+        AngularFireAuth
       ]
     });
   });

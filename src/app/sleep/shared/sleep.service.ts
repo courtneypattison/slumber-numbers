@@ -2,8 +2,10 @@ import { Injectable } from '@angular/core';
 
 import * as firebase from 'firebase/app';
 import { AngularFirestore } from 'angularfire2/firestore';
+import { AngularFireAuth } from 'angularfire2/auth';
 
 import { Observable } from 'rxjs';
+import { first } from 'rxjs/operators';
 
 import { SleepChartRow } from './sleep-chart-row.model';
 import { Sleep } from '././sleep.model';
@@ -15,19 +17,25 @@ import { LoggerService } from '../../core/logger.service';
   providedIn: 'root'
 })
 export class SleepService {
-  sleepCollection = 'sleep';
 
-  constructor(private angularFirestore: AngularFirestore, private logger: LoggerService) { }
+  constructor(private angularFirestore: AngularFirestore, public angularFireAuth: AngularFireAuth, private logger: LoggerService) { }
 
   add(startDateTime: Date, sleepState: SleepState) {
-    this.logger.log(`Add sleep: (startDateTime: ${startDateTime.toDateString()} ${startDateTime.toTimeString()}, state: ${sleepState})`);
+    this.angularFireAuth.authState.pipe(first()).subscribe(user => {
+      this.logger.log(`Add sleep:
+        user.uid: ${user.uid},
+        startDateTime: ${startDateTime.toDateString()} ${startDateTime.toTimeString()},
+        state: ${sleepState}`);
+      const startTimestamp = firebase.firestore.Timestamp.fromDate(startDateTime);
 
-    this.angularFirestore
-      .collection<Sleep>(this.sleepCollection)
-      .add({
-        startTimestamp: firebase.firestore.Timestamp.fromDate(startDateTime),
-        sleepState: sleepState
-      });
+      this.angularFirestore
+        .collection<Sleep>(user.uid)
+        .doc(String(startTimestamp))
+        .set({
+          startTimestamp: startTimestamp,
+          sleepState: sleepState
+        });
+    });
   }
 
   getSleepChartRows(sleepLog: Sleep[]): SleepChartRow[] {
@@ -67,10 +75,10 @@ export class SleepService {
     return sleepChartRows;
   }
 
-  getSleepLog(): Observable<Sleep[]> {
-    this.logger.log('Get sleep log from firestore');
+  getSleepLog(uid: string): Observable<Sleep[]> {
+    this.logger.log(`Get sleep log from firestore (uid: ${uid})`);
     return this.angularFirestore
-      .collection<Sleep>(this.sleepCollection, ref => ref.orderBy('startTimestamp'))
+      .collection<Sleep>(uid, ref => ref.orderBy('startTimestamp'))
       .valueChanges();
   }
 

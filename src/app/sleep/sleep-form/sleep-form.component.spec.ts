@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AngularFireModule } from 'angularfire2';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
+import { AngularFireAuth } from 'angularfire2/auth';
 
 import { config } from '../../../testing/mock-config';
 
@@ -42,7 +43,8 @@ describe('SleepFormComponent', () => {
       ],
       providers: [
         SleepService,
-        { provide: LoggerService, useClass: MockLoggerService }
+        { provide: LoggerService, useClass: MockLoggerService },
+        AngularFireAuth
       ],
       declarations: [SleepFormComponent]
     })

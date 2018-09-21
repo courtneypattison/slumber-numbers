@@ -7,7 +7,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireAuth } from 'angularfire2/auth';
 
-import { environment } from '../../../environments/environment';
+import { config } from '../../../testing/mock-config';
 
 import { HeaderComponent } from './header.component';
 
@@ -22,7 +22,7 @@ describe('HeaderComponent', () => {
       imports: [
         MatButtonModule,
         MatToolbarModule,
-        AngularFireModule.initializeApp(environment.firebase)
+        AngularFireModule.initializeApp(config)
       ],
       providers: [AngularFireAuth],
       declarations: [HeaderComponent]
