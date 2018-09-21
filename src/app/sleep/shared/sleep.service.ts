@@ -48,9 +48,9 @@ export class SleepService {
       const currStartTime = new Date(0, 0, 0, currStartDateTime.getHours(), currStartDateTime.getMinutes());
 
       if (i > 0) {
-        const prevstartTimestamp = sleepLog[i - 1].startTimestamp.toDate();
+        const prevStartTimestamp = sleepLog[i - 1].startTimestamp.toDate();
 
-        if (prevstartTimestamp.toDateString() === currStartDateTime.toDateString()) { // Same day
+        if (prevStartTimestamp.toDateString() === currStartDateTime.toDateString()) { // Same day
           sleepChartRows[j - 1][endTimeIndex] = currStartTime;
         } else { // New day
           sleepChartRows[j - 1][endTimeIndex] = new Date(0, 0, 0, 24, 0);
