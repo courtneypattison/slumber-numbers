@@ -32,6 +32,9 @@ export class SleepChartComponent implements OnInit {
         .pipe(untilDestroyed(this))
         .subscribe((sleepLog: Sleep[]) => {
           const sleepChartRows = this.sleepService.getSleepChartRows(sleepLog);
+          if (sleepChartRows.length === 0) {
+            return;
+          }
 
           google.charts.load('current', { packages: ['timeline'] });
           google.charts.setOnLoadCallback(drawChart);

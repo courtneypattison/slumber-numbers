@@ -22,7 +22,7 @@ export class SleepService {
 
   add(startDateTime: Date, sleepState: SleepState) {
     this.angularFireAuth.authState.pipe(first()).subscribe((user: User) => {
-      this.logger.log(`Add sleep:
+      this.logger.log(`Add sleep to firestore:
         user.uid: ${user.uid},
         startDateTime: ${startDateTime.toDateString()} ${startDateTime.toTimeString()},
         state: ${sleepState}`);
@@ -41,19 +41,19 @@ export class SleepService {
   getSleepChartRows(sleepLog: Sleep[]): SleepChartRow[] {
     this.logger.log('Get sleep chart rows');
 
-    const sleepChartRows = [];
+    const sleepChartRows: SleepChartRow[] = [];
+    const endTimeIndex = 3;
     for (let i = 0, j = 0; i < sleepLog.length; i++ , j++) {
       const currStartDateTime = sleepLog[i].startTimestamp.toDate();
       const currStartTime = new Date(0, 0, 0, currStartDateTime.getHours(), currStartDateTime.getMinutes());
 
       if (i > 0) {
-        const endDateTimeIndex = 3;
         const prevstartTimestamp = sleepLog[i - 1].startTimestamp.toDate();
 
         if (prevstartTimestamp.toDateString() === currStartDateTime.toDateString()) { // Same day
-          sleepChartRows[j - 1][endDateTimeIndex] = currStartTime;
+          sleepChartRows[j - 1][endTimeIndex] = currStartTime;
         } else { // New day
-          sleepChartRows[j - 1][endDateTimeIndex] = new Date(0, 0, 0, 24, 0);
+          sleepChartRows[j - 1][endTimeIndex] = new Date(0, 0, 0, 24, 0);
           sleepChartRows.push([
             currStartDateTime.toDateString(),
             sleepLog[i - 1].sleepState,
@@ -70,6 +70,11 @@ export class SleepService {
         currStartTime,
         currStartTime
       ]);
+    }
+
+    // Sleep chart must have a width
+    if (sleepChartRows.length === 1) {
+      sleepChartRows[0][endTimeIndex] = new Date(sleepChartRows[0][endTimeIndex].valueOf() + 1000);
     }
 
     return sleepChartRows;
