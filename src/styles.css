@@ -1,6 +1,11 @@
-@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+@import '~@angular/material/prebuilt-themes/purple-green.css';
 
 *, *:before, *:after {
   margin: 0;
   box-sizing: border-box;
+}
+
+body {
+  background: #616161;
+  color: white;
 }

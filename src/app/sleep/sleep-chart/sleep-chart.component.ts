@@ -56,7 +56,8 @@ export class SleepChartComponent implements OnInit {
                 '#7E57C2', // Asleep
                 '#EF5350', // Crying
               ],
-              timeline: { showBarLabels: false }
+              timeline: { showBarLabels: false },
+              backgroundColor: '#8e8e8e'
             };
 
             chart.draw(dataTable, options);

@@ -1,9 +1,13 @@
 footer {
-  background: #E0E0E0;
+  background: #7b1fa2;
   padding: 2% 0;
   text-align: center;
 }
 
 img {
   margin-bottom: 3px;
+}
+
+a {
+  color: white;
 }
