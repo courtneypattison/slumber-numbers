@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import * as firebase from 'firebase/app';
+import { User, firestore } from 'firebase/app';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { AngularFireAuth } from 'angularfire2/auth';
 
@@ -21,12 +21,12 @@ export class SleepService {
   constructor(private angularFirestore: AngularFirestore, public angularFireAuth: AngularFireAuth, private logger: LoggerService) { }
 
   add(startDateTime: Date, sleepState: SleepState) {
-    this.angularFireAuth.authState.pipe(first()).subscribe(user => {
+    this.angularFireAuth.authState.pipe(first()).subscribe((user: User) => {
       this.logger.log(`Add sleep:
         user.uid: ${user.uid},
         startDateTime: ${startDateTime.toDateString()} ${startDateTime.toTimeString()},
         state: ${sleepState}`);
-      const startTimestamp = firebase.firestore.Timestamp.fromDate(startDateTime);
+      const startTimestamp = firestore.Timestamp.fromDate(startDateTime);
 
       this.angularFirestore
         .collection<Sleep>(user.uid)

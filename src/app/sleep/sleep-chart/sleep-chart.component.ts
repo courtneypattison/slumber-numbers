@@ -2,10 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from 'angularfire2/auth';
 
 import { untilDestroyed } from 'ngx-take-until-destroy';
+
 import { first } from 'rxjs/operators';
 
 import { SleepService } from '../shared/sleep.service';
 import { SleepChartRow } from '../shared/sleep-chart-row.model';
+import { Sleep } from '../shared/sleep.model';
 
 declare var google: any;
 
@@ -28,7 +30,7 @@ export class SleepChartComponent implements OnInit {
     this.angularFireAuth.authState.pipe(first()).subscribe(user => {
       this.sleepService.getSleepLog(user.uid)
         .pipe(untilDestroyed(this))
-        .subscribe(sleepLog => {
+        .subscribe((sleepLog: Sleep[]) => {
           const sleepChartRows = this.sleepService.getSleepChartRows(sleepLog);
 
           google.charts.load('current', { packages: ['timeline'] });
