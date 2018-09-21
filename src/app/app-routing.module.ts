@@ -1,19 +1,21 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+import { AuthModule } from './auth/auth.module';
 import { SleepModule } from './sleep/sleep.module';
 
 import { PageNotFoundComponent } from './core/page-not-found/page-not-found.component';
 
-const routes: Routes = [
-  { path: '', redirectTo: 'sleep', pathMatch: 'full' },
+const appRoutes: Routes = [
+  { path: '', redirectTo: '/signup', pathMatch: 'full' },
   { path: '**', pathMatch: 'full', component: PageNotFoundComponent }
 ];
 
 @NgModule({
   imports: [
+    AuthModule,
     SleepModule,
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(appRoutes)
   ],
   exports: [RouterModule]
 })

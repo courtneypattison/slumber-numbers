@@ -13,7 +13,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { SleepService } from './shared/sleep.service';
 import { SleepComponent } from './sleep.component';
 import { SleepChartComponent } from './sleep-chart/sleep-chart.component';
-import { SleepRoutingModule } from './sleep-routing-module';
+import { SleepRoutingModule } from './sleep-routing.module';
 import { SleepFormComponent } from './sleep-form/sleep-form.component';
 
 @NgModule({

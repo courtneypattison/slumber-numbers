@@ -14,6 +14,9 @@ import { environment } from '../environments/environment';
 
 import { AppComponent } from './app.component';
 
+import { AuthRoutingModule } from './auth/auth-routing.module';
+import { SleepRoutingModule } from './sleep/sleep-routing.module';
+
 @NgModule({
   declarations: [
     AppComponent
@@ -25,6 +28,8 @@ import { AppComponent } from './app.component';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule.enablePersistence(),
     AngularFireAuthModule,
+    AuthRoutingModule,
+    SleepRoutingModule,
     AppRoutingModule
   ],
   bootstrap: [AppComponent]

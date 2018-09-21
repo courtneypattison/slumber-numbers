@@ -4,17 +4,17 @@ import { RouterModule } from '@angular/router';
 import { SleepComponent } from './sleep.component';
 import { SleepChartComponent } from './sleep-chart/sleep-chart.component';
 
-const routes = [
-    { path: '',
+const sleepRoutes = [
+    { path: 'sleep',
     component: SleepComponent,
     children: [
-      { path: '', component: SleepChartComponent }
+      { path: 'sleepchart', component: SleepChartComponent }
     ]
   }
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
+  imports: [RouterModule.forChild(sleepRoutes)],
   exports: [RouterModule]
 })
 export class SleepRoutingModule {
