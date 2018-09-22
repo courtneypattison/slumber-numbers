@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AngularFireAuth } from 'angularfire2/auth';
+import { auth } from 'firebase/app';
 
 @Component({
   selector: 'sl-sign-up',
@@ -7,9 +9,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SignUpComponent implements OnInit {
 
-  constructor() { }
+  constructor(public angularFireAuth: AngularFireAuth) { }
 
   ngOnInit() {
   }
 
+  signUp() {
+    this.angularFireAuth.auth.signInWithPopup(new auth.GoogleAuthProvider());
+  }
 }

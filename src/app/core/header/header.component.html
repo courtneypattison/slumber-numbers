@@ -5,11 +5,13 @@
 
       <div class="fill-space"></div>
 
-      <div *ngIf="angularFireAuth.user | async as user; else showSignIn">
+      <div *ngIf="angularFireAuth.user | async as user; else showSignUpOrIn">
         <button mat-button (click)="signOut()">Sign Out</button>
       </div>
-      <ng-template #showSignIn>
-        <button mat-button (click)="signIn()">Sign In with Google</button>
+
+      <ng-template #showSignUpOrIn>
+        <a mat-button routerLink="/signin">Sign In</a> 
+        <a mat-raised-button routerLink="/signup" color="accent">Sign Up</a>
       </ng-template>
     </mat-toolbar>
   </nav>

@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
 
 import { AuthRoutingModule } from './auth-routing.module';
 
@@ -9,7 +10,8 @@ import { SignUpComponent } from './sign-up/sign-up.component';
 @NgModule({
   imports: [
     CommonModule,
-    AuthRoutingModule
+    AuthRoutingModule,
+    MatButtonModule
   ],
   declarations: [
     SignInComponent,

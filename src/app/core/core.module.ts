@@ -1,5 +1,6 @@
 import { NgModule, Optional, SkipSelf } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
@@ -12,6 +13,7 @@ import { LoggerService } from './logger.service';
 @NgModule({
   imports: [
     CommonModule,
+    RouterModule,
     MatToolbarModule,
     MatButtonModule
   ],

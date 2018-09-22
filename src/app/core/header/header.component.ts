@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from 'angularfire2/auth';
-import { auth } from 'firebase/app';
 
 @Component({
   selector: 'sl-header',
@@ -15,9 +14,6 @@ export class HeaderComponent implements OnInit {
   ngOnInit() {
   }
 
-  signIn() {
-    this.angularFireAuth.auth.signInWithPopup(new auth.GoogleAuthProvider());
-  }
   signOut() {
     this.angularFireAuth.auth.signOut();
   }

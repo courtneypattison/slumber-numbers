@@ -5,3 +5,7 @@
 header {
   margin-bottom: 20px;
 }
+
+a:not(:last-of-type) {
+  margin-right: 8px;
+}
