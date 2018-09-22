@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireAuth } from 'angularfire2/auth';
@@ -13,7 +14,10 @@ describe('SignUpComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [AngularFireModule.initializeApp(config)],
+      imports: [
+        RouterTestingModule,
+        AngularFireModule.initializeApp(config)
+      ],
       providers: [AngularFireAuth],
       declarations: [ SignUpComponent ]
     })
