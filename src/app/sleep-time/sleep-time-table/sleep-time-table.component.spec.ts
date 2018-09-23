@@ -14,6 +14,7 @@ import { LoggerService } from '../../core/logger.service';
 import { MockLoggerService } from '../../../testing/mock-logger.service';
 
 import { SleepTimeTableComponent } from './sleep-time-table.component';
+import { TimestampPipe } from '../../shared/timestamp.pipe';
 
 describe('SleepTimeTableComponent', () => {
   let component: SleepTimeTableComponent;
@@ -28,7 +29,10 @@ describe('SleepTimeTableComponent', () => {
         MatPaginatorModule,
         MatTableModule
       ],
-      declarations: [SleepTimeTableComponent],
+      declarations: [
+        SleepTimeTableComponent,
+        TimestampPipe
+      ],
       providers: [
         AngularFireAuth,
         { provide: LoggerService, useClass: MockLoggerService }
