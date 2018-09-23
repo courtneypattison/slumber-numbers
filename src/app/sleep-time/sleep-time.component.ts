@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'sl-sleep-time',
+  selector: 'sn-sleep-time',
   templateUrl: './sleep-time.component.html',
   styleUrls: ['./sleep-time.component.css']
 })

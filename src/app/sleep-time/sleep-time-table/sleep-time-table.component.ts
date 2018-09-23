@@ -11,7 +11,7 @@ import { SleepTime } from '../shared/sleep-time.model';
 import { SleepTimeService } from '../shared/sleep-time.service';
 
 @Component({
-  selector: 'sl-sleep-time-table',
+  selector: 'sn-sleep-time-table',
   templateUrl: './sleep-time-table.component.html',
   styleUrls: ['./sleep-time-table.component.css']
 })

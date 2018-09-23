@@ -12,7 +12,7 @@ import { SleepTime } from '../shared/sleep-time.model';
 declare var google: any;
 
 @Component({
-  selector: 'sl-sleep-time-chart',
+  selector: 'sn-sleep-time-chart',
   templateUrl: './sleep-time-chart.component.html',
   styleUrls: ['./sleep-time-chart.component.css']
 })

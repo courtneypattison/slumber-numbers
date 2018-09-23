@@ -6,10 +6,10 @@ export const environment = {
   production: false,
   firebase: {
     apiKey: 'AIzaSyBBSUUnxmB4J41tMcM7_aih3xiochpf0yE',
-    authDomain: 'sleep-logging.firebaseapp.com',
-    databaseURL: 'https://sleep-logging.firebaseio.com',
-    projectId: 'sleep-logging',
-    storageBucket: 'sleep-logging.appspot.com',
+    authDomain: 'slumber-numbers.firebaseapp.com',
+    databaseURL: 'https://slumber-numbers.firebaseio.com',
+    projectId: 'slumber-numbers',
+    storageBucket: 'slumber-numbers.appspot.com',
     messagingSenderId: '893462679767'
   }
 };

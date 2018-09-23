@@ -3,17 +3,17 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "sleep-log": {
+    "slumber-numbers": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
-      "prefix": "sl",
+      "prefix": "sn",
       "schematics": {},
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/sleep-log",
+            "outputPath": "dist/slumber-numbers",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -50,18 +50,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "sleep-log:build"
+            "browserTarget": "slumber-numbers:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "sleep-log:build:production"
+              "browserTarget": "slumber-numbers:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "sleep-log:build"
+            "browserTarget": "slumber-numbers:build"
           }
         },
         "test": {
@@ -95,7 +95,7 @@
         }
       }
     },
-    "sleep-log-e2e": {
+    "slumber-numbers-e2e": {
       "root": "e2e/",
       "projectType": "application",
       "architect": {
@@ -103,7 +103,7 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "sleep-log:serve"
+            "devServerTarget": "slumber-numbers:serve"
           }
         },
         "lint": {
@@ -118,5 +118,5 @@
       }
     }
   },
-  "defaultProject": "sleep-log"
+  "defaultProject": "slumber-numbers"
 }

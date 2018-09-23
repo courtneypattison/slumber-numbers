@@ -5,7 +5,7 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import { auth } from 'firebase/app';
 
 @Component({
-  selector: 'sl-sign-up',
+  selector: 'sn-sign-up',
   templateUrl: './sign-up.component.html',
   styleUrls: ['./sign-up.component.css']
 })

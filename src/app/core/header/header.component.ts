@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { AngularFireAuth } from 'angularfire2/auth';
 
 @Component({
-  selector: 'sl-header',
+  selector: 'sn-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })

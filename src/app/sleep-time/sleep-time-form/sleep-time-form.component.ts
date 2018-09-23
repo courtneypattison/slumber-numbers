@@ -8,7 +8,7 @@ import { SleepState } from '../shared/sleep-state.model';
 import { SleepTimeService } from '../shared/sleep-time.service';
 
 @Component({
-  selector: 'sl-sleep-time-form',
+  selector: 'sn-sleep-time-form',
   templateUrl: './sleep-time-form.component.html',
   styleUrls: ['./sleep-time-form.component.css']
 })

@@ -23,7 +23,7 @@ deploy:
   provider: firebase
   token:
     secure: $FIREBASE_TOKEN
-  project: "sleep-logging"
+  project: "slumber-numbers"
   on:
     branch: master
 
