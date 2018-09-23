@@ -12,6 +12,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
 
+import { SharedModule } from '../shared/shared.module';
+
 import { SleepTimeService } from './shared/sleep-time.service';
 import { SleepTimeComponent } from './sleep-time.component';
 import { SleepTimeChartComponent } from './sleep-time-chart/sleep-time-chart.component';
@@ -25,6 +27,7 @@ import { SleepTimeTableComponent } from './sleep-time-table/sleep-time-table.com
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
+    SharedModule,
     MatNativeDateModule,
     MatButtonModule,
     MatInputModule,

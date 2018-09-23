@@ -9,6 +9,7 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AppRoutingModule } from './app-routing.module';
 
 import { CoreModule } from './core/core.module';
+import { SharedModule } from './shared/shared.module';
 
 import { environment } from '../environments/environment';
 
@@ -25,6 +26,7 @@ import { SleepTimeRoutingModule } from './sleep-time/sleep-time-routing.module';
     BrowserModule,
     BrowserAnimationsModule,
     CoreModule,
+    SharedModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule.enablePersistence(),
     AngularFireAuthModule,

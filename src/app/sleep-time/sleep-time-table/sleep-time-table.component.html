@@ -1,13 +1,13 @@
 <div class="sleep-time-table mat-elevation-z8">
     <mat-table #table [dataSource]="dataSource">
       <ng-container matColumnDef="startTime">
-        <mat-header-cell *matHeaderCellDef> Start Time </mat-header-cell>
-        <mat-cell *matCellDef="let sleepTime"> {{sleepTime.startTimestamp}} </mat-cell>
+        <mat-header-cell *matHeaderCellDef>Start time</mat-header-cell>
+        <mat-cell *matCellDef="let sleepTime">{{sleepTime.startTimestamp | timestamp}}</mat-cell>
       </ng-container>
   
       <ng-container matColumnDef="sleepState">
-        <mat-header-cell *matHeaderCellDef> Duration </mat-header-cell>
-        <mat-cell *matCellDef="let sleepTime"> {{sleepTime.sleepState}} </mat-cell>
+        <mat-header-cell *matHeaderCellDef>Sleep state</mat-header-cell>
+        <mat-cell *matCellDef="let sleepTime">{{sleepTime.sleepState}}</mat-cell>
       </ng-container>
   
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
