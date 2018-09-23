@@ -1,11 +1,11 @@
 export const environment = {
   production: true,
   firebase: {
-    apiKey: 'AIzaSyBBSUUnxmB4J41tMcM7_aih3xiochpf0yE',
+    apiKey: 'AIzaSyDs6BRPFCLnYzdk389HQY2xNJL-siBGEPQ',
     authDomain: 'slumber-numbers.firebaseapp.com',
     databaseURL: 'https://slumber-numbers.firebaseio.com',
     projectId: 'slumber-numbers',
     storageBucket: 'slumber-numbers.appspot.com',
-    messagingSenderId: '893462679767'
+    messagingSenderId: '583619848210'
   }
 };
