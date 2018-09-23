@@ -38,17 +38,17 @@ export class SleepTimeService {
     });
   }
 
-  getSleepChartRows(sleepLog: SleepTime[]): SleepTimeChartRow[] {
+  getSleepChartRows(sleepTimes: SleepTime[]): SleepTimeChartRow[] {
     this.logger.log('Get sleep chart rows');
 
     const sleepChartRows: SleepTimeChartRow[] = [];
     const endTimeIndex = 3;
-    for (let i = 0, j = 0; i < sleepLog.length; i++ , j++) {
-      const currStartDateTime = sleepLog[i].startTimestamp.toDate();
+    for (let i = 0, j = 0; i < sleepTimes.length; i++ , j++) {
+      const currStartDateTime = sleepTimes[i].startTimestamp.toDate();
       const currStartTime = new Date(0, 0, 0, currStartDateTime.getHours(), currStartDateTime.getMinutes());
 
       if (i > 0) {
-        const prevStartTimestamp = sleepLog[i - 1].startTimestamp.toDate();
+        const prevStartTimestamp = sleepTimes[i - 1].startTimestamp.toDate();
 
         if (prevStartTimestamp.toDateString() === currStartDateTime.toDateString()) { // Same day
           sleepChartRows[j - 1][endTimeIndex] = currStartTime;
@@ -56,7 +56,7 @@ export class SleepTimeService {
           sleepChartRows[j - 1][endTimeIndex] = new Date(0, 0, 0, 24, 0);
           sleepChartRows.push([
             currStartDateTime.toDateString(),
-            sleepLog[i - 1].sleepState,
+            sleepTimes[i - 1].sleepState,
             new Date(0, 0, 0, 0, 0),
             currStartTime
           ]);
@@ -66,7 +66,7 @@ export class SleepTimeService {
 
       sleepChartRows.push([
         currStartDateTime.toDateString(),
-        sleepLog[i].sleepState,
+        sleepTimes[i].sleepState,
         currStartTime,
         currStartTime
       ]);
