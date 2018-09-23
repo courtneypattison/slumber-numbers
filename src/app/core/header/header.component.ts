@@ -9,7 +9,7 @@ import { AngularFireAuth } from 'angularfire2/auth';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-  title = 'Sleep Log';
+  title = 'Slumber Numbers';
 
   constructor(public angularFireAuth: AngularFireAuth, private router: Router) { }
 

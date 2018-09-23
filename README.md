@@ -1,6 +1,6 @@
-[![Build Status](https://travis-ci.org/courtneypattison/sleep-log.svg?branch=master)](https://travis-ci.org/courtneypattison/sleep-log) [![Coverage Status](https://coveralls.io/repos/github/courtneypattison/sleep-log/badge.svg?branch=master)](https://coveralls.io/github/courtneypattison/sleep-log?branch=master)
+[![Build Status](https://travis-ci.org/courtneypattison/slumber-numbers.svg?branch=master)](https://travis-ci.org/courtneypattison/slumber-numbers) [![Coverage Status](https://coveralls.io/repos/github/courtneypattison/slumber-numbers/badge.svg?branch=master)](https://coveralls.io/github/courtneypattison/slumber-numbers?branch=master)
 
-# SleepLog
+# Slumber Numbers
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.0.
 
