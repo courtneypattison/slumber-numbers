@@ -80,7 +80,7 @@ export class SleepTimeService {
     return sleepChartRows;
   }
 
-  getSleepLog(uid: string): Observable<SleepTime[]> {
+  getSleepTimes(uid: string): Observable<SleepTime[]> {
     this.logger.log(`Get sleep log from firestore (uid: ${uid})`);
     return this.angularFirestore
       .collection<SleepTime>(uid, ref => ref.orderBy('startTimestamp'))

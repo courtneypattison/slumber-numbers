@@ -19,7 +19,7 @@ declare var google: any;
 export class SleepTimeChartComponent implements OnInit {
   sleepRows: SleepTimeChartRow;
 
-  constructor(private sleepService: SleepTimeService, public angularFireAuth: AngularFireAuth) { }
+  constructor(private sleepTimeService: SleepTimeService, public angularFireAuth: AngularFireAuth) { }
 
   ngOnInit() {
     this.drawChart();
@@ -28,10 +28,10 @@ export class SleepTimeChartComponent implements OnInit {
   drawChart(): void {
     // this.sleepService.addTestSleep();
     this.angularFireAuth.authState.pipe(first()).subscribe(user => {
-      this.sleepService.getSleepLog(user.uid)
+      this.sleepTimeService.getSleepTimes(user.uid)
         .pipe(untilDestroyed(this))
-        .subscribe((sleepLog: SleepTime[]) => {
-          const sleepChartRows = this.sleepService.getSleepChartRows(sleepLog);
+        .subscribe((sleepTimes: SleepTime[]) => {
+          const sleepChartRows = this.sleepTimeService.getSleepChartRows(sleepTimes);
           if (sleepChartRows.length === 0) {
             return;
           }
