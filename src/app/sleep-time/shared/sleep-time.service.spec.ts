@@ -6,12 +6,12 @@ import { AngularFireAuth } from 'angularfire2/auth';
 
 import { config } from '../../../testing/mock-config';
 
-import { SleepService } from './sleep.service';
+import { SleepTimeService } from './sleep-time.service';
 import { LoggerService } from '../../core/logger.service';
 
 import { MockLoggerService } from '../../../testing/mock-logger.service';
 
-describe('SleepService', () => {
+describe('SleepTimeService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -19,14 +19,14 @@ describe('SleepService', () => {
         AngularFirestoreModule
       ],
       providers: [
-        SleepService,
+        SleepTimeService,
         { provide: LoggerService, useClass: MockLoggerService },
         AngularFireAuth
       ]
     });
   });
 
-  it('should be created', inject([SleepService], (service: SleepService) => {
+  it('should be created', inject([SleepTimeService], (service: SleepTimeService) => {
     expect(service).toBeTruthy();
   }));
 });

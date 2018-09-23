@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { AuthModule } from './auth/auth.module';
-import { SleepModule } from './sleep/sleep.module';
+import { SleepTimeModule } from './sleep-time/sleep-time.module';
 
 import { PageNotFoundComponent } from './core/page-not-found/page-not-found.component';
 
@@ -14,7 +14,7 @@ const appRoutes: Routes = [
 @NgModule({
   imports: [
     AuthModule,
-    SleepModule,
+    SleepTimeModule,
     RouterModule.forRoot(appRoutes)
   ],
   exports: [RouterModule]

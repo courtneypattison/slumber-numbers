@@ -10,11 +10,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatSelectModule } from '@angular/material/select';
 
-import { SleepService } from './shared/sleep.service';
-import { SleepComponent } from './sleep.component';
-import { SleepChartComponent } from './sleep-chart/sleep-chart.component';
-import { SleepRoutingModule } from './sleep-routing.module';
-import { SleepFormComponent } from './sleep-form/sleep-form.component';
+import { SleepTimeService } from './shared/sleep-time.service';
+import { SleepTimeComponent } from './sleep-time.component';
+import { SleepTimeChartComponent } from './sleep-time-chart/sleep-time-chart.component';
+import { SleepTimeRoutingModule } from './sleep-time-routing.module';
+import { SleepTimeFormComponent } from './sleep-time-form/sleep-time-form.component';
 
 @NgModule({
   imports: [
@@ -28,13 +28,13 @@ import { SleepFormComponent } from './sleep-form/sleep-form.component';
     MatFormFieldModule,
     MatDatepickerModule,
     MatSelectModule,
-    SleepRoutingModule
+    SleepTimeRoutingModule
   ],
-  providers: [SleepService],
+  providers: [SleepTimeService],
   declarations: [
-    SleepComponent,
-    SleepChartComponent,
-    SleepFormComponent
+    SleepTimeComponent,
+    SleepTimeChartComponent,
+    SleepTimeFormComponent
   ]
 })
-export class SleepModule { }
+export class SleepTimeModule { }

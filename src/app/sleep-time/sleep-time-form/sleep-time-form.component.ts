@@ -5,16 +5,16 @@ import { DatePipe } from '@angular/common';
 import * as firebase from 'firebase/app';
 
 import { SleepState } from '../shared/sleep-state.model';
-import { SleepService } from '../shared/sleep.service';
+import { SleepTimeService } from '../shared/sleep-time.service';
 
 @Component({
-  selector: 'sl-sleep-form',
-  templateUrl: './sleep-form.component.html',
-  styleUrls: ['./sleep-form.component.css']
+  selector: 'sl-sleep-time-form',
+  templateUrl: './sleep-time-form.component.html',
+  styleUrls: ['./sleep-time-form.component.css']
 })
-export class SleepFormComponent implements OnInit {
+export class SleepTimeFormComponent implements OnInit {
   datePipe = new DatePipe(navigator.language);
-  sleepForm = this.formBuilder.group({
+  sleepTimeForm = this.formBuilder.group({
     startDate: [new Date(), Validators.required],
     startTime: [this.datePipe.transform(new Date(), 'shortTime'), [
       Validators.required,
@@ -25,30 +25,30 @@ export class SleepFormComponent implements OnInit {
 
   sleepStates = Object.values(SleepState).filter(value => typeof value === 'string') as string[];
 
-  constructor(private formBuilder: FormBuilder, private sleepService: SleepService) { }
+  constructor(private formBuilder: FormBuilder, private sleepService: SleepTimeService) { }
 
   ngOnInit() {
   }
 
   private getStartHours(): number {
-    const numbers = this.sleepForm.value.startTime.split(':');
+    const numbers = this.sleepTimeForm.value.startTime.split(':');
     // Convert to 24 hour clock
     return numbers[1].includes('P') || numbers[1].includes('p') ? Number(numbers[0]) + 12 : Number(numbers[0]);
   }
 
   private getStartMinutes(): number {
-    const startTime = this.sleepForm.value.startTime;
+    const startTime = this.sleepTimeForm.value.startTime;
     const colonIndex = startTime.search(':');
     return Number(startTime.slice(colonIndex + 1, -3));
   }
 
   private getStartDateTime(): Date {
-    const startDate = new Date(this.sleepForm.value.startDate);
+    const startDate = new Date(this.sleepTimeForm.value.startDate);
     return new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate(), this.getStartHours(), this.getStartMinutes());
   }
 
   onSave() {
-    this.sleepService.add(this.getStartDateTime(), this.sleepForm.value.sleepState);
+    this.sleepService.add(this.getStartDateTime(), this.sleepTimeForm.value.sleepState);
   }
 
 }

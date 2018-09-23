@@ -18,7 +18,7 @@ export class SignInComponent implements OnInit {
 
   signIn() {
     this.angularFireAuth.auth.signInWithPopup(new auth.GoogleAuthProvider()).then(result => {
-      this.router.navigate(['/sleep']);
+      this.router.navigate(['/sleeptime']);
     }, error => {
 
     });

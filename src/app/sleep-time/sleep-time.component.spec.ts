@@ -1,24 +1,24 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SleepComponent } from './sleep.component';
-import { SleepChartComponent } from './sleep-chart/sleep-chart.component';
-import { SleepService } from './shared/sleep.service';
+import { SleepTimeComponent } from './sleep-time.component';
+import { SleepTimeChartComponent } from './sleep-time-chart/sleep-time-chart.component';
+import { SleepTimeService } from './shared/sleep-time.service';
 import { LoggerService } from '../core/logger.service';
 
 import { MockLoggerService } from '../../testing/mock-logger.service';
 
-describe('SleepComponent', () => {
-  let component: SleepComponent;
-  let fixture: ComponentFixture<SleepComponent>;
+describe('SleepTimeComponent', () => {
+  let component: SleepTimeComponent;
+  let fixture: ComponentFixture<SleepTimeComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        SleepComponent,
-        SleepChartComponent
+        SleepTimeComponent,
+        SleepTimeChartComponent
       ],
       providers: [
-        SleepService,
+        SleepTimeService,
         { provide: LoggerService, useClass: MockLoggerService }
       ]
     })
@@ -26,7 +26,7 @@ describe('SleepComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SleepComponent);
+    fixture = TestBed.createComponent(SleepTimeComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

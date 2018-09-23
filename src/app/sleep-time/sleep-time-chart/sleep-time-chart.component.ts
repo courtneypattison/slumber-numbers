@@ -5,21 +5,21 @@ import { untilDestroyed } from 'ngx-take-until-destroy';
 
 import { first } from 'rxjs/operators';
 
-import { SleepService } from '../shared/sleep.service';
-import { SleepChartRow } from '../shared/sleep-chart-row.model';
-import { Sleep } from '../shared/sleep.model';
+import { SleepTimeService } from '../shared/sleep-time.service';
+import { SleepTimeChartRow } from '../shared/sleep-time-chart-row.model';
+import { SleepTime } from '../shared/sleep-time.model';
 
 declare var google: any;
 
 @Component({
-  selector: 'sl-sleep-chart',
-  templateUrl: './sleep-chart.component.html',
-  styleUrls: ['./sleep-chart.component.css']
+  selector: 'sl-sleep-time-chart',
+  templateUrl: './sleep-time-chart.component.html',
+  styleUrls: ['./sleep-time-chart.component.css']
 })
-export class SleepChartComponent implements OnInit {
-  sleepRows: SleepChartRow;
+export class SleepTimeChartComponent implements OnInit {
+  sleepRows: SleepTimeChartRow;
 
-  constructor(private sleepService: SleepService, public angularFireAuth: AngularFireAuth) { }
+  constructor(private sleepService: SleepTimeService, public angularFireAuth: AngularFireAuth) { }
 
   ngOnInit() {
     this.drawChart();
@@ -30,7 +30,7 @@ export class SleepChartComponent implements OnInit {
     this.angularFireAuth.authState.pipe(first()).subscribe(user => {
       this.sleepService.getSleepLog(user.uid)
         .pipe(untilDestroyed(this))
-        .subscribe((sleepLog: Sleep[]) => {
+        .subscribe((sleepLog: SleepTime[]) => {
           const sleepChartRows = this.sleepService.getSleepChartRows(sleepLog);
           if (sleepChartRows.length === 0) {
             return;
@@ -40,7 +40,7 @@ export class SleepChartComponent implements OnInit {
           google.charts.setOnLoadCallback(drawChart);
 
           function drawChart() {
-            const container = document.getElementById('sleep-chart');
+            const container = document.getElementById('sleep-time-chart');
             const chart = new google.visualization.Timeline(container);
             const dataTable = new google.visualization.DataTable();
             dataTable.addColumn({ type: 'string', id: 'Date' });

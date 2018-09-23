@@ -15,16 +15,16 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatSelectModule } from '@angular/material/select';
 
-import { SleepService } from '../shared/sleep.service';
+import { SleepTimeService } from '../shared/sleep-time.service';
 import { LoggerService } from '../../core/logger.service';
 
 import { MockLoggerService } from '../../../testing/mock-logger.service';
 
-import { SleepFormComponent } from './sleep-form.component';
+import { SleepTimeFormComponent } from './sleep-time-form.component';
 
-describe('SleepFormComponent', () => {
-  let component: SleepFormComponent;
-  let fixture: ComponentFixture<SleepFormComponent>;
+describe('SleepTimeFormComponent', () => {
+  let component: SleepTimeFormComponent;
+  let fixture: ComponentFixture<SleepTimeFormComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -42,17 +42,17 @@ describe('SleepFormComponent', () => {
         MatSelectModule,
       ],
       providers: [
-        SleepService,
+        SleepTimeService,
         { provide: LoggerService, useClass: MockLoggerService },
         AngularFireAuth
       ],
-      declarations: [SleepFormComponent]
+      declarations: [SleepTimeFormComponent]
     })
       .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SleepFormComponent);
+    fixture = TestBed.createComponent(SleepTimeFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

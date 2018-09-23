@@ -7,8 +7,8 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import { Observable } from 'rxjs';
 import { first } from 'rxjs/operators';
 
-import { SleepChartRow } from './sleep-chart-row.model';
-import { Sleep } from '././sleep.model';
+import { SleepTimeChartRow } from './sleep-time-chart-row.model';
+import { SleepTime } from './sleep-time.model';
 import { SleepState } from './sleep-state.model';
 
 import { LoggerService } from '../../core/logger.service';
@@ -16,7 +16,7 @@ import { LoggerService } from '../../core/logger.service';
 @Injectable({
   providedIn: 'root'
 })
-export class SleepService {
+export class SleepTimeService {
 
   constructor(private angularFirestore: AngularFirestore, public angularFireAuth: AngularFireAuth, private logger: LoggerService) { }
 
@@ -29,7 +29,7 @@ export class SleepService {
       const startTimestamp = firestore.Timestamp.fromDate(startDateTime);
 
       this.angularFirestore
-        .collection<Sleep>(user.uid)
+        .collection<SleepTime>(user.uid)
         .doc(String(startTimestamp))
         .set({
           startTimestamp: startTimestamp,
@@ -38,10 +38,10 @@ export class SleepService {
     });
   }
 
-  getSleepChartRows(sleepLog: Sleep[]): SleepChartRow[] {
+  getSleepChartRows(sleepLog: SleepTime[]): SleepTimeChartRow[] {
     this.logger.log('Get sleep chart rows');
 
-    const sleepChartRows: SleepChartRow[] = [];
+    const sleepChartRows: SleepTimeChartRow[] = [];
     const endTimeIndex = 3;
     for (let i = 0, j = 0; i < sleepLog.length; i++ , j++) {
       const currStartDateTime = sleepLog[i].startTimestamp.toDate();
@@ -80,10 +80,10 @@ export class SleepService {
     return sleepChartRows;
   }
 
-  getSleepLog(uid: string): Observable<Sleep[]> {
+  getSleepLog(uid: string): Observable<SleepTime[]> {
     this.logger.log(`Get sleep log from firestore (uid: ${uid})`);
     return this.angularFirestore
-      .collection<Sleep>(uid, ref => ref.orderBy('startTimestamp'))
+      .collection<SleepTime>(uid, ref => ref.orderBy('startTimestamp'))
       .valueChanges();
   }
 
