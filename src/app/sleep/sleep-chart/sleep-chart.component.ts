@@ -52,13 +52,25 @@ export class SleepChartComponent implements OnInit {
             const options = {
               avoidOverlappingGridLines: false,
               colors: [
-                '#FFCA28', // Awake
-                '#7E57C2', // Asleep
-                '#EF5350', // Crying
+                '#69F0AE', // Awake
+                '#7b1fa2', // Asleep
+                '#f44336', // Crying
               ],
-              timeline: { showBarLabels: false },
-              backgroundColor: '#8e8e8e'
+              timeline: {
+                showBarLabels: false,
+                rowLabelStyle: { color: '#fff' },
+              },
+              backgroundColor: '#303030',
             };
+
+            google.visualization.events.addListener(chart, 'ready', function () {
+              const labels = container.getElementsByTagName('text');
+              Array.prototype.forEach.call(labels, function(label) {
+                if (label.getAttribute('text-anchor') === 'middle') {
+                  label.setAttribute('fill', '#ffffff');
+                }
+              });
+            });
 
             chart.draw(dataTable, options);
           }
