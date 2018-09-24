@@ -5,7 +5,7 @@ import { SleepTimeComponent } from './sleep-time.component';
 import { SleepTimeChartComponent } from './sleep-time-chart/sleep-time-chart.component';
 
 const sleepTimeRoutes = [
-    { path: 'sleeptime',
+    { path: 'dashboard',
     component: SleepTimeComponent,
     children: [
       { path: 'sleepchart', component: SleepTimeChartComponent }

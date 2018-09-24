@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { AngularFireAuth } from 'angularfire2/auth';
@@ -11,14 +11,14 @@ import { auth } from 'firebase/app';
 })
 export class SignUpComponent implements OnInit {
 
-  constructor(public angularFireAuth: AngularFireAuth, private router: Router) { }
+  constructor(public angularFireAuth: AngularFireAuth, private router: Router, private ngZone: NgZone) { }
 
   ngOnInit() {
   }
 
   signUp() {
     this.angularFireAuth.auth.signInWithPopup(new auth.GoogleAuthProvider()).then(result => {
-      this.router.navigate(['/sleeptime']);
+      this.ngZone.run(() => this.router.navigateByUrl('/dashboard'));
     }, error => {
 
     });
