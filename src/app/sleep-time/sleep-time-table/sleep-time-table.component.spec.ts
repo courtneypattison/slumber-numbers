@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatIconModule } from '@angular/material/icon';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
 
@@ -26,6 +27,7 @@ describe('SleepTimeTableComponent', () => {
         AngularFireModule.initializeApp(config),
         AngularFirestoreModule,
         BrowserAnimationsModule,
+        MatIconModule,
         MatPaginatorModule,
         MatTableModule
       ],
