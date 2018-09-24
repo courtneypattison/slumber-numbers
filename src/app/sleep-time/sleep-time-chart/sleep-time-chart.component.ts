@@ -17,7 +17,6 @@ declare var google: any;
   styleUrls: ['./sleep-time-chart.component.css']
 })
 export class SleepTimeChartComponent implements OnInit {
-  sleepRows: SleepTimeChartRow;
 
   constructor(private sleepTimeService: SleepTimeService, public angularFireAuth: AngularFireAuth) { }
 

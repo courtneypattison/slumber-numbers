@@ -5,6 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { MatNativeDateModule } from '@angular/material/';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -30,6 +31,7 @@ import { SleepTimeTableComponent } from './sleep-time-table/sleep-time-table.com
     SharedModule,
     MatNativeDateModule,
     MatButtonModule,
+    MatIconModule,
     MatInputModule,
     MatFormFieldModule,
     MatDatepickerModule,

@@ -16,9 +16,7 @@ import { SleepTimeService } from '../shared/sleep-time.service';
   styleUrls: ['./sleep-time-table.component.css']
 })
 export class SleepTimeTableComponent implements OnInit {
-  private sleepTimes: SleepTime[];
-
-  displayedColumns = ['startTime', 'sleepState'];
+  displayedColumns = ['startTime', 'sleepState', 'delete'];
   dataSource: MatTableDataSource<SleepTime>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -33,10 +31,15 @@ export class SleepTimeTableComponent implements OnInit {
       this.sleepTimeService.getSleepTimes(user.uid)
       .pipe(untilDestroyed(this))
       .subscribe((sleepTimes: SleepTime[]) => {
-        console.log(sleepTimes);
         this.dataSource = new MatTableDataSource<SleepTime>(sleepTimes);
         this.dataSource.paginator = this.paginator;
       });
+    });
+  }
+
+  deleteSleepTime(index: number, startTimestamp: string) {
+    this.angularFireAuth.authState.pipe(first()).subscribe(user => {
+      this.sleepTimeService.deleteSleepTime(user.uid, startTimestamp);
     });
   }
 

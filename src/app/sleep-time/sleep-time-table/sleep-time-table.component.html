@@ -1,21 +1,28 @@
 <div class="sleep-time-table mat-elevation-z8">
-    <mat-table #table [dataSource]="dataSource">
-      <ng-container matColumnDef="startTime">
-        <mat-header-cell *matHeaderCellDef>Start time</mat-header-cell>
-        <mat-cell *matCellDef="let sleepTime">{{sleepTime.startTimestamp | timestamp}}</mat-cell>
-      </ng-container>
-  
-      <ng-container matColumnDef="sleepState">
-        <mat-header-cell *matHeaderCellDef>Sleep state</mat-header-cell>
-        <mat-cell *matCellDef="let sleepTime">{{sleepTime.sleepState}}</mat-cell>
-      </ng-container>
-  
-      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-    </mat-table>
-  
-    <mat-paginator #paginator
-                   [pageSize]="10"
-                   [pageSizeOptions]="[5, 10, 20]">
-    </mat-paginator>
-  </div>
+  <mat-table #table [dataSource]="dataSource">
+    <ng-container matColumnDef="startTime">
+      <mat-header-cell *matHeaderCellDef>Start time</mat-header-cell>
+      <mat-cell *matCellDef="let sleepTime">{{sleepTime.startTimestamp | timestamp}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="sleepState">
+      <mat-header-cell *matHeaderCellDef>Sleep state</mat-header-cell>
+      <mat-cell *matCellDef="let sleepTime">{{sleepTime.sleepState}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="delete">
+      <mat-header-cell *matHeaderCellDef>Delete</mat-header-cell>
+      <mat-cell *matCellDef="let sleepTime; let i=index;">
+        <button mat-icon-button color="accent" (click)="deleteSleepTime(i, sleepTime.startTimestamp)">
+          <mat-icon aria-label="Delete">delete</mat-icon>
+        </button>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+
+  <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]">
+  </mat-paginator>
+</div>

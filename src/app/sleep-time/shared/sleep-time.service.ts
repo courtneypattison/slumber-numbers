@@ -38,6 +38,15 @@ export class SleepTimeService {
     });
   }
 
+  deleteSleepTime(uid: string, sleepTimeId: string) {
+    this.logger.log(`Delete sleep time from firestore:
+      uid: ${uid}
+      sleepTimeId: ${sleepTimeId}`);
+    this.angularFirestore
+      .doc<SleepTime>(`${uid}/${sleepTimeId}`)
+      .delete();
+  }
+
   getSleepChartRows(sleepTimes: SleepTime[]): SleepTimeChartRow[] {
     this.logger.log('Get sleep chart rows');
 
@@ -68,20 +77,16 @@ export class SleepTimeService {
         currStartDateTime.toDateString(),
         sleepTimes[i].sleepState,
         currStartTime,
-        currStartTime
+        new Date(currStartTime.valueOf() + 1000)
       ]);
-    }
-
-    // Sleep chart must have a width
-    if (sleepChartRows.length === 1) {
-      sleepChartRows[0][endTimeIndex] = new Date(sleepChartRows[0][endTimeIndex].valueOf() + 1000);
     }
 
     return sleepChartRows;
   }
 
   getSleepTimes(uid: string): Observable<SleepTime[]> {
-    this.logger.log(`Get sleep log from firestore (uid: ${uid})`);
+    this.logger.log(`Get sleep times from firestore:
+      uid: ${uid}`);
     return this.angularFirestore
       .collection<SleepTime>(uid, ref => ref.orderBy('startTimestamp'))
       .valueChanges();
