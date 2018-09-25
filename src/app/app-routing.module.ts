@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+import { AccountModule } from './account/account.module';
 import { AuthModule } from './auth/auth.module';
 import { SleepTimeModule } from './sleep-time/sleep-time.module';
 
@@ -13,9 +14,10 @@ const appRoutes: Routes = [
 
 @NgModule({
   imports: [
+    AccountModule,
     AuthModule,
     SleepTimeModule,
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes),
   ],
   exports: [RouterModule]
 })
