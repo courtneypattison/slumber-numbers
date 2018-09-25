@@ -20,28 +20,39 @@ export class AuthGuardService implements CanActivate {
     ) { }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean>  {
-    const signUpUrl = '/signup';
     return this.angularFireAuth.authState.pipe(
       map(user => {
-        if (user) {
+        if (user && route.url.toString() === 'dashboard') {
           this.loggerService.log(`Can activate:
             route: ${route}
             state: ${state}`);
           return true;
-        } else {
-          this.loggerService.log(`Cannot activate. User not signed in. Navigate to ${signUpUrl}:
+        }
+        if (!user && route.url.toString() === 'dashboard') {
+          this.loggerService.log(`Cannot activate. User not signed in. Navigate to '/signup':
             route: ${route}
             state: ${state}`);
-          this.ngZone.run(() => this.router.navigateByUrl(signUpUrl));
+          this.ngZone.run(() => this.router.navigateByUrl('/signup'));
           return false;
         }
+        if (user && (route.url.toString() === 'signup' || route.url.toString() === 'signin')) {
+          this.loggerService.log(`Cannot activate. User signed in. Navigate to '/dashboard':
+            route: ${route}
+            state: ${state}`);
+          this.ngZone.run(() => this.router.navigateByUrl('/dashboard'));
+          return false;
+        }
+        this.loggerService.log(`Can activate:
+            route: ${route}
+            state: ${state}`);
+        return true;
       }),
       catchError((error) => {
-        this.loggerService.log(`Error activating. Navigate to ${signUpUrl}:
+        this.loggerService.log(`Error authenticating. Navigate to '/signup':
             route: ${route}
             state: ${state}
             error: ${error}`);
-        this.ngZone.run(() => this.router.navigateByUrl(signUpUrl));
+        this.ngZone.run(() => this.router.navigateByUrl('/signup'));
         return of(false);
       })
     );
