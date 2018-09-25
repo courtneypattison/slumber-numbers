@@ -6,7 +6,6 @@ import { untilDestroyed } from 'ngx-take-until-destroy';
 import { first } from 'rxjs/operators';
 
 import { SleepTimeService } from '../shared/sleep-time.service';
-import { SleepTimeChartRow } from '../shared/sleep-time-chart-row.model';
 import { SleepTime } from '../shared/sleep-time.model';
 
 declare var google: any;
