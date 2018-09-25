@@ -13,7 +13,7 @@
     <ng-container matColumnDef="delete">
       <mat-header-cell *matHeaderCellDef>Delete</mat-header-cell>
       <mat-cell *matCellDef="let sleepTime; let i=index;">
-        <button mat-icon-button color="accent" (click)="deleteSleepTime(i, sleepTime.startTimestamp)">
+        <button mat-icon-button color="warn" (click)="deleteSleepTime(i, sleepTime.startTimestamp)">
           <mat-icon aria-label="Delete">delete</mat-icon>
         </button>
       </mat-cell>
