@@ -7,6 +7,8 @@ import { AuthRoutingModule } from './auth-routing.module';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
 
+import { AuthGuardService } from './shared/auth-guard.service';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -16,6 +18,7 @@ import { SignUpComponent } from './sign-up/sign-up.component';
   declarations: [
     SignInComponent,
     SignUpComponent
-  ]
+  ],
+  providers: [AuthGuardService]
 })
 export class AuthModule { }

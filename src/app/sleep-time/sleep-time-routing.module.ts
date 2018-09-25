@@ -2,20 +2,17 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { SleepTimeComponent } from './sleep-time.component';
-import { SleepTimeChartComponent } from './sleep-time-chart/sleep-time-chart.component';
+
+import { AuthGuardService } from '../auth/shared/auth-guard.service';
 
 const sleepTimeRoutes = [
-    { path: 'dashboard',
-    component: SleepTimeComponent,
-    children: [
-      { path: 'sleepchart', component: SleepTimeChartComponent }
-    ]
-  }
+    { path: 'dashboard', component: SleepTimeComponent, canActivate: [AuthGuardService]}
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(sleepTimeRoutes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers: [AuthGuardService]
 })
 export class SleepTimeRoutingModule {
 
