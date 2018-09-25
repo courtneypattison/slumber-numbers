@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthService {
-  private user: Observable<firebase.User>;
+  public user: Observable<firebase.User>;
   private userDetails: firebase.User;
 
   constructor(
@@ -20,11 +20,6 @@ export class AuthService {
     private router: Router
     ) {
     this.user = angularFireAuth.authState;
-
-    this.user.subscribe((user: firebase.User) => {
-      this.userDetails = user ? user : null;
-      }
-    );
   }
 
   signInWithGoogle() {
@@ -35,10 +30,6 @@ export class AuthService {
       this.loggerService.error(`Failed to sign in with Google:
         error: ${error}`);
     });
-  }
-
-  isSignedIn() {
-    return this.userDetails ? true : false;
   }
 
   signOut() {

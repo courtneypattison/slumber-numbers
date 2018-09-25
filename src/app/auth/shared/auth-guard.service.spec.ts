@@ -10,6 +10,7 @@ import { AuthGuardService } from './auth-guard.service';
 import { LoggerService } from '../../core/logger.service';
 
 import { MockLoggerService } from '../../../testing/mock-logger.service';
+import { AuthService } from './auth.service';
 
 describe('AuthGuardService', () => {
   beforeEach(() => {
@@ -20,6 +21,7 @@ describe('AuthGuardService', () => {
       ],
       providers: [
         AngularFireAuth,
+        AuthService,
         AuthGuardService,
         { provide: LoggerService, useClass: MockLoggerService },
       ]

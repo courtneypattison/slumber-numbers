@@ -6,6 +6,7 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { LoggerService } from '../../core/logger.service';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,14 +14,14 @@ import { LoggerService } from '../../core/logger.service';
 export class AuthGuardService implements CanActivate {
 
   constructor(
-    private angularFireAuth: AngularFireAuth,
+    private authService: AuthService,
     private loggerService: LoggerService,
     private ngZone: NgZone,
     private router: Router,
     ) { }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean>  {
-    return this.angularFireAuth.authState.pipe(
+    return this.authService.user.pipe(
       map(user => {
         if (user && route.url.toString() === 'dashboard') {
           this.loggerService.log(`Can activate:
