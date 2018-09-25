@@ -8,17 +8,21 @@ import { SignInComponent } from './sign-in/sign-in.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
 
 import { AuthGuardService } from './shared/auth-guard.service';
+import { AuthService } from './shared/auth.service';
 
 @NgModule({
   imports: [
     CommonModule,
     AuthRoutingModule,
-    MatButtonModule
+    MatButtonModule,
   ],
   declarations: [
     SignInComponent,
-    SignUpComponent
+    SignUpComponent,
   ],
-  providers: [AuthGuardService]
+  providers: [
+    AuthGuardService,
+    AuthService,
+  ]
 })
 export class AuthModule { }

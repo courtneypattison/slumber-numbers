@@ -6,6 +6,10 @@ import { AngularFireAuth } from 'angularfire2/auth';
 
 import { config } from '../../../testing/mock-config';
 
+import { LoggerService } from '../../core/logger.service';
+
+import { MockLoggerService } from '../../../testing/mock-logger.service';
+
 import { SignInComponent } from './sign-in.component';
 
 describe('SignInComponent', () => {
@@ -18,7 +22,10 @@ describe('SignInComponent', () => {
         RouterTestingModule,
         AngularFireModule.initializeApp(config)
       ],
-      providers: [AngularFireAuth],
+      providers: [
+        AngularFireAuth,
+        { provide: LoggerService, useClass: MockLoggerService },
+      ],
       declarations: [ SignInComponent ]
     })
     .compileComponents();

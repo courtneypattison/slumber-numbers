@@ -1,8 +1,7 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { AngularFireAuth } from 'angularfire2/auth';
-import { auth } from 'firebase/app';
+import { AuthService } from '../shared/auth.service';
 
 @Component({
   selector: 'sn-sign-in',
@@ -11,16 +10,12 @@ import { auth } from 'firebase/app';
 })
 export class SignInComponent implements OnInit {
 
-  constructor(public angularFireAuth: AngularFireAuth, private router: Router, private ngZone: NgZone) { }
+  constructor(public authService: AuthService, private router: Router, private ngZone: NgZone) { }
 
   ngOnInit() {
   }
 
   signIn() {
-    this.angularFireAuth.auth.signInWithPopup(new auth.GoogleAuthProvider()).then(result => {
-      this.ngZone.run(() => this.router.navigateByUrl('/dashboard'));
-    }, error => {
-
-    });
+    this.authService.signInWithGoogle();
   }
 }

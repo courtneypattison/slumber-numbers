@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { AngularFireAuth } from 'angularfire2/auth';
+import { AuthService } from '../../auth/shared/auth.service';
 
 @Component({
   selector: 'sn-header',
@@ -11,13 +11,12 @@ import { AngularFireAuth } from 'angularfire2/auth';
 export class HeaderComponent implements OnInit {
   title = 'Slumber Numbers';
 
-  constructor(public angularFireAuth: AngularFireAuth, private router: Router) { }
+  constructor(public authService: AuthService, private router: Router) { }
 
   ngOnInit() {
   }
 
   signOut() {
-    this.angularFireAuth.auth.signOut();
-    this.router.navigate(['/signup']);
+    this.authService.signOut();
   }
 }

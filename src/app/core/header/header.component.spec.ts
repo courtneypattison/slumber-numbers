@@ -6,10 +6,15 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
+import { AuthService } from '../../auth/shared/auth.service';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireAuth } from 'angularfire2/auth';
 
 import { config } from '../../../testing/mock-config';
+
+import { LoggerService } from '../../core/logger.service';
+
+import { MockLoggerService } from '../../../testing/mock-logger.service';
 
 import { HeaderComponent } from './header.component';
 
@@ -25,9 +30,13 @@ describe('HeaderComponent', () => {
         RouterTestingModule,
         MatButtonModule,
         MatToolbarModule,
-        AngularFireModule.initializeApp(config)
+        AngularFireModule.initializeApp(config),
       ],
-      providers: [AngularFireAuth],
+      providers: [
+        AuthService,
+        AngularFireAuth,
+        { provide: LoggerService, useClass: MockLoggerService },
+      ],
       declarations: [HeaderComponent]
     })
     .compileComponents();
