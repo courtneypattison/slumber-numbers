@@ -18,44 +18,36 @@ export class AuthGuardService implements CanActivate {
     private loggerService: LoggerService,
     private ngZone: NgZone,
     private router: Router,
-    ) { }
+  ) { }
 
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean>  {
-    return this.authService.user.pipe(
-      map(user => {
-        if (user && route.url.toString() === 'dashboard') {
-          this.loggerService.log(`Can activate:
-            route: ${route}
-            state: ${state}`);
-          return true;
-        }
-        if (!user && route.url.toString() === 'dashboard') {
-          this.loggerService.log(`Cannot activate. User not signed in. Navigate to '/signup':
-            route: ${route}
-            state: ${state}`);
-          this.ngZone.run(() => this.router.navigateByUrl('/signup'));
-          return false;
-        }
-        if (user && (route.url.toString() === 'signup' || route.url.toString() === 'signin')) {
-          this.loggerService.log(`Cannot activate. User signed in. Navigate to '/dashboard':
-            route: ${route}
-            state: ${state}`);
-          this.ngZone.run(() => this.router.navigateByUrl('/dashboard'));
-          return false;
-        }
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
+    if (this.authService.isSignedIn) {
+      if (route.url.toString() === 'dashboard') {
         this.loggerService.log(`Can activate:
+          route: ${route}
+          state: ${state}`);
+        return true;
+      }
+
+      if (route.url.toString() === 'signup' || route.url.toString() === 'signin') {
+        this.loggerService.log(`Cannot activate. User signed in. Navigate to '/dashboard':
+          route: ${route}
+          state: ${state}`);
+        this.ngZone.run(() => this.router.navigateByUrl('/dashboard'));
+        return false;
+      }
+    } else {
+      if (route.url.toString() === 'dashboard' || route.url.toString() === 'account') {
+        this.loggerService.log(`Cannot activate. User not signed in. Navigate to '/signup':
+          route: ${route}
+          state: ${state}`);
+        this.ngZone.run(() => this.router.navigateByUrl('/signup'));
+        return false;
+      }
+    }
+    this.loggerService.log(`Can activate:
             route: ${route}
             state: ${state}`);
-        return true;
-      }),
-      catchError((error) => {
-        this.loggerService.log(`Error authenticating. Navigate to '/signup':
-            route: ${route}
-            state: ${state}
-            error: ${error}`);
-        this.ngZone.run(() => this.router.navigateByUrl('/signup'));
-        return of(false);
-      })
-    );
+    return true;
   }
 }

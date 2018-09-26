@@ -11,6 +11,7 @@ import { Observable } from 'rxjs';
 })
 export class AuthService {
   public user: Observable<firebase.User>;
+  public isSignedIn: boolean;
 
   constructor(
     private angularFireAuth: AngularFireAuth,
@@ -19,6 +20,10 @@ export class AuthService {
     private router: Router
     ) {
     this.user = angularFireAuth.authState;
+    this.user.subscribe((user: firebase.User) => {
+      this.isSignedIn = user ? true : false;
+      this.loggerService.log(`Is signed in: ${this.isSignedIn}`);
+    });
   }
 
   signInWithGoogle() {
