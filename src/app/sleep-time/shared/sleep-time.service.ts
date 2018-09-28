@@ -2,59 +2,66 @@ import { Injectable } from '@angular/core';
 
 import { firestore } from 'firebase/app';
 import { AngularFirestore } from 'angularfire2/firestore';
-import { AngularFireAuth } from 'angularfire2/auth';
 
 import { Observable } from 'rxjs';
+import { flatMap, map } from 'rxjs/operators';
 
 import { SleepTimeChartRow } from './sleep-time-chart-row.model';
 import { SleepTime } from './sleep-time.model';
 import { SleepState } from './sleep-state.model';
 
 import { LoggerService } from '../../core/logger.service';
+import { AuthService } from '../../auth/shared/auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SleepTimeService {
 
-  constructor(private angularFirestore: AngularFirestore, public angularFireAuth: AngularFireAuth, private logger: LoggerService) { }
+  constructor(private angularFirestore: AngularFirestore, public authService: AuthService, private logger: LoggerService) { }
 
   add(startDateTime: Date, sleepState: SleepState) {
-    const currentUser = this.angularFireAuth.auth.currentUser;
-    if (currentUser) {
-      this.logger.log(`Add sleep to firestore:
-        uid: ${currentUser.uid},
-        startDateTime: ${startDateTime.toDateString()} ${startDateTime.toTimeString()},
-        state: ${sleepState}`);
-      const startTimestamp = firestore.Timestamp.fromDate(startDateTime);
+    this.authService.isSignedIn().subscribe((currentUser: firebase.User) => {
+      if (currentUser) {
+        this.logger.log(`Add sleep to firestore:
+          currentUser.uid: ${currentUser.uid},
+          startDateTime: ${startDateTime.toDateString()} ${startDateTime.toTimeString()},
+          state: ${sleepState}`);
+        const startTimestamp = firestore.Timestamp.fromDate(startDateTime);
 
-      this.angularFirestore
-        .collection<SleepTime>(currentUser.uid)
-        .doc(String(startTimestamp))
-        .set({
-          startTimestamp: startTimestamp,
-          sleepState: sleepState
-        });
-    } else {
-      this.logger.warn(`No current user. Couldn't add sleep to firestore:
-        startDateTime: ${startDateTime.toDateString()} ${startDateTime.toTimeString()},
-        state: ${sleepState}`);
-    }
+        this.angularFirestore
+          .collection<SleepTime>(currentUser.uid)
+          .doc(String(startTimestamp))
+          .set({
+            startTimestamp: startTimestamp,
+            sleepState: sleepState
+          });
+      } else {
+        this.logger.warn(`No current user. Couldn't add sleep to firestore:
+          startDateTime: ${startDateTime.toDateString()} ${startDateTime.toTimeString()},
+          state: ${sleepState}`);
+      }
+    });
   }
 
   deleteSleepTime(sleepTimeId: string) {
-    const currentUser = this.angularFireAuth.auth.currentUser;
-    if (currentUser) {
-      this.logger.log(`Delete sleep time from firestore:
-      uid: ${currentUser.uid}
-      sleepTimeId: ${sleepTimeId}`);
-      this.angularFirestore
-        .doc<SleepTime>(`${currentUser.uid}/${sleepTimeId}`)
-        .delete();
-    } else {
-      this.logger.warn(`No current user. Couldn't delete sleep from firestore:
-        sleepTimeId: ${sleepTimeId}`);
-    }
+    this.authService.isSignedIn().subscribe((currentUser: firebase.User) => {
+      if (currentUser) {
+        this.logger.log(`Delete sleep time from firestore:
+          currentUser.uid: ${currentUser.uid}
+          sleepTimeId: ${sleepTimeId}`);
+        this.angularFirestore
+          .doc<SleepTime>(`${currentUser.uid}/${sleepTimeId}`)
+          .delete();
+      } else {
+        this.logger.warn(`No current user. Couldn't delete sleep from firestore:
+          sleepTimeId: ${sleepTimeId}`);
+      }
+    });
+  }
+
+  deleteAllSleepTimes(uid: string) {
+
   }
 
   getSleepChartRows(sleepTimes: SleepTime[]): SleepTimeChartRow[] {
@@ -95,16 +102,17 @@ export class SleepTimeService {
   }
 
   getSleepTimes(): Observable<SleepTime[]> {
-    const currentUser = this.angularFireAuth.auth.currentUser;
-    if (currentUser) {
-      this.logger.log(`Get sleep times from firestore:
-      uid: ${currentUser.uid}`);
-      return this.angularFirestore
-        .collection<SleepTime>(currentUser.uid, ref => ref.orderBy('startTimestamp'))
-        .valueChanges();
-    } else {
-      this.logger.warn(`No current user. Couldn't get sleep times from firestore`);
-    }
+    return this.authService.isSignedIn().pipe(flatMap((currentUser: firebase.User) => {
+      if (currentUser) {
+        this.logger.log(`Get sleep times from firestore:
+          currentUser.uid: ${currentUser.uid}`);
+        return this.angularFirestore
+          .collection<SleepTime>(currentUser.uid, ref => ref.orderBy('startTimestamp'))
+          .valueChanges();
+      } else {
+        this.logger.warn(`No current user. Couldn't get sleep times from firestore`);
+      }
+    }));
   }
 
   addTestSleep(): void {

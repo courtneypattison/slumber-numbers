@@ -1,10 +1,9 @@
 import { Injectable, NgZone } from '@angular/core';
 import { CanActivate, Router, RouterStateSnapshot, ActivatedRouteSnapshot } from '@angular/router';
 
-import { AngularFireAuth } from 'angularfire2/auth';
-
 import { Observable, of } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, first, map } from 'rxjs/operators';
+
 import { LoggerService } from '../../core/logger.service';
 import { AuthService } from './auth.service';
 
@@ -20,34 +19,42 @@ export class AuthGuardService implements CanActivate {
     private router: Router,
   ) { }
 
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    if (this.authService.isSignedIn) {
-      if (route.url.toString() === 'dashboard') {
-        this.loggerService.log(`Can activate:
-          route: ${route}
-          state: ${state}`);
-        return true;
-      }
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
+    const routeUrl = route.url.toString();
+    const accountUrl = 'account';
+    const dashboardUrl = 'dashboard';
+    const signInUrl = 'signin';
+    const signUpUrl = 'signup';
 
-      if (route.url.toString() === 'signup' || route.url.toString() === 'signin') {
-        this.loggerService.log(`Cannot activate. User signed in. Navigate to '/dashboard':
-          route: ${route}
-          state: ${state}`);
-        this.ngZone.run(() => this.router.navigateByUrl('/dashboard'));
-        return false;
-      }
-    } else {
-      if (route.url.toString() === 'dashboard' || route.url.toString() === 'account') {
-        this.loggerService.log(`Cannot activate. User not signed in. Navigate to '/signup':
-          route: ${route}
-          state: ${state}`);
-        this.ngZone.run(() => this.router.navigateByUrl('/signup'));
-        return false;
-      }
-    }
-    this.loggerService.log(`Can activate:
-            route: ${route}
-            state: ${state}`);
-    return true;
+    return this.authService.isSignedIn()
+      .pipe(
+        map((currentUser: firebase.User) => {
+          if (currentUser) { // User signed in
+            if (routeUrl === dashboardUrl) {
+              this.loggerService.log(`Can activate '/${routeUrl}'`);
+              return true;
+            }
+
+            if (routeUrl === signUpUrl || routeUrl === signInUrl) {
+              this.loggerService.log(`Cannot activate '/${routeUrl}'. User signed in. Navigate to '/${dashboardUrl}'`);
+              this.ngZone.run(() => this.router.navigateByUrl(`/${dashboardUrl}`));
+              return false;
+            }
+          } else { // User not signed in
+            if (routeUrl === dashboardUrl || routeUrl === accountUrl) {
+              this.loggerService.log(`Cannot activate '/${routeUrl}'. User not signed in. Navigate to '/${signUpUrl}'`);
+              this.ngZone.run(() => this.router.navigateByUrl(`/${signUpUrl}`));
+              return false;
+            }
+          }
+          this.loggerService.log(`Can activate '/${routeUrl}'`);
+          return true;
+        }), catchError(error => {
+          this.loggerService.log(`Cannot activate '/${routeUrl}'. Error. Navigate to '/${signUpUrl}':
+            error: ${error}`);
+          this.ngZone.run(() => this.router.navigateByUrl(`/${signUpUrl}`));
+          return of(false);
+        })
+      );
   }
 }

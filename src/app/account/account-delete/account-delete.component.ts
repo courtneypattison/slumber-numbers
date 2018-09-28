@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import { AccountService } from '../shared/account.service';
+
 @Component({
   selector: 'sn-account-delete',
   templateUrl: './account-delete.component.html',
@@ -7,9 +9,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AccountDeleteComponent implements OnInit {
 
-  constructor() { }
+  constructor(private accountService: AccountService) { }
 
   ngOnInit() {
+  }
+
+  deleteAccount() {
+    this.accountService.deleteAccount();
   }
 
 }

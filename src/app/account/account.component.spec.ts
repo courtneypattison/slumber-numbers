@@ -1,4 +1,14 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+
+import { AngularFireModule } from 'angularfire2';
+import { AngularFireAuth } from 'angularfire2/auth';
+
+import { config } from '../../testing/mock-config';
+
+import { AccountService } from './shared/account.service';
+import { LoggerService } from '../core/logger.service';
+import { MockLoggerService } from '../../testing/mock-logger.service';
 
 import { AccountComponent } from './account.component';
 import { AccountDeleteComponent } from './account-delete/account-delete.component';
@@ -12,6 +22,15 @@ describe('AccountComponent', () => {
       declarations: [
         AccountComponent,
         AccountDeleteComponent,
+      ],
+      imports: [
+        AngularFireModule.initializeApp(config),
+        RouterTestingModule,
+      ],
+      providers: [
+        AngularFireAuth,
+        AccountService,
+        { provide: LoggerService, useClass: MockLoggerService },
       ]
     })
     .compileComponents();
