@@ -15,16 +15,16 @@ import { LoggerService } from './logger.service';
     CommonModule,
     RouterModule,
     MatToolbarModule,
-    MatButtonModule
+    MatButtonModule,
   ],
   declarations: [
     HeaderComponent,
     FooterComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
   ],
   exports: [
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
   ],
   providers: [LoggerService]
 })
