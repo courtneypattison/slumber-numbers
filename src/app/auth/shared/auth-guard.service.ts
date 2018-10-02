@@ -2,10 +2,11 @@ import { Injectable, NgZone } from '@angular/core';
 import { CanActivate, Router, RouterStateSnapshot, ActivatedRouteSnapshot } from '@angular/router';
 
 import { Observable, of } from 'rxjs';
-import { catchError, first, map } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 
 import { LoggerService } from '../../core/logger.service';
 import { AuthService } from './auth.service';
+import { FirebaseError } from 'firebase';
 
 @Injectable({
   providedIn: 'root'
@@ -49,9 +50,9 @@ export class AuthGuardService implements CanActivate {
           }
           this.loggerService.log(`Can activate '/${routeUrl}'`);
           return true;
-        }), catchError(error => {
-          this.loggerService.log(`Cannot activate '/${routeUrl}'. Error. Navigate to '/${signUpUrl}':
-            error: ${error}`);
+        }), catchError((error: FirebaseError) => {
+          this.loggerService.error(`Cannot activate '/${routeUrl}'. Error. Navigate to '/${signUpUrl}':
+            error: ${error.message ? error.message : error.code}`);
           this.ngZone.run(() => this.router.navigateByUrl(`/${signUpUrl}`));
           return of(false);
         })
