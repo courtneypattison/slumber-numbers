@@ -21,10 +21,10 @@ export class SleepTimeTableComponent implements OnInit {
 
   ngOnInit() {
     this.isSleepTime = false;
-    this.getSleepTimes();
+    this.drawTable();
   }
 
-  getSleepTimes() {
+  drawTable() {
     this.sleepTimeService.getSleepTimes()
       .pipe(untilDestroyed(this))
       .subscribe((sleepTimes: SleepTime[]) => {
