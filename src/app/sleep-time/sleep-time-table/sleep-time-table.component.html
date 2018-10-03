@@ -1,4 +1,4 @@
-<div class="sleep-time-table mat-elevation-z8">
+<div *ngIf="isSleepTime" class="sleep-time-table mat-elevation-z8">
   <mat-table #table [dataSource]="dataSource">
     <ng-container matColumnDef="startTime">
       <mat-header-cell *matHeaderCellDef>Start time</mat-header-cell>

@@ -15,10 +15,12 @@ export class SleepTimeTableComponent implements OnInit {
   displayedColumns = ['startTime', 'sleepState', 'delete'];
   dataSource: MatTableDataSource<SleepTime>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  isSleepTime: boolean;
 
   constructor(private sleepTimeService: SleepTimeService) { }
 
   ngOnInit() {
+    this.isSleepTime = false;
     this.getSleepTimes();
   }
 
@@ -26,6 +28,8 @@ export class SleepTimeTableComponent implements OnInit {
     this.sleepTimeService.getSleepTimes()
       .pipe(untilDestroyed(this))
       .subscribe((sleepTimes: SleepTime[]) => {
+        this.isSleepTime = sleepTimes.length ? true : false;
+
         this.dataSource = new MatTableDataSource<SleepTime>(sleepTimes);
         this.dataSource.paginator = this.paginator;
       });

@@ -13,10 +13,12 @@ declare var google: any;
   styleUrls: ['./sleep-time-chart.component.css']
 })
 export class SleepTimeChartComponent implements OnInit {
+  isSleepTime: boolean;
 
   constructor(private sleepTimeService: SleepTimeService) { }
 
   ngOnInit() {
+    this.isSleepTime = false;
     this.drawChart();
   }
 
@@ -26,8 +28,11 @@ export class SleepTimeChartComponent implements OnInit {
       .pipe(untilDestroyed(this))
       .subscribe((sleepTimes: SleepTime[]) => {
         const sleepChartRows = this.sleepTimeService.getSleepChartRows(sleepTimes);
-        if (sleepChartRows.length === 0) {
+        if (sleepChartRows.length) {
+          this.isSleepTime = true;
           return;
+        } else {
+          this.isSleepTime = false;
         }
 
         google.charts.load('current', { packages: ['timeline'] });
