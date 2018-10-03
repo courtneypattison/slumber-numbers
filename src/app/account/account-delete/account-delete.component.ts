@@ -19,7 +19,6 @@ export class AccountDeleteComponent implements OnInit {
   deleteAccount() {
     this.accountService.deleteAccount()
     .catch((error: firebase.FirebaseError) => {
-      console.log(error.code);
       if (error.code === 'auth/requires-recent-login') {
         this.openErrorDialog(error.message);
       }
