@@ -13,6 +13,7 @@ import { MockLoggerService } from '../../testing/mock-logger.service';
 
 import { AccountComponent } from './account.component';
 import { AccountDeleteComponent } from './account-delete/account-delete.component';
+import { MatDialogModule } from '@angular/material';
 
 describe('AccountComponent', () => {
   let component: AccountComponent;
@@ -26,8 +27,9 @@ describe('AccountComponent', () => {
       ],
       imports: [
         AngularFireModule.initializeApp(config),
-        RouterTestingModule,
         AngularFirestoreModule,
+        MatDialogModule,
+        RouterTestingModule,
       ],
       providers: [
         AngularFireAuth,

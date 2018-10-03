@@ -23,7 +23,8 @@ export class AccountService {
     private sleepTimeService: SleepTimeService,
   ) { }
 
-  deleteAccount() {
+  deleteAccount(): Promise<void> {
+    return new Promise((resolve, reject) => {
     this.authService
       .isSignedIn()
       .subscribe((currentUser: User) => {
@@ -46,12 +47,13 @@ export class AccountService {
                       this.loggerService.log(`Deleted account:
                         currentUser.uid: ${currentUser.uid}`);
                       this.authService.signOut();
+                      resolve();
                     }).catch((error: firebase.FirebaseError) => {
                       if (error.code === 'auth/requires-recent-login') {
                         this.loggerService.error(`Delete account failed:
                           currentUser.uid: ${currentUser.uid}
-                           ${error.message ? error.message : error.code}`);
-                        this.ngZone.run(() => this.router.navigateByUrl(`/signin`));
+                          ${error.message ? error.message : error.code}`);
+                        reject(error);
                       }
                     });
                 })
@@ -63,6 +65,7 @@ export class AccountService {
             });
         }
       });
+    });
   }
 }
 
