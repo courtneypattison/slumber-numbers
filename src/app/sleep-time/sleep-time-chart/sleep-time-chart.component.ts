@@ -30,9 +30,9 @@ export class SleepTimeChartComponent implements OnInit {
         const sleepChartRows = this.sleepTimeService.getSleepChartRows(sleepTimes);
         if (sleepChartRows.length) {
           this.isSleepTime = true;
-          return;
         } else {
           this.isSleepTime = false;
+          return;
         }
 
         google.charts.load('current', { packages: ['timeline'] });
