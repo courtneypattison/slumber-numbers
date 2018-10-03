@@ -28,7 +28,12 @@ export class SleepTimeTableComponent implements OnInit {
     this.sleepTimeService.getSleepTimes()
       .pipe(untilDestroyed(this))
       .subscribe((sleepTimes: SleepTime[]) => {
-        this.isSleepTime = sleepTimes.length ? true : false;
+        if (sleepTimes.length) {
+          this.isSleepTime = true;
+        } else {
+          this.isSleepTime = false;
+          return;
+        }
 
         this.dataSource = new MatTableDataSource<SleepTime>(sleepTimes);
         this.dataSource.paginator = this.paginator;
