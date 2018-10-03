@@ -15,7 +15,7 @@ import { Account } from '../../account/shared/account.model';
   providedIn: 'root'
 })
 export class AuthService {
-  public authState: Observable<firebase.User>;
+  public user: Observable<firebase.User>;
 
   constructor(
     private angularFireAuth: AngularFireAuth,
@@ -24,7 +24,7 @@ export class AuthService {
     private ngZone: NgZone,
     private router: Router
   ) {
-    this.authState = angularFireAuth.authState;
+    this.user = angularFireAuth.user;
 
   }
 
@@ -68,6 +68,6 @@ export class AuthService {
   }
 
   isSignedIn(): Observable<firebase.User> {
-    return this.authState.pipe(first());
+    return this.user.pipe(first());
   }
 }
