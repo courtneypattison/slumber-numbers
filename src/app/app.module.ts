@@ -17,6 +17,7 @@ import { AuthRoutingModule } from './auth/auth-routing.module';
 import { SleepTimeRoutingModule } from './sleep-time/sleep-time-routing.module';
 
 import { AppComponent } from './app.component';
+import { ErrorDialogComponent } from './shared/error-dialog/error-dialog.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { AppComponent } from './app.component';
     AuthRoutingModule,
     SleepTimeRoutingModule,
   ],
-  bootstrap: [AppComponent]
+  entryComponents: [ErrorDialogComponent],
+  bootstrap: [AppComponent],
 })
 export class AppModule { }
