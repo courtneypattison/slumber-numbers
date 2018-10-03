@@ -5,6 +5,8 @@ import { CoreModule } from './core/core.module';
 
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireAuth } from 'angularfire2/auth';
+import { AngularFirestoreModule } from 'angularfire2/firestore';
+
 
 import { environment } from '../environments/environment';
 
@@ -19,7 +21,8 @@ describe('AppComponent', () => {
       imports: [
         RouterTestingModule,
         CoreModule,
-        AngularFireModule.initializeApp(environment.firebase)
+        AngularFireModule.initializeApp(environment.firebase),
+        AngularFirestoreModule,
       ],
       providers: [AngularFireAuth],
     }).compileComponents();

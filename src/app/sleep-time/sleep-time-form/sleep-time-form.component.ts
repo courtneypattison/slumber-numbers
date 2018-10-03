@@ -46,7 +46,7 @@ export class SleepTimeFormComponent implements OnInit {
   }
 
   onSave() {
-    this.sleepService.add(this.getStartDateTime(), this.sleepTimeForm.value.sleepState);
+    this.sleepService.addSleepTime(this.getStartDateTime(), this.sleepTimeForm.value.sleepState);
   }
 
 }

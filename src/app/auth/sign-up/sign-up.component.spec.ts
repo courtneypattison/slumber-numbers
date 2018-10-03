@@ -3,6 +3,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireAuth } from 'angularfire2/auth';
+import { AngularFirestoreModule } from 'angularfire2/firestore';
 
 import { config } from '../../../testing/mock-config';
 
@@ -20,6 +21,7 @@ describe('SignUpComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,
+        AngularFirestoreModule,
         AngularFireModule.initializeApp(config)
       ],
       providers: [

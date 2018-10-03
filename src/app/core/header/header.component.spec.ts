@@ -9,6 +9,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { AuthService } from '../../auth/shared/auth.service';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireAuth } from 'angularfire2/auth';
+import { AngularFirestoreModule } from 'angularfire2/firestore';
 
 import { config } from '../../../testing/mock-config';
 
@@ -31,6 +32,7 @@ describe('HeaderComponent', () => {
         MatButtonModule,
         MatToolbarModule,
         AngularFireModule.initializeApp(config),
+        AngularFirestoreModule,
       ],
       providers: [
         AuthService,

@@ -3,6 +3,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireAuth } from 'angularfire2/auth';
+import { AngularFirestoreModule } from 'angularfire2/firestore';
 
 import { config } from '../../testing/mock-config';
 
@@ -26,6 +27,7 @@ describe('AccountComponent', () => {
       imports: [
         AngularFireModule.initializeApp(config),
         RouterTestingModule,
+        AngularFirestoreModule,
       ],
       providers: [
         AngularFireAuth,
