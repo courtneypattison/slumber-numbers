@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 
 import { AccountService } from '../shared/account.service';
-import { MatDialog, MatDialogConfig } from '@angular/material';
 import { ErrorDialogComponent } from '../../shared/error-dialog/error-dialog.component';
+import { AuthService } from '../../auth/shared/auth.service';
+import { MatDialog, MatDialogConfig } from '@angular/material';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'sn-account-delete',
@@ -11,7 +13,12 @@ import { ErrorDialogComponent } from '../../shared/error-dialog/error-dialog.com
 })
 export class AccountDeleteComponent implements OnInit {
 
-  constructor(private accountService: AccountService, private matDialog: MatDialog) { }
+  constructor(
+    private accountService: AccountService,
+    private authService: AuthService,
+    private matDialog: MatDialog,
+    private router: Router
+    ) { }
 
   ngOnInit() {
   }
@@ -21,6 +28,8 @@ export class AccountDeleteComponent implements OnInit {
     .catch((error: firebase.FirebaseError) => {
       if (error.code === 'auth/requires-recent-login') {
         this.openErrorDialog(error.message);
+        this.authService.signOut();
+        this.router.navigateByUrl(`/signin`);
       }
     });
   }
