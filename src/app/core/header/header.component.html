@@ -1,6 +1,6 @@
 <header>
   <nav>
-    <mat-toolbar color="primary" class="mat-elevation-z6">  
+    <mat-toolbar color="primary" class="mat-elevation-z6">
       <a mat-button href="/">
         <img alt="" src="../../../assets/logo.svg"> {{title}}
       </a>
@@ -8,12 +8,17 @@
       <div class="fill-space"></div>
 
       <div *ngIf="authService.user | async as user; else showSignUpOrIn">
-          <a mat-button routerLink="/account">Account</a>
-        <button mat-button (click)="signOut()">Sign Out</button>
+
+        <button mat-mini-fab color="accent" [matMenuTriggerFor]="menu">{{userInitial | async | uppercase}}</button>
+        <mat-menu #menu="matMenu">
+            <button mat-menu-item routerLink="/dashboard">Dashboard</button>
+          <button mat-menu-item routerLink="/account">Account</button>
+          <button mat-menu-item (click)="signOut()">Sign Out</button>
+        </mat-menu>
       </div>
 
       <ng-template #showSignUpOrIn>
-        <a mat-button routerLink="/signin">Sign In</a> 
+        <a mat-button routerLink="/signin">Sign In</a>
         <a mat-raised-button routerLink="/signup" color="accent">Sign Up</a>
       </ng-template>
     </mat-toolbar>

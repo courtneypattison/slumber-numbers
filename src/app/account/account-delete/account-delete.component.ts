@@ -18,20 +18,24 @@ export class AccountDeleteComponent implements OnInit {
     private authService: AuthService,
     private matDialog: MatDialog,
     private router: Router
-    ) { }
+  ) { }
 
   ngOnInit() {
   }
 
   deleteAccount() {
-    this.accountService.deleteAccount()
-    .catch((error: firebase.FirebaseError) => {
-      if (error.code === 'auth/requires-recent-login') {
-        this.openErrorDialog(error.message);
-        this.authService.signOut();
-        this.router.navigateByUrl(`/signin`);
-      }
-    });
+    this.accountService
+      .deleteAccount()
+      .catch((error: firebase.FirebaseError) => {
+        if (error.code === 'auth/requires-recent-login') {
+          this.openErrorDialog(error.message);
+          this.authService
+            .signOut()
+            .then(() => {
+              this.router.navigateByUrl(`/signin`);
+            });
+        }
+      });
   }
 
   openErrorDialog(errorMessage: string) {

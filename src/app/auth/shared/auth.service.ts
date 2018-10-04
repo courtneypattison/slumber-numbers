@@ -7,7 +7,7 @@ import { AngularFirestore } from 'angularfire2/firestore';
 import { LoggerService } from '../../core/logger.service';
 import * as firebase from 'firebase/app';
 import { Observable } from 'rxjs';
-import { first } from 'rxjs/operators';
+import { first, map } from 'rxjs/operators';
 
 import { Account } from '../../account/shared/account.model';
 
@@ -54,20 +54,38 @@ export class AuthService {
       });
   }
 
-  signOut() {
-    this.angularFireAuth.auth
-      .signOut()
-      .then((result: void) => {
-        this.loggerService.log('Signed out');
-        this.router.navigateByUrl('/');
-      })
-      .catch((error: firebase.auth.Error) => {
-        this.loggerService.error(`Failed to sign out:
-          error: ${error.message ? error.message : error.code}`);
-      });
+  signOut(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.angularFireAuth.auth
+        .signOut()
+        .then((result: void) => {
+          this.loggerService.log('Signed out');
+          this.router.navigateByUrl('/');
+          resolve();
+        })
+        .catch((error: firebase.auth.Error) => {
+          this.loggerService.error(`Failed to sign out:
+            error: ${error.message ? error.message : error.code}`);
+          reject(error);
+        });
+    });
   }
 
   isSignedIn(): Observable<firebase.User> {
     return this.user.pipe(first());
+  }
+
+  getUserInitial(): Observable<string> {
+    return this.isSignedIn()
+      .pipe(
+        map((currentUser: firebase.User) => {
+          if (currentUser) {
+            this.loggerService.log(`Get user initial: ${currentUser.email[0]}`);
+            return currentUser.email[0];
+          } else {
+            return '';
+          }
+        })
+      );
   }
 }

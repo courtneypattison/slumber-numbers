@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { Observable } from 'rxjs';
+
 import { AuthService } from '../../auth/shared/auth.service';
 
 @Component({
@@ -10,10 +12,12 @@ import { AuthService } from '../../auth/shared/auth.service';
 })
 export class HeaderComponent implements OnInit {
   title = 'Slumber Numbers';
+  userInitial: Observable<string>;
 
   constructor(public authService: AuthService, private router: Router) { }
 
   ngOnInit() {
+    this.userInitial = this.authService.getUserInitial();
   }
 
   signOut() {
