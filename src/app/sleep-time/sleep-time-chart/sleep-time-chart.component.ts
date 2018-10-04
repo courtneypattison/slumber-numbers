@@ -27,18 +27,16 @@ export class SleepTimeChartComponent implements OnInit {
     this.sleepTimeService.getSleepTimes()
       .pipe(untilDestroyed(this))
       .subscribe((sleepTimes: SleepTime[]) => {
-        const sleepChartRows = this.sleepTimeService.getSleepChartRows(sleepTimes);
-        if (sleepChartRows.length) {
+        if (sleepTimes.length) {
           this.isSleepTime = true;
         } else {
           this.isSleepTime = false;
           return;
         }
+        const sleepChartRows = this.sleepTimeService.getSleepChartRows(sleepTimes);
 
         google.charts.load('current', { packages: ['timeline'] });
-        google.charts.setOnLoadCallback(drawChart);
-
-        function drawChart() {
+        google.charts.setOnLoadCallback(() => {
           const container = document.getElementById('sleep-time-chart');
           const chart = new google.visualization.Timeline(container);
           const dataTable = new google.visualization.DataTable();
@@ -73,7 +71,7 @@ export class SleepTimeChartComponent implements OnInit {
           });
 
           chart.draw(dataTable, options);
-        }
+        });
       });
   }
 }
