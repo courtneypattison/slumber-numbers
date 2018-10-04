@@ -4,6 +4,7 @@ import { DebugElement } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { MatButtonModule } from '@angular/material/button';
+import { MatMenuModule } from '@angular/material/menu';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
 import { AuthService } from '../../auth/shared/auth.service';
@@ -30,6 +31,7 @@ describe('HeaderComponent', () => {
       imports: [
         RouterTestingModule,
         MatButtonModule,
+        MatMenuModule,
         MatToolbarModule,
         AngularFireModule.initializeApp(config),
         AngularFirestoreModule,
