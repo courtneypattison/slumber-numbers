@@ -14,12 +14,21 @@ declare var google: any;
 })
 export class SleepTimeChartComponent implements OnInit {
   isSleepTime: boolean;
+  chart;
+  dataTable;
+  options;
 
   constructor(private sleepTimeService: SleepTimeService) { }
 
   ngOnInit() {
     this.isSleepTime = false;
     this.drawChart();
+  }
+
+  onResize() {
+    if (this.chart && this.dataTable && this.options) {
+      this.chart.draw(this.dataTable, this.options);
+    }
   }
 
   drawChart(): void {
@@ -38,15 +47,15 @@ export class SleepTimeChartComponent implements OnInit {
         google.charts.load('current', { packages: ['timeline'] });
         google.charts.setOnLoadCallback(() => {
           const container = document.getElementById('sleep-time-chart');
-          const chart = new google.visualization.Timeline(container);
-          const dataTable = new google.visualization.DataTable();
-          dataTable.addColumn({ type: 'string', id: 'Date' });
-          dataTable.addColumn({ type: 'string', id: 'State' });
-          dataTable.addColumn({ type: 'date', id: 'Start' });
-          dataTable.addColumn({ type: 'date', id: 'End' });
-          dataTable.addRows(sleepChartRows);
+          this.chart = new google.visualization.Timeline(container);
+          this.dataTable = new google.visualization.DataTable();
+          this.dataTable.addColumn({ type: 'string', id: 'Date' });
+          this.dataTable.addColumn({ type: 'string', id: 'State' });
+          this.dataTable.addColumn({ type: 'date', id: 'Start' });
+          this.dataTable.addColumn({ type: 'date', id: 'End' });
+          this.dataTable.addRows(sleepChartRows);
 
-          const options = {
+          this.options = {
             avoidOverlappingGridLines: false,
             colors: [
               '#69F0AE', // Awake
@@ -61,7 +70,7 @@ export class SleepTimeChartComponent implements OnInit {
           };
 
           // Colour horizontal axis white
-          google.visualization.events.addListener(chart, 'ready', function () {
+          google.visualization.events.addListener(this.chart, 'ready', function () {
             const labels = container.getElementsByTagName('text');
             Array.prototype.forEach.call(labels, function (label) {
               if (label.getAttribute('text-anchor') === 'middle') {
@@ -70,7 +79,7 @@ export class SleepTimeChartComponent implements OnInit {
             });
           });
 
-          chart.draw(dataTable, options);
+          this.chart.draw(this.dataTable, this.options);
         });
       });
   }

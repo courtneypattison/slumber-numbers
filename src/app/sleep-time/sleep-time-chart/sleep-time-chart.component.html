@@ -1,2 +1,2 @@
-<div *ngIf="isSleepTime; else noSleepTime" id="sleep-time-chart"></div>
+<div *ngIf="isSleepTime; else noSleepTime" (window:resize)="onResize()" id="sleep-time-chart"></div>
 <ng-template #noSleepTime><p>No sleep times available. Please add a sleep time to see your chart and table.</p></ng-template>
