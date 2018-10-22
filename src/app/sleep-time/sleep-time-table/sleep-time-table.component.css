@@ -1,10 +1,18 @@
 .sleep-time-table {
   display: flex;
   flex-direction: column;
-  width: 350px;
+  max-width: 677px;
 }
 
 .mat-table {
   overflow: auto;
   max-height: 600px;
+}
+
+.mat-column-startTime {
+  flex-basis: 50%;
+}
+
+.mat-column-actions {
+  justify-content: flex-end;
 }

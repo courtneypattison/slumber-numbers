@@ -12,7 +12,7 @@ import { SleepTimeService } from '../shared/sleep-time.service';
   styleUrls: ['./sleep-time-table.component.css']
 })
 export class SleepTimeTableComponent implements OnInit {
-  displayedColumns = ['startTime', 'sleepState', 'delete'];
+  displayedColumns = ['startTime', 'sleepState', 'actions'];
   dataSource: MatTableDataSource<SleepTime>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   isSleepTime: boolean;
@@ -38,6 +38,10 @@ export class SleepTimeTableComponent implements OnInit {
         this.dataSource = new MatTableDataSource<SleepTime>(sleepTimes);
         this.dataSource.paginator = this.paginator;
       });
+  }
+
+  downloadCSV() {
+    this.sleepTimeService.downloadCSV();
   }
 
   deleteSleepTime(startTimestamp: string) {

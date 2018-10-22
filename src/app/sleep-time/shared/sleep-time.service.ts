@@ -112,6 +112,9 @@ export class SleepTimeService {
     });
   }
 
+  downloadCSV() {
+  }
+
   getSleepTimes(): Observable<SleepTime[]> {
     return this.authService
       .isSignedIn()

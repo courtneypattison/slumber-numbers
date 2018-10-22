@@ -7,7 +7,7 @@ import { firestore } from 'firebase/app';
 })
 export class TimestampPipe implements PipeTransform {
 
-  transform(timestamp: firestore.Timestamp, format?: string): string {
-    return timestamp.toDate().toDateString();
+  transform(timestamp: firestore.Timestamp, format?: string): Date {
+    return timestamp.toDate();
   }
 }
