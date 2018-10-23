@@ -3,7 +3,7 @@
 }
 
 header {
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 }
 
 a:not(:last-of-type) {
@@ -11,7 +11,7 @@ a:not(:last-of-type) {
 }
 
 img {
-  margin-right: 8px;
+  margin-right: 15px;
 }
 
 @media (max-width: 575.98px) {
