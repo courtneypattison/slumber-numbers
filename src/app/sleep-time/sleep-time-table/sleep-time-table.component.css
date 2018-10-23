@@ -1,7 +1,7 @@
 .sleep-time-table {
   display: flex;
   flex-direction: column;
-  max-width: 677px;
+  max-width: 673px;
 }
 
 .mat-table {
