@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { untilDestroyed } from 'ngx-take-until-destroy';
 
@@ -12,7 +12,7 @@ declare var google: any;
   templateUrl: './sleep-time-chart.component.html',
   styleUrls: ['./sleep-time-chart.component.css']
 })
-export class SleepTimeChartComponent implements OnInit {
+export class SleepTimeChartComponent implements OnInit, OnDestroy {
   isSleepTime: boolean;
   chart;
   dataTable;
@@ -23,6 +23,12 @@ export class SleepTimeChartComponent implements OnInit {
   ngOnInit() {
     this.isSleepTime = false;
     this.drawChart();
+  }
+
+  ngOnDestroy() {
+    if (this.chart) {
+      this.chart.clearChart();
+    }
   }
 
   onResize() {
