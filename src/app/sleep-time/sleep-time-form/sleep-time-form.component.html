@@ -19,7 +19,7 @@
   </mat-form-field>
 
   <mat-form-field>
-    <mat-select formControlName="sleepState" placeholder="Sleep state" required>
+    <mat-select formControlName="sleepState" placeholder="State" required>
       <mat-option *ngFor="let sleepState of sleepStates" value="{{sleepState.toString()}}">{{sleepState}}</mat-option>
     </mat-select>
   </mat-form-field>
