@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { DatePipe } from '@angular/common';
 
 import { firestore, User } from 'firebase/app';
 import { AngularFirestore } from 'angularfire2/firestore';
@@ -151,6 +152,7 @@ export class SleepTimeService {
 
     const sleepChartRows: SleepTimeChartRow[] = [];
     const endTimeIndex = 3;
+    const datePipe = new DatePipe(navigator.language);
     for (let i = 0, j = 0; i < sleepTimes.length; i++ , j++) {
       const currStartDateTime = sleepTimes[i].startTimestamp.toDate();
       const currStartTime = new Date(0, 0, 0, currStartDateTime.getHours(), currStartDateTime.getMinutes());
@@ -163,7 +165,7 @@ export class SleepTimeService {
         } else { // New day
           sleepChartRows[j - 1][endTimeIndex] = new Date(0, 0, 0, 24, 0);
           sleepChartRows.push([
-            currStartDateTime.toDateString(),
+            datePipe.transform(currStartDateTime, 'shortDate'),
             sleepTimes[i - 1].sleepState,
             new Date(0, 0, 0, 0, 0),
             currStartTime
@@ -173,7 +175,7 @@ export class SleepTimeService {
       }
 
       sleepChartRows.push([
-        currStartDateTime.toDateString(),
+        datePipe.transform(currStartDateTime, 'shortDate'),
         sleepTimes[i].sleepState,
         currStartTime,
         new Date(currStartTime.valueOf() + 1000)
