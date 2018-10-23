@@ -9,3 +9,13 @@ header {
 a:not(:last-of-type) {
   margin-right: 8px;
 }
+
+img {
+  margin-right: 8px;
+}
+
+@media (max-width: 575.98px) {
+  #title {
+    visibility: hidden;
+  }
+}
