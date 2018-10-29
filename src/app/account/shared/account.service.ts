@@ -1,13 +1,12 @@
 import { Injectable, NgZone } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { AngularFirestore } from 'angularfire2/firestore';
 import { User, firestore } from 'firebase/app';
 
 import { AuthService } from '../../auth/shared/auth.service';
 import { LoggerService } from '../../core/logger.service';
-import { Router } from '@angular/router';
 import { SleepTimeService } from '../../sleep-time/shared/sleep-time.service';
-
 
 @Injectable({
   providedIn: 'root'

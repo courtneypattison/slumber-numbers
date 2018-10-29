@@ -3,12 +3,11 @@ import { Router } from '@angular/router';
 
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFirestore } from 'angularfire2/firestore';
-
-import { LoggerService } from '../../core/logger.service';
 import * as firebase from 'firebase/app';
 import { Observable } from 'rxjs';
 import { first, map } from 'rxjs/operators';
 
+import { LoggerService } from '../../core/logger.service';
 import { Account } from '../../account/shared/account.model';
 
 @Injectable({

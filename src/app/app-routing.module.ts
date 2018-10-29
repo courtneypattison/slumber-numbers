@@ -3,9 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { AccountModule } from './account/account.module';
 import { AuthModule } from './auth/auth.module';
-import { SleepTimeModule } from './sleep-time/sleep-time.module';
-
 import { PageNotFoundComponent } from './core/page-not-found/page-not-found.component';
+import { SleepTimeModule } from './sleep-time/sleep-time.module';
 
 const appRoutes: Routes = [
   { path: '', redirectTo: '/signup', pathMatch: 'full' },

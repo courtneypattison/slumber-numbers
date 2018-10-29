@@ -1,12 +1,12 @@
 import { Injectable, NgZone } from '@angular/core';
-import { CanActivate, Router, RouterStateSnapshot, ActivatedRouteSnapshot } from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
 
+import { FirebaseError } from 'firebase';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
-import { LoggerService } from '../../core/logger.service';
 import { AuthService } from './auth.service';
-import { FirebaseError } from 'firebase';
+import { LoggerService } from '../../core/logger.service';
 
 @Injectable({
   providedIn: 'root'

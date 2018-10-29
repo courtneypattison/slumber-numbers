@@ -1,19 +1,17 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatDialogModule } from '@angular/material';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 
-import { config } from '../../testing/mock-config';
-
-import { AccountService } from './shared/account.service';
-import { LoggerService } from '../core/logger.service';
-import { MockLoggerService } from '../../testing/mock-logger.service';
-
 import { AccountComponent } from './account.component';
 import { AccountDeleteComponent } from './account-delete/account-delete.component';
-import { MatDialogModule } from '@angular/material';
+import { AccountService } from './shared/account.service';
+import { LoggerService } from '../core/logger.service';
+import { config } from '../../testing/mock-config';
+import { MockLoggerService } from '../../testing/mock-logger.service';
 
 describe('AccountComponent', () => {
   let component: AccountComponent;

@@ -1,11 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { MatDialogModule } from '@angular/material';
 
-import { TimestampPipe } from './timestamp.pipe';
-
 import { ErrorDialogComponent } from './error-dialog/error-dialog.component';
+import { TimestampPipe } from './timestamp.pipe';
 
 @NgModule({
   imports: [

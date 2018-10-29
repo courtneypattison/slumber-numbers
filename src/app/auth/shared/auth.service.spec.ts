@@ -5,11 +5,9 @@ import { AngularFireModule } from 'angularfire2';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 
-import { config } from '../../../testing/mock-config';
-
 import { AuthService } from './auth.service';
 import { LoggerService } from '../../core/logger.service';
-
+import { config } from '../../../testing/mock-config';
 import { MockLoggerService } from '../../../testing/mock-logger.service';
 
 describe('AuthService', () => {

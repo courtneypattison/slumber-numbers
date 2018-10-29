@@ -1,10 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { LoggerService } from '../../core/logger.service';
+import { MockLoggerService } from '../../../testing/mock-logger.service';
 import { SleepTimeChartComponent } from './sleep-time-chart.component';
 import { SleepTimeService } from '../shared/sleep-time.service';
-import { LoggerService } from '../../core/logger.service';
-
-import { MockLoggerService } from '../../../testing/mock-logger.service';
 
 describe('SleepTimeChartComponent', () => {
   let component: SleepTimeChartComponent;

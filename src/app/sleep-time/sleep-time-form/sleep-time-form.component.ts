@@ -1,6 +1,6 @@
+import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { DatePipe } from '@angular/common';
 
 import { SleepState } from '../shared/sleep-state.model';
 import { SleepTimeService } from '../shared/sleep-time.service';

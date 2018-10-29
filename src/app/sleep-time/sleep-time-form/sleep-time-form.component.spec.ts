@@ -1,27 +1,23 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatNativeDateModule } from '@angular/material/';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { AngularFireModule } from 'angularfire2';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireAuth } from 'angularfire2/auth';
 
-import { config } from '../../../testing/mock-config';
-
-import { MatNativeDateModule } from '@angular/material/';
-import { MatButtonModule } from '@angular/material/button';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatSelectModule } from '@angular/material/select';
-
-import { SleepTimeService } from '../shared/sleep-time.service';
 import { LoggerService } from '../../core/logger.service';
-
-import { MockLoggerService } from '../../../testing/mock-logger.service';
-
+import { config } from '../../../testing/mock-config';
 import { SleepTimeFormComponent } from './sleep-time-form.component';
+import { SleepTimeService } from '../shared/sleep-time.service';
+import { MockLoggerService } from '../../../testing/mock-logger.service';
 
 describe('SleepTimeFormComponent', () => {
   let component: SleepTimeFormComponent;

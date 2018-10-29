@@ -5,11 +5,9 @@ import { AngularFireModule } from 'angularfire2';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireAuth } from 'angularfire2/auth';
 
-import { config } from '../../../testing/mock-config';
-
-import { SleepTimeService } from './sleep-time.service';
 import { LoggerService } from '../../core/logger.service';
-
+import { SleepTimeService } from './sleep-time.service';
+import { config } from '../../../testing/mock-config';
 import { MockLoggerService } from '../../../testing/mock-logger.service';
 
 describe('SleepTimeService', () => {

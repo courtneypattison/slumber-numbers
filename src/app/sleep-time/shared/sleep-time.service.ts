@@ -1,18 +1,16 @@
-import { Injectable } from '@angular/core';
 import { DatePipe } from '@angular/common';
+import { Injectable } from '@angular/core';
 
-import { firestore, User } from 'firebase/app';
 import { AngularFirestore } from 'angularfire2/firestore';
-
+import { firestore, User } from 'firebase/app';
 import { Observable, of } from 'rxjs';
 import { first, flatMap, catchError } from 'rxjs/operators';
 
-import { SleepTimeChartRow } from './sleep-time-chart-row.model';
-import { SleepTime } from './sleep-time.model';
-import { SleepState } from './sleep-state.model';
-
-import { LoggerService } from '../../core/logger.service';
 import { AuthService } from '../../auth/shared/auth.service';
+import { LoggerService } from '../../core/logger.service';
+import { SleepState } from './sleep-state.model';
+import { SleepTime } from './sleep-time.model';
+import { SleepTimeChartRow } from './sleep-time-chart-row.model';
 
 @Injectable({
   providedIn: 'root'
