@@ -70,12 +70,12 @@ export class AuthService {
     });
   }
 
-  isSignedIn(): Observable<firebase.User> {
+  getCurrentUser(): Observable<firebase.User> {
     return this.user.pipe(first());
   }
 
   getUserInitial(): Observable<string> {
-    return this.isSignedIn()
+    return this.getCurrentUser()
       .pipe(
         map((currentUser: firebase.User) => {
           if (currentUser) {

@@ -17,15 +17,13 @@ export class AccountService {
     private angularFirestore: AngularFirestore,
     private authService: AuthService,
     private loggerService: LoggerService,
-    private ngZone: NgZone,
-    private router: Router,
     private sleepTimeService: SleepTimeService,
   ) { }
 
   deleteAccount(): Promise<void> {
     return new Promise((resolve, reject) => {
     this.authService
-      .isSignedIn()
+      .getCurrentUser()
       .subscribe((currentUser: User) => {
         if (currentUser) {
           // Delete account sleep times

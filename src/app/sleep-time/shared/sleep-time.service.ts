@@ -12,6 +12,11 @@ import { SleepState } from './sleep-state.model';
 import { SleepTime } from './sleep-time.model';
 import { SleepTimeChartRow } from './sleep-time-chart-row.model';
 
+export const NO_USER_ERROR = {
+  code: 'no-user-signed-in',
+  message: 'There is no user signed in.'
+};
+
 @Injectable({
   providedIn: 'root'
 })
@@ -19,95 +24,104 @@ export class SleepTimeService {
 
   constructor(private angularFirestore: AngularFirestore, public authService: AuthService, private loggerService: LoggerService) { }
 
-  addSleepTime(startDateTime: Date, sleepState: SleepState) {
-    this.authService
-      .isSignedIn()
-      .subscribe((currentUser: User) => {
-        if (currentUser) {
-          this.loggerService.log(`addSleepTime sleep to firestore:
-            currentUser.uid: ${currentUser.uid},
-            startDateTime: ${startDateTime.toDateString()} ${startDateTime.toTimeString()},
-            state: ${sleepState}`);
-          const startTimestamp = firestore.Timestamp.fromDate(startDateTime);
+  addSleepTime(startDateTime: Date, sleepState: SleepState): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.authService
+        .getCurrentUser()
+        .subscribe((currentUser: User) => {
+          if (currentUser) {
+            const startTimestamp = firestore.Timestamp.fromDate(startDateTime);
 
-          this.angularFirestore
-            .collection<SleepTime>(`accounts/${currentUser.uid}/sleepTimes`)
-            .doc(String(startTimestamp))
-            .set({
-              startTimestamp: startTimestamp,
-              sleepState: sleepState
-            })
-            .catch((error: firestore.FirestoreError) => {
-              this.loggerService.error(`Couldn't add sleep time to firestore:
-                error.message: ${error.message ? error.message : error.code}`);
-            });
-        } else {
-          this.loggerService.warn(`No current user. Couldn't add sleep time to firestore:
-            startDateTime: ${startDateTime.toDateString()} ${startDateTime.toTimeString()},
-            state: ${sleepState}`);
-        }
-      });
+            this.angularFirestore
+              .collection<SleepTime>(`accounts/${currentUser.uid}/sleepTimes`)
+              .doc(String(startTimestamp))
+              .set({
+                startTimestamp: firestore.Timestamp.fromDate(startDateTime),
+                sleepState: sleepState
+              })
+              .then((result: void) => {
+                this.loggerService.log(`addSleepTime sleep to firestore:
+                  currentUser.uid: ${currentUser.uid},
+                  startDateTime: ${startDateTime.toDateString()} ${startDateTime.toTimeString()},
+                  state: ${sleepState}`);
+                resolve();
+              })
+              .catch((error: firestore.FirestoreError) => {
+                this.loggerService.error(`Couldn't add sleep time to firestore:
+                  error.message: ${error.message ? error.message : error.code}`);
+                reject(error);
+              });
+          } else {
+            this.loggerService.error(`Couldn't add sleep time to firestore:
+              NO_USER_ERROR.message: ${NO_USER_ERROR.message}
+              startDateTime: ${startDateTime.toDateString()} ${startDateTime.toTimeString()},
+              state: ${sleepState}`);
+            reject(NO_USER_ERROR);
+          }
+        });
+    });
   }
 
   deleteSleepTime(sleepTimeId: string): Promise<void> {
     return new Promise((resolve, reject) => {
       this.authService
-      .isSignedIn()
-      .subscribe((currentUser: User) => {
-        if (currentUser) {
-          this.loggerService.log(`Delete sleep time from firestore:
+        .getCurrentUser()
+        .subscribe((currentUser: User) => {
+          if (currentUser) {
+            this.loggerService.log(`Delete sleep time from firestore:
             currentUser.uid: ${currentUser.uid}
             sleepTimeId: ${sleepTimeId}`);
 
-          this.angularFirestore
-            .doc<SleepTime>(`accounts/${currentUser.uid}/sleepTimes/${sleepTimeId}`)
-            .delete()
-            .then((result: void) => {
-              resolve();
-            })
-            .catch((error: firestore.FirestoreError) => {
-              this.loggerService.error(`Couldn't delete sleep time from firestore:
+            this.angularFirestore
+              .doc<SleepTime>(`accounts/${currentUser.uid}/sleepTimes/${sleepTimeId}`)
+              .delete()
+              .then((result: void) => {
+                resolve();
+              })
+              .catch((error: firestore.FirestoreError) => {
+                this.loggerService.error(`Couldn't delete sleep time from firestore:
                 error.message: ${error.message ? error.message : error.code}`);
-              reject(error);
-            });
-        } else {
-          this.loggerService.warn(`No current user. Couldn't delete sleep time from firestore:
-            sleepTimeId: ${sleepTimeId}`);
-          reject(`No current user`);
-        }
-      });
+                reject(error);
+              });
+          } else {
+            this.loggerService.error(`Couldn't delete sleep time from firestore:
+              NO_USER_ERROR.message: ${NO_USER_ERROR.message}
+              sleepTimeId: ${sleepTimeId}`);
+            reject(NO_USER_ERROR);
+          }
+        });
     });
   }
 
   deleteAllSleepTimes(): Promise<void> {
     return new Promise((resolve, reject) => {
-    this.authService
-      .isSignedIn()
-      .subscribe((currentUser: User) => {
-        if (currentUser) {
-          this.loggerService.log(`Deleting sleep times from firestore:
+      this.authService
+        .getCurrentUser()
+        .subscribe((currentUser: User) => {
+          if (currentUser) {
+            this.loggerService.log(`Deleting sleep times from firestore:
             currentUser.uid: ${currentUser.uid}`);
 
-          this.angularFirestore
-            .collection<SleepTime>(`accounts/${currentUser.uid}/sleepTimes`)
-            .valueChanges()
-            .pipe(first())
-            .subscribe((sleepTimes: SleepTime[]) => {
-              sleepTimes.forEach((sleepTime: SleepTime) => {
-                this.deleteSleepTime(String(sleepTime.startTimestamp))
-                  .catch(error => {
-                    reject(error);
-                  });
+            this.angularFirestore
+              .collection<SleepTime>(`accounts/${currentUser.uid}/sleepTimes`)
+              .valueChanges()
+              .pipe(first())
+              .subscribe((sleepTimes: SleepTime[]) => {
+                sleepTimes.forEach((sleepTime: SleepTime) => {
+                  this.deleteSleepTime(String(sleepTime.startTimestamp))
+                    .catch(error => {
+                      reject(error);
+                    });
+                });
+                if (sleepTimes.length === 0) {
+                  resolve();
+                }
               });
-              if (sleepTimes.length === 0) {
-                resolve();
-              }
-            });
-        } else {
-          this.loggerService.warn(`No current user. Couldn't delete all sleep times from firestore`);
-          reject('No current user');
-        }
-      });
+          } else {
+            this.loggerService.error(`Couldn't delete all sleep times from firestore`);
+            reject(NO_USER_ERROR);
+          }
+        });
     });
   }
 
@@ -116,7 +130,7 @@ export class SleepTimeService {
 
   getSleepTimes(): Observable<SleepTime[]> {
     return this.authService
-      .isSignedIn()
+      .getCurrentUser()
       .pipe(
         flatMap((currentUser: User) => {
           if (currentUser) {
@@ -134,11 +148,12 @@ export class SleepTimeService {
                 })
               );
           } else {
-            this.loggerService.warn(`No current user. Couldn't get sleep times from firestore`);
+            this.loggerService.error(`Couldn't get sleep times from firestore:
+              NO_USER_ERROR.message: ${NO_USER_ERROR.message}`);
           }
         }),
         catchError((error: firestore.FirestoreError) => {
-          this.loggerService.error(`No current user. Couldn't get sleep times from firestore:
+          this.loggerService.error(`Couldn't get sleep times from firestore:
             error.message: ${error.message ? error.message : error.code}`);
           return of([]);
         }),
