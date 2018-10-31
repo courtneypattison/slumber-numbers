@@ -19,6 +19,7 @@ describe('SleepTimeService', () => {
   let docSpy: jasmine.SpyObj<firestore.DocumentReference>;
   let dummyDate: Date;
   let dummySleepState: SleepState;
+  let dummySleepTimeId: string;
   let mockLoggerService: LoggerService;
   let sleepTimeService: SleepTimeService;
 
@@ -38,9 +39,10 @@ describe('SleepTimeService', () => {
     angularFirestoreSpy = TestBed.get(AngularFirestore);
     authServiceSpy = TestBed.get(AuthService);
     collectionSpy = jasmine.createSpyObj('collection', ['doc']);
-    docSpy = jasmine.createSpyObj('doc', ['set']);
+    docSpy = jasmine.createSpyObj('doc', ['delete', 'set']);
     dummyDate = new Date(0, 0);
     dummySleepState = SleepState.Asleep;
+    dummySleepTimeId = 'dummySleepTimeId';
     mockLoggerService = TestBed.get(LoggerService);
     sleepTimeService = TestBed.get(SleepTimeService);
   });
@@ -94,7 +96,7 @@ describe('SleepTimeService', () => {
       collectionSpy.doc.and.returnValue(docSpy);
       angularFirestoreSpy.collection.and.returnValue(collectionSpy);
       spyOn(mockLoggerService, 'error');
-      sleepTimeService.addSleepTime(dummyDate, dummySleepState).then().catch((error) => {
+      sleepTimeService.addSleepTime(dummyDate, dummySleepState).then().catch((error: firestore.FirestoreError) => {
         expect(mockLoggerService.error).toHaveBeenCalledWith(jasmine.stringMatching(errorMessage));
         done();
       });
@@ -122,6 +124,76 @@ describe('SleepTimeService', () => {
           startTimestamp: firestore.Timestamp.fromDate(dummyDate),
           sleepState: dummySleepState
         });
+        done();
+      });
+    });
+  });
+
+  describe('#deleteSleepTime', () => {
+    it('should return a Promise containing void', (done: DoneFn) => {
+      authServiceSpy.getCurrentUser.and.returnValue(of(StubFirebaseUser));
+      docSpy.delete.and.returnValue(new Promise((resolve) => resolve()));
+      angularFirestoreSpy.doc.and.returnValue(docSpy);
+      sleepTimeService.deleteSleepTime(dummySleepTimeId).then((result: void) => {
+        expect(result).toBeUndefined();
+        done();
+      });
+    });
+
+    it('should throw a no user error', (done: DoneFn) => {
+      authServiceSpy.getCurrentUser.and.returnValue(of(null));
+      docSpy.delete.and.returnValue(new Promise((resolve) => resolve()));
+      angularFirestoreSpy.doc.and.returnValue(docSpy);
+      sleepTimeService.deleteSleepTime(dummySleepTimeId).then().catch((error) => {
+        expect(error).toBe(NO_USER_ERROR);
+        done();
+      });
+    });
+
+    it('should log a no user error', (done: DoneFn) => {
+      authServiceSpy.getCurrentUser.and.returnValue(of(null));
+      docSpy.delete.and.returnValue(new Promise((resolve) => resolve()));
+      angularFirestoreSpy.doc.and.returnValue(docSpy);
+      spyOn(mockLoggerService, 'error');
+      sleepTimeService.deleteSleepTime(dummySleepTimeId).then().catch((error) => {
+        expect(mockLoggerService.error).toHaveBeenCalledWith(jasmine.stringMatching(/NO_USER_ERROR/));
+        done();
+      });
+    });
+
+    it('should log a firestore error', (done: DoneFn) => {
+      authServiceSpy.getCurrentUser.and.returnValue(of(StubFirebaseUser));
+      const errorMessage = 'The caller does not have permission to execute the specified operation.';
+      docSpy.delete.and.returnValue(new Promise((resolve, reject) => reject({
+        code: 'permission-denied',
+        message: errorMessage
+      })));
+      angularFirestoreSpy.doc.and.returnValue(docSpy);
+      spyOn(mockLoggerService, 'error');
+      sleepTimeService.deleteSleepTime(dummySleepTimeId).then().catch((error: firestore.FirestoreError) => {
+        expect(mockLoggerService.error).toHaveBeenCalledWith(jasmine.stringMatching(errorMessage));
+        done();
+      });
+    });
+
+    it('should log deleted sleep', (done: DoneFn) => {
+      authServiceSpy.getCurrentUser.and.returnValue(of(StubFirebaseUser));
+      docSpy.delete.and.returnValue(new Promise((resolve) => resolve()));
+      angularFirestoreSpy.doc.and.returnValue(docSpy);
+      spyOn(mockLoggerService, 'log');
+      sleepTimeService.deleteSleepTime(dummySleepTimeId).then(() => {
+        expect(mockLoggerService.log).toHaveBeenCalledWith(jasmine.stringMatching('Deleted'));
+        done();
+      });
+    });
+
+    it('should delete a sleep time from firestore', (done: DoneFn) => {
+      authServiceSpy.getCurrentUser.and.returnValue(of(StubFirebaseUser));
+      docSpy.delete.and.returnValue(new Promise((resolve) => resolve()));
+      angularFirestoreSpy.doc.and.returnValue(docSpy);
+      sleepTimeService.deleteSleepTime(dummySleepTimeId).then((result: void) => {
+        expect(angularFirestoreSpy.doc).toHaveBeenCalledWith(jasmine.stringMatching(dummySleepTimeId));
+        expect(docSpy.delete).toHaveBeenCalled();
         done();
       });
     });
