@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { firestore, User } from 'firebase/app';
 import { Observable, of } from 'rxjs';
-import { first, flatMap, catchError } from 'rxjs/operators';
+import { catchError, first, flatMap, tap } from 'rxjs/operators';
 
 import { AuthService } from '../../auth/shared/auth.service';
 import { LoggerService } from '../../core/logger.service';
@@ -24,38 +24,43 @@ export class SleepTimeService {
 
   constructor(private angularFirestore: AngularFirestore, public authService: AuthService, private loggerService: LoggerService) { }
 
+  private getSleepTimesPath(uid: string): string {
+    return `accounts/${uid}/sleepTimes`;
+  }
+
   addSleepTime(startDateTime: Date, sleepState: SleepState): Promise<void> {
+    this.loggerService.log(`addSleepTime(startDateTime: ${startDateTime}, sleepState: ${sleepState})`);
+
     return new Promise((resolve, reject) => {
       this.authService
         .getCurrentUser()
         .subscribe((currentUser: User) => {
           if (currentUser) {
             const startTimestamp = firestore.Timestamp.fromDate(startDateTime);
+            const sleepTimesPath = this.getSleepTimesPath(currentUser.uid);
+            const sleepTimeDoc = { startTimestamp: startTimestamp, sleepState: sleepState };
 
             this.angularFirestore
-              .collection<SleepTime>(`accounts/${currentUser.uid}/sleepTimes`)
+              .collection<SleepTime>(sleepTimesPath)
               .doc(String(startTimestamp))
-              .set({
-                startTimestamp: firestore.Timestamp.fromDate(startDateTime),
-                sleepState: sleepState
-              })
-              .then((result: void) => {
-                this.loggerService.log(`addSleepTime sleep to firestore:
-                  currentUser.uid: ${currentUser.uid},
-                  startDateTime: ${startDateTime.toDateString()} ${startDateTime.toTimeString()},
-                  state: ${sleepState}`);
+              .set(sleepTimeDoc)
+              .then(() => {
+                this.loggerService.log(`Added sleep time to firestore:
+                  sleepTimesPath: ${sleepTimesPath},
+                  sleepTimeDoc: ${JSON.stringify(sleepTimeDoc)}`);
+
                 resolve();
               })
               .catch((error: firestore.FirestoreError) => {
                 this.loggerService.error(`Couldn't add sleep time to firestore:
                   error.message: ${error.message ? error.message : error.code}`);
+
                 reject(error);
               });
           } else {
             this.loggerService.error(`Couldn't add sleep time to firestore:
-              NO_USER_ERROR.message: ${NO_USER_ERROR.message}
-              startDateTime: ${startDateTime.toDateString()} ${startDateTime.toTimeString()},
-              state: ${sleepState}`);
+              NO_USER_ERROR.message: ${NO_USER_ERROR.message}`);
+
             reject(NO_USER_ERROR);
           }
         });
@@ -63,30 +68,34 @@ export class SleepTimeService {
   }
 
   deleteSleepTime(sleepTimeId: string): Promise<void> {
+    this.loggerService.log(`deleteSleepTime(sleepTimeId: ${sleepTimeId})`);
+
     return new Promise((resolve, reject) => {
       this.authService
         .getCurrentUser()
         .subscribe((currentUser: User) => {
           if (currentUser) {
-            this.loggerService.log(`Delete sleep time from firestore:
-            currentUser.uid: ${currentUser.uid}
-            sleepTimeId: ${sleepTimeId}`);
+            const docPath = `${this.getSleepTimesPath(currentUser.uid)}/${sleepTimeId}`;
 
             this.angularFirestore
-              .doc<SleepTime>(`accounts/${currentUser.uid}/sleepTimes/${sleepTimeId}`)
+              .doc<SleepTime>(docPath)
               .delete()
-              .then((result: void) => {
+              .then(() => {
+                this.loggerService.log(`Deleted sleep time from firestore:
+                  docPath: ${docPath}`);
+
                 resolve();
               })
               .catch((error: firestore.FirestoreError) => {
                 this.loggerService.error(`Couldn't delete sleep time from firestore:
-                error.message: ${error.message ? error.message : error.code}`);
+                  error.message: ${error.message ? error.message : error.code}`);
+
                 reject(error);
               });
           } else {
             this.loggerService.error(`Couldn't delete sleep time from firestore:
-              NO_USER_ERROR.message: ${NO_USER_ERROR.message}
-              sleepTimeId: ${sleepTimeId}`);
+              NO_USER_ERROR.message: ${NO_USER_ERROR.message}`);
+
             reject(NO_USER_ERROR);
           }
         });
@@ -94,31 +103,38 @@ export class SleepTimeService {
   }
 
   deleteAllSleepTimes(): Promise<void> {
+    this.loggerService.log(`deleteAllSleepTimes()`);
+
     return new Promise((resolve, reject) => {
       this.authService
         .getCurrentUser()
         .subscribe((currentUser: User) => {
           if (currentUser) {
-            this.loggerService.log(`Deleting sleep times from firestore:
-            currentUser.uid: ${currentUser.uid}`);
+            const sleepTimesPath = this.getSleepTimesPath(currentUser.uid);
 
             this.angularFirestore
-              .collection<SleepTime>(`accounts/${currentUser.uid}/sleepTimes`)
+              .collection<SleepTime>(sleepTimesPath)
               .valueChanges()
               .pipe(first())
               .subscribe((sleepTimes: SleepTime[]) => {
                 sleepTimes.forEach((sleepTime: SleepTime) => {
                   this.deleteSleepTime(String(sleepTime.startTimestamp))
-                    .catch(error => {
+                    .then(() => {
+                      if (sleepTimes.length === 0) {
+                        this.loggerService.log(`Deleted sleep times from firestore:
+                          sleepTimesPath: ${sleepTimesPath}`);
+                        resolve();
+                      }
+                    })
+                    .catch((error) => {
                       reject(error);
                     });
                 });
-                if (sleepTimes.length === 0) {
-                  resolve();
-                }
               });
           } else {
-            this.loggerService.error(`Couldn't delete all sleep times from firestore`);
+            this.loggerService.error(`Couldn't delete all sleep times from firestore
+              NO_USER_ERROR.message: ${NO_USER_ERROR.message}`);
+
             reject(NO_USER_ERROR);
           }
         });
@@ -129,18 +145,22 @@ export class SleepTimeService {
   }
 
   getSleepTimes(): Observable<SleepTime[]> {
+    this.loggerService.log('getSleepTimes()');
     return this.authService
       .getCurrentUser()
       .pipe(
         flatMap((currentUser: User) => {
           if (currentUser) {
-            this.loggerService.log(`Get sleep times from firestore:
-              currentUser.uid: ${currentUser.uid}`);
+            const sleepTimesPath = this.getSleepTimesPath(currentUser.uid);
 
             return this.angularFirestore
-              .collection<SleepTime>(`accounts/${currentUser.uid}/sleepTimes`, ref => ref.orderBy('startTimestamp'))
+              .collection<SleepTime>(sleepTimesPath, ref => ref.orderBy('startTimestamp'))
               .valueChanges()
               .pipe(
+                tap(() => {
+                  this.loggerService.log(`Got sleep times from firestore:
+                    sleepTimesPath: ${sleepTimesPath}`);
+                }),
                 catchError((error: firestore.FirestoreError) => {
                   this.loggerService.error(`Couldn't get sleep times from firestore:
                     error.message: ${error.message ? error.message : error.code}`);
@@ -161,11 +181,12 @@ export class SleepTimeService {
   }
 
   getSleepChartRows(sleepTimes: SleepTime[]): SleepTimeChartRow[] {
-    this.loggerService.log('Get sleep chart rows');
+    this.loggerService.log('getSleepChartRows(sleepTimes)');
 
     const sleepChartRows: SleepTimeChartRow[] = [];
     const endTimeIndex = 3;
     const datePipe = new DatePipe(navigator.language);
+
     for (let i = 0, j = 0; i < sleepTimes.length; i++ , j++) {
       const currStartDateTime = sleepTimes[i].startTimestamp.toDate();
       const currStartTime = new Date(0, 0, 0, currStartDateTime.getHours(), currStartDateTime.getMinutes());
