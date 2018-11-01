@@ -27,7 +27,7 @@ export class AuthGuardService implements CanActivate {
     const signInUrl = 'signin';
     const signUpUrl = 'signup';
 
-    return this.authService.getCurrentUser()
+    return this.authService.getCurrentUserState()
       .pipe(
         map((currentUser: firebase.User) => {
           if (currentUser) { // User signed in

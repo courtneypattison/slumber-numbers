@@ -12,6 +12,22 @@ export class MockLoggerService {
     this.output.log.push([value, ...rest]);
   }
 
+  logPromise(resolveMessage: string, rejectMessage: string, promise: Promise<any>): Promise<any> {
+    return new Promise((resolve, reject) => {
+        promise.then((result) => {
+          this.log(`${resolveMessage}:
+            result: ${result}`);
+
+          resolve(result);
+        }).catch((error) => {
+          this.log(`${rejectMessage}:
+            error: ${error}`);
+
+          reject(error);
+        });
+    });
+  }
+
   error(value: any, ...rest) {
     this.output.error.push([value, ...rest]);
   }

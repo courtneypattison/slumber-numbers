@@ -1,23 +1,24 @@
 import { TestBed, inject } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { AngularFirestore } from 'angularfire2/firestore';
+import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
 import { firestore } from 'firebase/app';
 import { of } from 'rxjs';
 
-import { AuthService } from '../../auth/shared/auth.service';
+import { AuthService, NO_USER_ERROR } from '../../auth/shared/auth.service';
 import { LoggerService } from '../../core/logger.service';
 import { SleepState } from './sleep-state.model';
-import { SleepTimeService, NO_USER_ERROR } from './sleep-time.service';
+import { SleepTimeService } from './sleep-time.service';
 import { StubFirebaseUser } from '../../../testing/stub-firebase-user';
 import { MockLoggerService } from '../../../testing/mock-logger.service';
 
 describe('SleepTimeService', () => {
   let angularFirestoreSpy: jasmine.SpyObj<AngularFirestore>;
   let authServiceSpy: jasmine.SpyObj<AuthService>;
-  let collectionSpy: jasmine.SpyObj<firestore.CollectionReference>;
-  let docSpy: jasmine.SpyObj<firestore.DocumentReference>;
+  let collectionSpy: jasmine.SpyObj<AngularFirestoreCollection>;
+  let docSpy: jasmine.SpyObj<AngularFirestoreDocument>;
   let dummyDate: Date;
+  let dummyFirestoreError: firestore.FirestoreError;
   let dummySleepState: SleepState;
   let dummySleepTimeId: string;
   let mockLoggerService: LoggerService;
@@ -38,8 +39,9 @@ describe('SleepTimeService', () => {
 
     angularFirestoreSpy = TestBed.get(AngularFirestore);
     authServiceSpy = TestBed.get(AuthService);
-    collectionSpy = jasmine.createSpyObj('collection', ['doc']);
+    collectionSpy = jasmine.createSpyObj('collection', ['doc', 'valueChanges']);
     docSpy = jasmine.createSpyObj('doc', ['delete', 'set']);
+    dummyFirestoreError = { code: 'permission-denied', name: 'Permission denied', message: 'The caller does not have permission.' };
     dummyDate = new Date(0, 0);
     dummySleepState = SleepState.Asleep;
     dummySleepTimeId = 'dummySleepTimeId';
@@ -51,75 +53,50 @@ describe('SleepTimeService', () => {
     expect(service).toBeTruthy();
   }));
 
-  describe('#addSleepTime', () => {
+  describe('#setSleepTime', () => {
     it('should return a Promise containing void', (done: DoneFn) => {
-      authServiceSpy.getCurrentUser.and.returnValue(of(StubFirebaseUser));
+      authServiceSpy.getCurrentUser.and.returnValue(new Promise((resolve) => resolve(StubFirebaseUser)));
       docSpy.set.and.returnValue(new Promise((resolve) => resolve()));
       collectionSpy.doc.and.returnValue(docSpy);
       angularFirestoreSpy.collection.and.returnValue(collectionSpy);
-      sleepTimeService.addSleepTime(dummyDate, dummySleepState).then((result: void) => {
+
+      sleepTimeService.setSleepTime(dummyDate, dummySleepState).then((result: void) => {
         expect(result).toBeUndefined();
         done();
       });
     });
 
     it('should throw a no user error', (done: DoneFn) => {
-      authServiceSpy.getCurrentUser.and.returnValue(of(null));
+      authServiceSpy.getCurrentUser.and.returnValue(new Promise((resolve, reject) => reject(NO_USER_ERROR)));
       docSpy.set.and.returnValue(new Promise((resolve) => resolve()));
       collectionSpy.doc.and.returnValue(docSpy);
       angularFirestoreSpy.collection.and.returnValue(collectionSpy);
-      sleepTimeService.addSleepTime(dummyDate, dummySleepState).then().catch((error) => {
+
+      sleepTimeService.setSleepTime(dummyDate, dummySleepState).then().catch((error) => {
         expect(error).toBe(NO_USER_ERROR);
         done();
       });
     });
 
-    it('should log a no user error', (done: DoneFn) => {
-      authServiceSpy.getCurrentUser.and.returnValue(of(null));
-      docSpy.set.and.returnValue(new Promise((resolve) => resolve()));
+    it('should throw a firestore error', (done: DoneFn) => {
+      authServiceSpy.getCurrentUser.and.returnValue(new Promise((resolve) => resolve(StubFirebaseUser)));
+      docSpy.set.and.returnValue(new Promise((resolve, reject) => reject(dummyFirestoreError)));
       collectionSpy.doc.and.returnValue(docSpy);
       angularFirestoreSpy.collection.and.returnValue(collectionSpy);
-      spyOn(mockLoggerService, 'error');
-      sleepTimeService.addSleepTime(dummyDate, dummySleepState).then().catch((error) => {
-        expect(mockLoggerService.error).toHaveBeenCalledWith(jasmine.stringMatching(/NO_USER_ERROR/));
-        done();
-      });
-    });
 
-    it('should log a firestore error', (done: DoneFn) => {
-      authServiceSpy.getCurrentUser.and.returnValue(of(StubFirebaseUser));
-      const errorMessage = 'Some document that we attempted to create already exists.';
-      docSpy.set.and.returnValue(new Promise((resolve, reject) => reject({
-        code: 'already-exists',
-        message: errorMessage
-      })));
-      collectionSpy.doc.and.returnValue(docSpy);
-      angularFirestoreSpy.collection.and.returnValue(collectionSpy);
-      spyOn(mockLoggerService, 'error');
-      sleepTimeService.addSleepTime(dummyDate, dummySleepState).then().catch((error: firestore.FirestoreError) => {
-        expect(mockLoggerService.error).toHaveBeenCalledWith(jasmine.stringMatching(errorMessage));
-        done();
-      });
-    });
-
-    it('should log set sleep state', (done: DoneFn) => {
-      authServiceSpy.getCurrentUser.and.returnValue(of(StubFirebaseUser));
-      docSpy.set.and.returnValue(new Promise((resolve) => resolve()));
-      collectionSpy.doc.and.returnValue(docSpy);
-      angularFirestoreSpy.collection.and.returnValue(collectionSpy);
-      spyOn(mockLoggerService, 'log');
-      sleepTimeService.addSleepTime(dummyDate, dummySleepState).then(() => {
-        expect(mockLoggerService.log).toHaveBeenCalledWith(jasmine.stringMatching(dummySleepState));
+      sleepTimeService.setSleepTime(dummyDate, dummySleepState).then().catch((error: firestore.FirestoreError) => {
+        expect(error).toBe(dummyFirestoreError);
         done();
       });
     });
 
     it('should set a sleep time in firestore', (done: DoneFn) => {
-      authServiceSpy.getCurrentUser.and.returnValue(of(StubFirebaseUser));
+      authServiceSpy.getCurrentUser.and.returnValue(new Promise((resolve) => resolve(StubFirebaseUser)));
       docSpy.set.and.returnValue(new Promise((resolve) => resolve()));
       collectionSpy.doc.and.returnValue(docSpy);
       angularFirestoreSpy.collection.and.returnValue(collectionSpy);
-      sleepTimeService.addSleepTime(dummyDate, dummySleepState).then((result: void) => {
+
+      sleepTimeService.setSleepTime(dummyDate, dummySleepState).then((result: void) => {
         expect(docSpy.set).toHaveBeenCalledWith({
           startTimestamp: firestore.Timestamp.fromDate(dummyDate),
           sleepState: dummySleepState
@@ -131,9 +108,10 @@ describe('SleepTimeService', () => {
 
   describe('#deleteSleepTime', () => {
     it('should return a Promise containing void', (done: DoneFn) => {
-      authServiceSpy.getCurrentUser.and.returnValue(of(StubFirebaseUser));
+      authServiceSpy.getCurrentUser.and.returnValue(new Promise((resolve) => resolve(StubFirebaseUser)));
       docSpy.delete.and.returnValue(new Promise((resolve) => resolve()));
       angularFirestoreSpy.doc.and.returnValue(docSpy);
+
       sleepTimeService.deleteSleepTime(dummySleepTimeId).then((result: void) => {
         expect(result).toBeUndefined();
         done();
@@ -141,61 +119,41 @@ describe('SleepTimeService', () => {
     });
 
     it('should throw a no user error', (done: DoneFn) => {
-      authServiceSpy.getCurrentUser.and.returnValue(of(null));
+      authServiceSpy.getCurrentUser.and.returnValue(new Promise((resolve, reject) => reject(NO_USER_ERROR)));
       docSpy.delete.and.returnValue(new Promise((resolve) => resolve()));
       angularFirestoreSpy.doc.and.returnValue(docSpy);
+
       sleepTimeService.deleteSleepTime(dummySleepTimeId).then().catch((error) => {
         expect(error).toBe(NO_USER_ERROR);
         done();
       });
     });
 
-    it('should log a no user error', (done: DoneFn) => {
-      authServiceSpy.getCurrentUser.and.returnValue(of(null));
-      docSpy.delete.and.returnValue(new Promise((resolve) => resolve()));
+    it('should throw a firestore error', (done: DoneFn) => {
+      authServiceSpy.getCurrentUser.and.returnValue(new Promise((resolve) => resolve(StubFirebaseUser)));
+      docSpy.delete.and.returnValue(new Promise((resolve, reject) => reject(dummyFirestoreError)));
       angularFirestoreSpy.doc.and.returnValue(docSpy);
-      spyOn(mockLoggerService, 'error');
-      sleepTimeService.deleteSleepTime(dummySleepTimeId).then().catch((error) => {
-        expect(mockLoggerService.error).toHaveBeenCalledWith(jasmine.stringMatching(/NO_USER_ERROR/));
-        done();
-      });
-    });
 
-    it('should log a firestore error', (done: DoneFn) => {
-      authServiceSpy.getCurrentUser.and.returnValue(of(StubFirebaseUser));
-      const errorMessage = 'The caller does not have permission to execute the specified operation.';
-      docSpy.delete.and.returnValue(new Promise((resolve, reject) => reject({
-        code: 'permission-denied',
-        message: errorMessage
-      })));
-      angularFirestoreSpy.doc.and.returnValue(docSpy);
-      spyOn(mockLoggerService, 'error');
       sleepTimeService.deleteSleepTime(dummySleepTimeId).then().catch((error: firestore.FirestoreError) => {
-        expect(mockLoggerService.error).toHaveBeenCalledWith(jasmine.stringMatching(errorMessage));
-        done();
-      });
-    });
-
-    it('should log deleted sleep', (done: DoneFn) => {
-      authServiceSpy.getCurrentUser.and.returnValue(of(StubFirebaseUser));
-      docSpy.delete.and.returnValue(new Promise((resolve) => resolve()));
-      angularFirestoreSpy.doc.and.returnValue(docSpy);
-      spyOn(mockLoggerService, 'log');
-      sleepTimeService.deleteSleepTime(dummySleepTimeId).then(() => {
-        expect(mockLoggerService.log).toHaveBeenCalledWith(jasmine.stringMatching('Deleted'));
+        expect(error).toEqual(dummyFirestoreError);
         done();
       });
     });
 
     it('should delete a sleep time from firestore', (done: DoneFn) => {
-      authServiceSpy.getCurrentUser.and.returnValue(of(StubFirebaseUser));
+      authServiceSpy.getCurrentUser.and.returnValue(new Promise((resolve) => resolve(StubFirebaseUser)));
       docSpy.delete.and.returnValue(new Promise((resolve) => resolve()));
       angularFirestoreSpy.doc.and.returnValue(docSpy);
-      sleepTimeService.deleteSleepTime(dummySleepTimeId).then((result: void) => {
+
+      sleepTimeService.deleteSleepTime(dummySleepTimeId).then(() => {
         expect(angularFirestoreSpy.doc).toHaveBeenCalledWith(jasmine.stringMatching(dummySleepTimeId));
         expect(docSpy.delete).toHaveBeenCalled();
         done();
       });
     });
+  });
+
+  describe('#deleteAllSleepTimes', () => {
+
   });
 });

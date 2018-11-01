@@ -45,8 +45,8 @@ export class SleepTimeFormComponent implements OnInit {
     return new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate(), this.getStartHours(), this.getStartMinutes());
   }
 
-  onAddSleepTime() {
-    this.sleepService.addSleepTime(this.getStartDateTime(), this.sleepTimeForm.value.sleepState);
+  onsetSleepTime() {
+    this.sleepService.setSleepTime(this.getStartDateTime(), this.sleepTimeForm.value.sleepState);
   }
 
 }

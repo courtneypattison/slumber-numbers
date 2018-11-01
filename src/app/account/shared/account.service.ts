@@ -22,10 +22,9 @@ export class AccountService {
 
   deleteAccount(): Promise<void> {
     return new Promise((resolve, reject) => {
-    this.authService
-      .getCurrentUser()
-      .subscribe((currentUser: User) => {
-        if (currentUser) {
+      this.authService
+        .getCurrentUser()
+        .then((currentUser: User) => {
           // Delete account sleep times
           this.sleepTimeService.deleteAllSleepTimes()
             .then(() => {
@@ -60,8 +59,7 @@ export class AccountService {
                     ${error.message ? error.message : error.code}`);
                 });
             });
-        }
-      });
+        });
     });
   }
 }
