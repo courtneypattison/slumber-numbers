@@ -38,7 +38,6 @@ export class SleepTimeChartComponent implements OnInit, OnDestroy {
   }
 
   drawChart(): void {
-    // this.sleepService.addTestSleep();
     this.sleepTimeService.getSleepTimes()
       .pipe(untilDestroyed(this))
       .subscribe((sleepTimes: SleepTime[]) => {
