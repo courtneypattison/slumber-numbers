@@ -154,6 +154,15 @@ describe('SleepTimeService', () => {
   });
 
   describe('#deleteAllSleepTimes', () => {
+    it('should return a Promise containing void', (done: DoneFn) => {
+      authServiceSpy.getCurrentUser.and.returnValue(new Promise((resolve) => resolve(StubFirebaseUser)));
+      docSpy.delete.and.returnValue(new Promise((resolve) => resolve()));
+      angularFirestoreSpy.doc.and.returnValue(docSpy);
 
+      sleepTimeService.deleteSleepTime(dummySleepTimeId).then((result: void) => {
+        expect(result).toBeUndefined();
+        done();
+      });
+    });
   });
 });
