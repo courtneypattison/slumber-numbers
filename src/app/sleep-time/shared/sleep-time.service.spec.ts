@@ -10,6 +10,8 @@ import { LoggerService } from '../../core/logger.service';
 import { SleepState } from './sleep-state.model';
 import { SleepTimeService } from './sleep-time.service';
 import { StubFirebaseUser } from '../../../testing/stub-firebase-user';
+import { StubSleepChartRows } from '../../../testing/stub-sleep-chart-rows';
+import { StubSleepTimes } from '../../../testing/stub-sleep-times';
 import { MockLoggerService } from '../../../testing/mock-logger.service';
 
 describe('SleepTimeService', () => {
@@ -163,6 +165,17 @@ describe('SleepTimeService', () => {
         expect(result).toBeUndefined();
         done();
       });
+    });
+  });
+
+  describe('#getSleepChartRows', () => {
+    it('should return SleepTimeChartRow[]', () => {
+
+      const sleepChartRows = sleepTimeService.getSleepChartRows(StubSleepTimes);
+      // tslint:disable-next-line:forin
+      for (const i in sleepChartRows) {
+        expect(sleepChartRows[i]).toEqual(StubSleepChartRows[i]);
+      }
     });
   });
 });

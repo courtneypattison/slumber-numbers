@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { firestore, User } from 'firebase/app';
 import { Observable, of } from 'rxjs';
-import { catchError, first, flatMap, tap } from 'rxjs/operators';
+import { catchError, flatMap, tap } from 'rxjs/operators';
 
 import { AuthService } from '../../auth/shared/auth.service';
 import { LoggerService } from '../../core/logger.service';
@@ -93,22 +93,22 @@ export class SleepTimeService {
       .getCurrentUserState()
       .pipe(
         flatMap((currentUser: User) => {
-            const sleepTimesPath = this.getSleepTimesPath(currentUser.uid);
+          const sleepTimesPath = this.getSleepTimesPath(currentUser.uid);
 
-            return this.angularFirestore
-              .collection<SleepTime>(sleepTimesPath, ref => ref.orderBy('startTimestamp'))
-              .valueChanges()
-              .pipe(
-                tap(() => {
-                  this.loggerService.log(`Got sleep times from firestore:
+          return this.angularFirestore
+            .collection<SleepTime>(sleepTimesPath, ref => ref.orderBy('startTimestamp'))
+            .valueChanges()
+            .pipe(
+              tap(() => {
+                this.loggerService.log(`Got sleep times from firestore:
                     sleepTimesPath: ${sleepTimesPath}`);
-                }),
-                catchError((error: firestore.FirestoreError) => {
-                  this.loggerService.error(`Couldn't get sleep times from firestore:
+              }),
+              catchError((error: firestore.FirestoreError) => {
+                this.loggerService.error(`Couldn't get sleep times from firestore:
                     error.message: ${error.message ? error.message : error.code}`);
-                  return of([]);
-                })
-              );
+                return of([]);
+              })
+            );
         }),
         catchError((error) => {
           this.loggerService.error(`Couldn't get sleep times from firestore:
@@ -126,32 +126,38 @@ export class SleepTimeService {
     const datePipe = new DatePipe(navigator.language);
 
     for (let i = 0, j = 0; i < sleepTimes.length; i++ , j++) {
+      const currSleepState = sleepTimes[i].sleepState;
       const currStartDateTime = sleepTimes[i].startTimestamp.toDate();
       const currStartTime = new Date(0, 0, 0, currStartDateTime.getHours(), currStartDateTime.getMinutes());
 
-      if (i > 0) {
-        const prevStartTimestamp = sleepTimes[i - 1].startTimestamp.toDate();
+      if (i > 0 && sleepTimes[i - 1].sleepState !== SleepState.Unknown) {
+        const prevStartTime = sleepTimes[i - 1].startTimestamp.toDate();
+        const prevSleepState = sleepTimes[i - 1].sleepState;
 
-        if (prevStartTimestamp.toDateString() === currStartDateTime.toDateString()) { // Same day
-          sleepChartRows[j - 1][endTimeIndex] = currStartTime;
+        if (prevStartTime.toDateString() === currStartDateTime.toDateString()) { // Same day
+            sleepChartRows[j - 1][endTimeIndex] = currStartTime;
         } else { // New day
-          sleepChartRows[j - 1][endTimeIndex] = new Date(0, 0, 0, 24, 0);
-          sleepChartRows.push([
-            datePipe.transform(currStartDateTime, 'shortDate'),
-            sleepTimes[i - 1].sleepState,
-            new Date(0, 0, 0, 0, 0),
-            currStartTime
-          ]);
-          j++;
+            sleepChartRows[j - 1][endTimeIndex] = new Date(0, 0, 0, 24, 0);
+            sleepChartRows.push([
+              datePipe.transform(currStartDateTime, 'shortDate'),
+              prevSleepState,
+              new Date(0, 0, 0, 0, 0),
+              currStartTime
+            ]);
+            j++;
         }
       }
 
-      sleepChartRows.push([
-        datePipe.transform(currStartDateTime, 'shortDate'),
-        sleepTimes[i].sleepState,
-        currStartTime,
-        new Date(currStartTime.valueOf() + 1000)
-      ]);
+      if (currSleepState === SleepState.Unknown) {
+        j--;
+      } else {
+        sleepChartRows.push([
+          datePipe.transform(currStartDateTime, 'shortDate'),
+          currSleepState,
+          currStartTime,
+          new Date(currStartTime.valueOf() + 1000)
+        ]);
+      }
     }
 
     return sleepChartRows;
