@@ -63,17 +63,17 @@ export class SleepTimeService {
 
     return new Promise((resolve, reject) => {
       this.getSleepTimes().subscribe((sleepTimes: SleepTime[]) => {
-        sleepTimes.forEach((sleepTime: SleepTime) => {
-          this.deleteSleepTime(String(sleepTime.startTimestamp))
+        for (let i = 0; i < sleepTimes.length; i++) {
+          this.deleteSleepTime(String(sleepTimes[i].startTimestamp))
             .then(() => {
-              if (sleepTimes.length === 1) {
+              if (i === sleepTimes.length - 1) {
                 this.loggerService.log(`Deleted all sleep times from firestore`);
 
                 resolve();
               }
             })
             .catch((error) => reject(error));
-        });
+        }
         if (sleepTimes.length === 0) {
           this.loggerService.log(`There are no sleep times to delete from firestore`);
 
@@ -110,9 +110,7 @@ export class SleepTimeService {
               })
             );
         }),
-        catchError((error) => {
-          this.loggerService.error(`Couldn't get sleep times from firestore:
-            error.message: ${error.message ? error.message : error.code}`);
+        catchError(() => {
           return of([]);
         }),
       );
