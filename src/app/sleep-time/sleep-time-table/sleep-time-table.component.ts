@@ -3,8 +3,8 @@ import { MatPaginator, MatTableDataSource } from '@angular/material';
 
 import { untilDestroyed } from 'ngx-take-until-destroy';
 
-import { SleepTime } from '../shared/sleep-time.model';
-import { SleepTimeService } from '../shared/sleep-time.service';
+import { SleepTime } from 'app/sleep-time/shared/sleep-time.model';
+import { SleepTimeService } from 'app/sleep-time/shared/sleep-time.service';
 
 @Component({
   selector: 'sn-sleep-time-table',

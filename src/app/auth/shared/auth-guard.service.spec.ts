@@ -5,11 +5,11 @@ import { AngularFireModule } from 'angularfire2';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 
-import { AuthService } from './auth.service';
-import { AuthGuardService } from './auth-guard.service';
-import { LoggerService } from '../../core/logger.service';
-import { config } from '../../../testing/mock-config';
-import { MockLoggerService } from '../../../testing/mock-logger.service';
+import { AuthService } from 'app/auth/shared/auth.service';
+import { AuthGuardService } from 'app/auth/shared/auth-guard.service';
+import { LoggerService } from 'app/core/logger.service';
+import { config } from 'testing/mock-config';
+import { MockLoggerService } from 'testing/mock-logger.service';
 
 describe('AuthGuardService', () => {
   beforeEach(() => {

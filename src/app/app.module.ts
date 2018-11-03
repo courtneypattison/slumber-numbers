@@ -6,15 +6,15 @@ import { AngularFireModule } from 'angularfire2';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 
-import { AccountRoutingModule } from './account/account-routing.module';
-import { AppComponent } from './app.component';
-import { AppRoutingModule } from './app-routing.module';
-import { AuthRoutingModule } from './auth/auth-routing.module';
-import { CoreModule } from './core/core.module';
-import { environment } from '../environments/environment';
-import { SleepTimeRoutingModule } from './sleep-time/sleep-time-routing.module';
-import { ErrorDialogComponent } from './shared/error-dialog/error-dialog.component';
-import { SharedModule } from './shared/shared.module';
+import { AccountRoutingModule } from 'app/account/account-routing.module';
+import { AppComponent } from 'app/app.component';
+import { AppRoutingModule } from 'app/app-routing.module';
+import { AuthRoutingModule } from 'app/auth/auth-routing.module';
+import { CoreModule } from 'app/core/core.module';
+import { environment } from 'environments/environment';
+import { SleepTimeRoutingModule } from 'app/sleep-time/sleep-time-routing.module';
+import { ErrorDialogComponent } from 'app/shared/error-dialog/error-dialog.component';
+import { SharedModule } from 'app/shared/shared.module';
 
 @NgModule({
   declarations: [

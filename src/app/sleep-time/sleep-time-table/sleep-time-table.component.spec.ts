@@ -8,12 +8,12 @@ import { AngularFireModule } from 'angularfire2';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireAuth } from 'angularfire2/auth';
 
-import { LoggerService } from '../../core/logger.service';
-import { TimestampPipe } from '../../shared/timestamp.pipe';
-import { SleepTimeService } from '../shared/sleep-time.service';
-import { SleepTimeTableComponent } from './sleep-time-table.component';
-import { config } from '../../../testing/mock-config';
-import { MockLoggerService } from '../../../testing/mock-logger.service';
+import { LoggerService } from 'app/core/logger.service';
+import { TimestampPipe } from 'app/shared/timestamp.pipe';
+import { SleepTimeService } from 'app/sleep-time/shared/sleep-time.service';
+import { SleepTimeTableComponent } from 'app/sleep-time/sleep-time-table/sleep-time-table.component';
+import { config } from 'testing/mock-config';
+import { MockLoggerService } from 'testing/mock-logger.service';
 
 describe('SleepTimeTableComponent', () => {
   let component: SleepTimeTableComponent;

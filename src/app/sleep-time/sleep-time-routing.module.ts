@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import { AuthGuardService } from '../auth/shared/auth-guard.service';
-import { SleepTimeComponent } from './sleep-time.component';
+import { AuthGuardService } from 'app/auth/shared/auth-guard.service';
+import { SleepTimeComponent } from 'app/sleep-time/sleep-time.component';
 
 const sleepTimeRoutes = [
     { path: 'dashboard', component: SleepTimeComponent, canActivate: [AuthGuardService]}

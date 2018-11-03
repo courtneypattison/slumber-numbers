@@ -7,8 +7,8 @@ import * as firebase from 'firebase/app';
 import { Observable, throwError } from 'rxjs';
 import { catchError, first, map } from 'rxjs/operators';
 
-import { LoggerService } from '../../core/logger.service';
-import { Account } from '../../account/shared/account.model';
+import { LoggerService } from 'app/core/logger.service';
+import { Account } from 'app/account/shared/account.model';
 
 export const NO_USER_ERROR = {
   code: 'no-user-signed-in',

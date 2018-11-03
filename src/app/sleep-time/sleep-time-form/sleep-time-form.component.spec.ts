@@ -13,11 +13,11 @@ import { AngularFireModule } from 'angularfire2';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireAuth } from 'angularfire2/auth';
 
-import { LoggerService } from '../../core/logger.service';
-import { config } from '../../../testing/mock-config';
-import { SleepTimeFormComponent } from './sleep-time-form.component';
-import { SleepTimeService } from '../shared/sleep-time.service';
-import { MockLoggerService } from '../../../testing/mock-logger.service';
+import { LoggerService } from 'app/core/logger.service';
+import { config } from 'testing/mock-config';
+import { SleepTimeFormComponent } from 'app/sleep-time/sleep-time-form/sleep-time-form.component';
+import { SleepTimeService } from 'app/sleep-time/shared/sleep-time.service';
+import { MockLoggerService } from 'testing/mock-logger.service';
 
 describe('SleepTimeFormComponent', () => {
   let component: SleepTimeFormComponent;

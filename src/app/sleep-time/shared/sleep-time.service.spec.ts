@@ -5,15 +5,15 @@ import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument 
 import { firestore } from 'firebase/app';
 import { of, throwError } from 'rxjs';
 
-import { AuthService, NO_USER_ERROR } from '../../auth/shared/auth.service';
-import { LoggerService } from '../../core/logger.service';
-import { SleepState } from './sleep-state.model';
-import { SleepTime } from './sleep-time.model';
-import { SleepTimeService } from './sleep-time.service';
-import { StubFirebaseUser } from '../../../testing/stub-firebase-user';
-import { StubSleepChartRows } from '../../../testing/stub-sleep-chart-rows';
-import { StubSleepTimes } from '../../../testing/stub-sleep-times';
-import { MockLoggerService } from '../../../testing/mock-logger.service';
+import { AuthService, NO_USER_ERROR } from 'app/auth/shared/auth.service';
+import { LoggerService } from 'app/core/logger.service';
+import { SleepState } from 'app/sleep-time/shared/sleep-state.model';
+import { SleepTime } from 'app/sleep-time/shared/sleep-time.model';
+import { SleepTimeService } from 'app/sleep-time/shared/sleep-time.service';
+import { MockLoggerService } from 'testing/mock-logger.service';
+import { StubFirebaseUser } from 'testing/stub-firebase-user';
+import { StubSleepChartRows } from 'testing/stub-sleep-chart-rows';
+import { StubSleepTimes } from 'testing/stub-sleep-times';
 
 describe('SleepTimeService', () => {
   let angularFirestoreSpy: jasmine.SpyObj<AngularFirestore>;

@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { Router } from '@angular/router';
 
-import { AccountService } from '../shared/account.service';
-import { AuthService } from '../../auth/shared/auth.service';
-import { ErrorDialogComponent } from '../../shared/error-dialog/error-dialog.component';
+import { AccountService } from 'app/account/shared/account.service';
+import { AuthService } from 'app/auth/shared/auth.service';
+import { ErrorDialogComponent } from 'app/shared/error-dialog/error-dialog.component';
 
 @Component({
   selector: 'sn-account-delete',

@@ -1,4 +1,4 @@
-import { SleepTimeModule } from './sleep-time.module';
+import { SleepTimeModule } from 'app/sleep-time/sleep-time.module';
 
 describe('SleepTimeModule', () => {
   let sleepModule: SleepTimeModule;

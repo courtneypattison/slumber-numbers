@@ -4,8 +4,8 @@ import { Router } from '@angular/router';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { User, firestore } from 'firebase/app';
 
-import { AuthService } from '../../auth/shared/auth.service';
-import { LoggerService } from '../../core/logger.service';
+import { AuthService } from 'app/auth/shared/auth.service';
+import { LoggerService } from 'app/core/logger.service';
 import { SleepTimeService } from '../../sleep-time/shared/sleep-time.service';
 
 @Injectable({

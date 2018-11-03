@@ -12,13 +12,13 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { SharedModule } from '../shared/shared.module';
-import { SleepTimeChartComponent } from './sleep-time-chart/sleep-time-chart.component';
-import { SleepTimeComponent } from './sleep-time.component';
-import { SleepTimeFormComponent } from './sleep-time-form/sleep-time-form.component';
-import { SleepTimeService } from './shared/sleep-time.service';
-import { SleepTimeTableComponent } from './sleep-time-table/sleep-time-table.component';
-import { SleepTimeRoutingModule } from './sleep-time-routing.module';
+import { SharedModule } from 'app/shared/shared.module';
+import { SleepTimeChartComponent } from 'app/sleep-time/sleep-time-chart/sleep-time-chart.component';
+import { SleepTimeComponent } from 'app/sleep-time/sleep-time.component';
+import { SleepTimeFormComponent } from 'app/sleep-time/sleep-time-form/sleep-time-form.component';
+import { SleepTimeService } from 'app/sleep-time/shared/sleep-time.service';
+import { SleepTimeTableComponent } from 'app/sleep-time/sleep-time-table/sleep-time-table.component';
+import { SleepTimeRoutingModule } from 'app/sleep-time/sleep-time-routing.module';
 
 @NgModule({
   imports: [

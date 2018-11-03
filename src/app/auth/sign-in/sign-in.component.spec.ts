@@ -5,10 +5,10 @@ import { AngularFireModule } from 'angularfire2';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 
-import { LoggerService } from '../../core/logger.service';
-import { SignInComponent } from './sign-in.component';
-import { config } from '../../../testing/mock-config';
-import { MockLoggerService } from '../../../testing/mock-logger.service';
+import { LoggerService } from 'app/core/logger.service';
+import { SignInComponent } from 'app/auth/sign-in/sign-in.component';
+import { config } from 'testing/mock-config';
+import { MockLoggerService } from 'testing/mock-logger.service';
 
 describe('SignInComponent', () => {
   let component: SignInComponent;

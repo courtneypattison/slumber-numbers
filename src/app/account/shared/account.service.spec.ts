@@ -6,9 +6,9 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 
 import { AccountService } from './account.service';
-import { LoggerService } from '../../core/logger.service';
-import { config } from '../../../testing/mock-config';
-import { MockLoggerService } from '../../../testing/mock-logger.service';
+import { LoggerService } from 'app/core/logger.service';
+import { config } from 'testing/mock-config';
+import { MockLoggerService } from 'testing/mock-logger.service';
 
 describe('AccountService', () => {
   beforeEach(() => {

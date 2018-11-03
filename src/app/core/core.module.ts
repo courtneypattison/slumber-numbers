@@ -5,10 +5,10 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterModule } from '@angular/router';
 
-import { HeaderComponent } from './header/header.component';
-import { FooterComponent } from './footer/footer.component';
-import { LoggerService } from './logger.service';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { HeaderComponent } from 'app/core/header/header.component';
+import { FooterComponent } from 'app/core/footer/footer.component';
+import { LoggerService } from 'app/core/logger.service';
+import { PageNotFoundComponent } from 'app/core/page-not-found/page-not-found.component';
 
 @NgModule({
   imports: [

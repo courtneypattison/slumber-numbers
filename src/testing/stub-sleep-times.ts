@@ -1,5 +1,5 @@
 import { firestore } from 'firebase/app';
-import { SleepState } from '../app/sleep-time/shared/sleep-state.model';
+import { SleepState } from 'app/sleep-time/shared/sleep-state.model';
 
 export const StubSleepTimes = [
   { startTimestamp: firestore.Timestamp.fromDate(new Date(2018, 4, 25, 1, 25)), sleepState: SleepState.Crying },

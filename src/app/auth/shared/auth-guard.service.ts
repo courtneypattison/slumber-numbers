@@ -5,8 +5,8 @@ import { FirebaseError } from 'firebase';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
-import { AuthService } from './auth.service';
-import { LoggerService } from '../../core/logger.service';
+import { AuthService } from 'app/auth/shared/auth.service';
+import { LoggerService } from 'app/core/logger.service';
 
 @Injectable({
   providedIn: 'root'

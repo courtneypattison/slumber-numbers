@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 
 import { Observable } from 'rxjs';
 
-import { AuthService } from '../../auth/shared/auth.service';
+import { AuthService } from 'app/auth/shared/auth.service';
 
 @Component({
   selector: 'sn-header',

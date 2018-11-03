@@ -6,11 +6,11 @@ import { firestore, User } from 'firebase/app';
 import { Observable, of } from 'rxjs';
 import { catchError, flatMap, tap } from 'rxjs/operators';
 
-import { AuthService } from '../../auth/shared/auth.service';
-import { LoggerService } from '../../core/logger.service';
-import { SleepState } from './sleep-state.model';
-import { SleepTime } from './sleep-time.model';
-import { SleepTimeChartRow } from './sleep-time-chart-row.model';
+import { AuthService } from 'app/auth/shared/auth.service';
+import { LoggerService } from 'app/core/logger.service';
+import { SleepState } from 'app/sleep-time/shared/sleep-state.model';
+import { SleepTime } from 'app/sleep-time/shared/sleep-time.model';
+import { SleepTimeChartRow } from 'app/sleep-time/shared/sleep-time-chart-row.model';
 
 @Injectable({
   providedIn: 'root'

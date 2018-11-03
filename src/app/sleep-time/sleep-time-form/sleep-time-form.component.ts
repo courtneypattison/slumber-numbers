@@ -2,8 +2,8 @@ import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 
-import { SleepState } from '../shared/sleep-state.model';
-import { SleepTimeService } from '../shared/sleep-time.service';
+import { SleepState } from 'app/sleep-time/shared/sleep-state.model';
+import { SleepTimeService } from 'app/sleep-time/shared/sleep-time.service';
 
 @Component({
   selector: 'sn-sleep-time-form',
