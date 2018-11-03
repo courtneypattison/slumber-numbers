@@ -21,6 +21,7 @@ describe('LoggerService', () => {
   describe('#log', () => {
     it('should log', () => {
       const logMsg = 'Test log';
+      environment.production = false;
 
       spyOn(console, 'log');
       logger.log(logMsg);
