@@ -1,7 +1,7 @@
 import { TestBed, inject } from '@angular/core/testing';
+import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
 import { firestore } from 'firebase/app';
 import { of, throwError } from 'rxjs';
 

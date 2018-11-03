@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, MatTableDataSource } from '@angular/material';
 
 import { untilDestroyed } from 'ngx-take-until-destroy';
@@ -11,7 +11,7 @@ import { SleepTimeService } from 'app/sleep-time/shared/sleep-time.service';
   templateUrl: './sleep-time-table.component.html',
   styleUrls: ['./sleep-time-table.component.css']
 })
-export class SleepTimeTableComponent implements OnInit {
+export class SleepTimeTableComponent implements OnDestroy, OnInit {
   displayedColumns = ['startTime', 'sleepState', 'actions'];
   dataSource: MatTableDataSource<SleepTime>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -23,6 +23,8 @@ export class SleepTimeTableComponent implements OnInit {
     this.isSleepTime = false;
     this.drawTable();
   }
+
+  ngOnDestroy() { }
 
   drawTable() {
     this.sleepTimeService.getSleepTimes()

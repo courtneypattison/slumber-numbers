@@ -1,7 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { Injectable } from '@angular/core';
+import { AngularFirestore } from '@angular/fire/firestore';
 
-import { AngularFirestore } from 'angularfire2/firestore';
 import { firestore, User } from 'firebase/app';
 import { Observable, of } from 'rxjs';
 import { catchError, flatMap, tap } from 'rxjs/operators';
