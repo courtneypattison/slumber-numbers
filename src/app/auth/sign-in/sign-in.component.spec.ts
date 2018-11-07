@@ -2,6 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { MatDialogModule } from '@angular/material';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { LoggerService } from 'app/core/logger.service';
@@ -18,7 +19,8 @@ describe('SignInComponent', () => {
       imports: [
         RouterTestingModule,
         AngularFirestoreModule,
-        AngularFireModule.initializeApp(config)
+        AngularFireModule.initializeApp(config),
+        MatDialogModule,
       ],
       providers: [
         AngularFireAuth,
