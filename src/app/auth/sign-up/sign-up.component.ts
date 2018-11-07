@@ -1,5 +1,4 @@
-import { Component, OnInit, NgZone } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component } from '@angular/core';
 
 import { AuthService } from 'app/auth/shared/auth.service';
 
@@ -8,12 +7,9 @@ import { AuthService } from 'app/auth/shared/auth.service';
   templateUrl: './sign-up.component.html',
   styleUrls: ['./sign-up.component.css']
 })
-export class SignUpComponent implements OnInit {
+export class SignUpComponent {
 
-  constructor(public authService: AuthService, private router: Router, private ngZone: NgZone) { }
-
-  ngOnInit() {
-  }
+  constructor(public authService: AuthService) { }
 
   signUp() {
     this.authService.signInWithGoogle();
