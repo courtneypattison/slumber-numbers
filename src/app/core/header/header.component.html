@@ -8,7 +8,7 @@
 
       <div class="fill-space"></div>
 
-      <div *ngIf="authService.user | async as user; else showSignUpOrIn">
+      <div *ngIf="authService.angularFireAuth.user | async as user; else showSignUpOrIn">
 
         <button mat-mini-fab color="accent" [matMenuTriggerFor]="menu">{{userInitial | async | uppercase}}</button>
         <mat-menu #menu="matMenu">
