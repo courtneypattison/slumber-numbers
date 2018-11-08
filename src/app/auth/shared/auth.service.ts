@@ -4,7 +4,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 
 import * as firebase from 'firebase/app';
-import { Observable, throwError } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { catchError, first, map } from 'rxjs/operators';
 
 import { LoggerService } from 'app/core/logger.service';
@@ -19,130 +19,116 @@ export const NO_USER_ERROR = {
   providedIn: 'root'
 })
 export class AuthService {
-  public user: Observable<firebase.User>;
 
   constructor(
     private angularFireAuth: AngularFireAuth,
-    private angularFirestore: AngularFirestore,
-    private loggerService: LoggerService,
+    private aFirestore: AngularFirestore,
+    private logger: LoggerService,
     private ngZone: NgZone,
-    private router: Router
-  ) {
-    this.user = angularFireAuth.user;
+    private router: Router,
+  ) { }
 
-  }
+  getCurrentUser(): Promise<firebase.User> {
+    this.logger.log('getCurrentUser()');
 
-  signInWithGoogle() {
-    this.loggerService.log('signInWithGoogle()');
-
-    this.angularFireAuth.auth
-      .signInWithPopup(new firebase.auth.GoogleAuthProvider())
-      .then((userCredential: firebase.auth.UserCredential) => {
-        this.loggerService.log('Signed in with Google');
-        const uid = userCredential.user.uid;
-
-        this.angularFirestore
-          .collection<Account>('accounts')
-          .doc(uid)
-          .set({
-            uid: uid
-          })
-          .then(() => {
-            this.loggerService.log(`Set user account doc in firestore:
-              uid: ${uid}`);
-            this.ngZone.run(() => this.router.navigateByUrl('/dashboard'));
-          })
-          .catch((error: firebase.firestore.FirestoreError) => {
-            this.loggerService.error(`Failed to set user account doc in firestore:
-              uid: ${uid}
-              error: ${error.message ? error.message : error.code.toString()}`);
-          });
-      }).catch((error: firebase.auth.Error) => {
-        this.loggerService.error(`Failed to sign in with Google:
-          error: ${error.message ? error.message : error.code}`);
-      });
-  }
-
-  signOut(): Promise<void> {
     return new Promise((resolve, reject) => {
-      this.angularFireAuth.auth
-        .signOut()
-        .then((result: void) => {
-          this.loggerService.log('Signed out');
-          this.router.navigateByUrl('/');
-
-          resolve();
-        })
-        .catch((error: firebase.auth.Error) => {
-          this.loggerService.error(`Failed to sign out:
-            error: ${error.message ? error.message : error.code}`);
-
-          reject(error);
-        });
+      this.getCurrentUserState().subscribe((currentUser: firebase.User) => {
+        resolve(currentUser);
+      }, (error) => {
+        reject(error);
+      });
     });
   }
 
   getCurrentUserState(): Observable<firebase.User> {
-    return this.user
-      .pipe(
-        first(),
-        map((currentUser: firebase.User) => {
-          if (currentUser) {
-            this.loggerService.log(`Got current user state:
-              currentUser.uid: ${currentUser.uid}`);
+    this.logger.log('getCurrentUserState()');
 
-            return currentUser;
-          } else {
-            this.loggerService.log(`Couldn't get current user state:
-              NO_USER_ERROR.message: ${NO_USER_ERROR.message}`);
+    return this.angularFireAuth.user.pipe(
+      first(),
+      map((currentUser: firebase.User) => {
+        if (currentUser) {
+          this.logger.log(`Got current user state: currentUser.uid: ${currentUser.uid}`);
 
-            throwError(NO_USER_ERROR);
-          }
-        })
-      );
-  }
+          return currentUser;
+        } else {
+          this.logger.log(`Couldn't get current user state: NO_USER_ERROR.message: ${NO_USER_ERROR.message}`);
 
-  getCurrentUser(): Promise<firebase.User> {
-    this.loggerService.log('getCurrentUser()');
-
-    return new Promise((resolve, reject) => {
-      this.user
-        .pipe(first())
-        .subscribe((currentUser: firebase.User) => {
-          if (currentUser) {
-            this.loggerService.log(`Got current user:
-              currentUser.uid: ${currentUser.uid}`);
-
-            resolve(currentUser);
-          } else {
-            this.loggerService.log(`Couldn't get current user:
-              NO_USER_ERROR.message: ${NO_USER_ERROR.message}`);
-
-            reject(NO_USER_ERROR);
-          }
-        }, (error: firebase.FirebaseError) => {
-          this.loggerService.log(`Couldn't get current user:
-              error.message: ${error.message ? error.message : error.code}`);
-
-          reject(error);
-        });
-    });
+          throw NO_USER_ERROR;
+        }
+      })
+    );
   }
 
   getUserInitial(): Observable<string> {
-    this.loggerService.log('getUserInital()');
+    this.logger.log('getUserInital()');
 
     return this.getCurrentUserState()
       .pipe(
         map((currentUser: firebase.User) => {
           const userInitial = currentUser.email[0];
-          this.loggerService.log(`Got user initial:
-            userInital: ${userInitial}`);
+          this.logger.log(`Got user initial: ${userInitial}`);
+
           return userInitial;
         }),
-        catchError((error) => {
-          return '';
+        catchError(() => {
+          return of('');
         })
       );
+  }
+
+  signInWithGoogle(): Promise<void> {
+    this.logger.log('signInWithGoogle()');
+
+    return new Promise((resolve, reject) => {
+      this.angularFireAuth.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider())
+        .then((userCredential: firebase.auth.UserCredential) => {
+          this.logger.log('Signed in with Google');
+
+          this.setAccountDoc(userCredential.user.uid)
+            .then(() => {
+              this.ngZone.run(() => this.router.navigateByUrl('/dashboard'));
+
+              resolve();
+            })
+            .catch((error: firebase.firestore.FirestoreError) => reject(error));
+        })
+        .catch((error: firebase.auth.Error) => {
+          this.logger.error(`Failed to sign in with Google: error: ${error.message}`);
+
+          reject(error);
+        });
+    });
+  }
+
+  signOut(): Promise<void> {
+    this.logger.log('signOut()');
+
+    return new Promise((resolve, reject) => {
+      this.angularFireAuth.auth.signOut()
+        .then(() => {
+          this.logger.log('Signed out');
+          this.ngZone.run(() => this.router.navigateByUrl('/'));
+
+          resolve();
+        })
+        .catch((error: firebase.auth.Error) => {
+          this.logger.error(`Failed to sign out: error: ${error.message}`);
+
+          reject(error);
+        });
+    });
+  }
+
+  private setAccountDoc(uid: string): Promise<void> {
+    this.logger.log(`setAccount(uid: ${uid})`);
+
+    return this.logger.logPromise(
+      'Set user account doc in firestore',
+      'Failed to set user account doc in firestore',
+      this.aFirestore
+        .collection<Account>('accounts')
+        .doc(uid)
+        .set({ uid: uid })
+    );
   }
 }
