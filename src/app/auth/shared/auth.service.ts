@@ -10,15 +10,14 @@ import { catchError, first, map } from 'rxjs/operators';
 import { LoggerService } from 'app/core/logger.service';
 import { Account } from 'app/account/shared/account.model';
 
-export const NO_USER_ERROR = {
-  code: 'no-user-signed-in',
-  message: 'There is no user signed in.'
-};
+export const NoUserError = Error('There is no user signed in.');
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+
+  user: Observable<firebase.User>;
 
   constructor(
     private angularFireAuth: AngularFireAuth,
@@ -26,7 +25,9 @@ export class AuthService {
     private logger: LoggerService,
     private ngZone: NgZone,
     private router: Router,
-  ) { }
+  ) {
+    this.user = angularFireAuth.user;
+   }
 
   getCurrentUser(): Promise<firebase.User> {
     this.logger.log('getCurrentUser()');
@@ -51,9 +52,9 @@ export class AuthService {
 
           return currentUser;
         } else {
-          this.logger.log(`Couldn't get current user state: NO_USER_ERROR.message: ${NO_USER_ERROR.message}`);
+          this.logger.log(`Couldn't get current user state: NoUserError: ${NoUserError}`);
 
-          throw NO_USER_ERROR;
+          throw NoUserError;
         }
       })
     );

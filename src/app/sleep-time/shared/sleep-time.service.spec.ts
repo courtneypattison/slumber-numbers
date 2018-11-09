@@ -5,7 +5,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { firestore } from 'firebase/app';
 import { of, throwError } from 'rxjs';
 
-import { AuthService, NO_USER_ERROR } from 'app/auth/shared/auth.service';
+import { AuthService, NoUserError } from 'app/auth/shared/auth.service';
 import { LoggerService } from 'app/core/logger.service';
 import { SleepState } from 'app/sleep-time/shared/sleep-state.model';
 import { SleepTime } from 'app/sleep-time/shared/sleep-time.model';
@@ -54,9 +54,9 @@ describe('SleepTimeService', () => {
     sleepTimeService = TestBed.get(SleepTimeService);
   });
 
-  it('should be created', inject([SleepTimeService], (service: SleepTimeService) => {
-    expect(service).toBeTruthy();
-  }));
+  it('should be created', () => {
+    expect(sleepTimeService).toBeTruthy();
+  });
 
   describe('#setSleepTime', () => {
     it('should return a Promise containing void', (done: DoneFn) => {
@@ -70,11 +70,11 @@ describe('SleepTimeService', () => {
     });
 
     it('should throw a no user error', (done: DoneFn) => {
-      authServiceSpy.getCurrentUser.and.returnValue(Promise.reject(NO_USER_ERROR));
+      authServiceSpy.getCurrentUser.and.returnValue(Promise.reject(NoUserError));
       docSpy.set.and.returnValue(Promise.resolve);
 
-      sleepTimeService.setSleepTime(dummyDate, dummySleepState).catch((error) => {
-        expect(error).toBe(NO_USER_ERROR);
+      sleepTimeService.setSleepTime(dummyDate, dummySleepState).catch((error: Error) => {
+        expect(error).toEqual(NoUserError);
         done();
       });
     });
@@ -152,11 +152,11 @@ describe('SleepTimeService', () => {
     });
 
     it('should throw a no user error', (done: DoneFn) => {
-      authServiceSpy.getCurrentUser.and.returnValue(Promise.reject(NO_USER_ERROR));
+      authServiceSpy.getCurrentUser.and.returnValue(Promise.reject(NoUserError));
       docSpy.delete.and.returnValue(Promise.resolve());
 
-      sleepTimeService.deleteSleepTime(dummySleepTimeId).catch((error) => {
-        expect(error).toBe(NO_USER_ERROR);
+      sleepTimeService.deleteSleepTime(dummySleepTimeId).catch((error: Error) => {
+        expect(error).toEqual(NoUserError);
         done();
       });
     });

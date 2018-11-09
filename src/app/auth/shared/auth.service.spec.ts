@@ -6,7 +6,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import * as firebase from 'firebase/app';
 import { of } from 'rxjs';
 
-import { AuthService, NO_USER_ERROR } from 'app/auth/shared/auth.service';
+import { AuthService, NoUserError } from 'app/auth/shared/auth.service';
 import { LoggerService } from 'app/core/logger.service';
 import { MockLoggerService } from 'testing/mock-logger.service';
 import { StubFirebaseAuthError } from 'testing/stub-firebase-auth-error';
@@ -30,11 +30,9 @@ describe('AuthService', () => {
     angularFirestoreSpy = jasmine.createSpyObj('AngularFirestore', ['collection', 'doc']);
     angularFirestoreSpy.collection.and.returnValue(collectionSpy);
     angularFirestoreSpy.doc.and.returnValue(docSpy);
+
     authSpy = jasmine.createSpyObj('Auth', ['signInWithPopup', 'signOut']);
-    stubAngularFireAuth = {
-      auth: authSpy,
-      user: of(null),
-    };
+    stubAngularFireAuth = { auth: authSpy };
 
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
@@ -52,9 +50,9 @@ describe('AuthService', () => {
     authService = TestBed.get(AuthService);
   });
 
-  it('should be created', inject([AuthService], (service: AuthService) => {
-    expect(service).toBeTruthy();
-  }));
+  it('should be created', () => {
+    expect(authService).toBeTruthy();
+  });
 
   describe('#signInWithGoogle', () => {
     it('should return a Promise containing void', (done: DoneFn) => {
@@ -121,8 +119,8 @@ describe('AuthService', () => {
     it('should throw a no user error', (done: DoneFn) => {
       stubAngularFireAuth.user = of(null);
 
-      authService.getCurrentUserState().subscribe(() => {}, (error) => {
-        expect(error).toEqual(NO_USER_ERROR);
+      authService.getCurrentUserState().subscribe(() => {}, (error: Error) => {
+        expect(error).toEqual(NoUserError);
         done();
       });
     });
@@ -150,8 +148,8 @@ describe('AuthService', () => {
     it('should return a no user error', (done: DoneFn) => {
       stubAngularFireAuth.user = of(null);
 
-      authService.getCurrentUser().catch((error) => {
-        expect(error).toEqual(NO_USER_ERROR);
+      authService.getCurrentUser().catch((error: Error) => {
+        expect(error).toEqual(NoUserError);
         done();
       });
     });
