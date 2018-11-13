@@ -12,7 +12,7 @@ import { TimestampPipe } from 'app/shared/timestamp.pipe';
 import { SleepTimeService } from 'app/sleep-time/shared/sleep-time.service';
 import { SleepTimeTableComponent } from 'app/sleep-time/sleep-time-table/sleep-time-table.component';
 import { config } from 'testing/mock-config';
-import { MockLoggerService } from 'testing/mock-logger.service';
+import { FakeLoggerService } from 'testing/mock-logger.service';
 
 describe('SleepTimeTableComponent', () => {
   let component: SleepTimeTableComponent;
@@ -35,7 +35,7 @@ describe('SleepTimeTableComponent', () => {
       providers: [
         SleepTimeService,
         AngularFireAuth,
-        { provide: LoggerService, useClass: MockLoggerService },
+        { provide: LoggerService, useClass: FakeLoggerService },
       ]
     })
     .compileComponents();

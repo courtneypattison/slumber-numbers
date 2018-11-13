@@ -65,7 +65,7 @@ export class SleepTimeChartComponent implements OnInit, OnDestroy {
             colors: [
               '#69F0AE', // Awake
               '#7b1fa2', // Asleep
-              '#f44336', // Crying
+              '#f44336', // Fussing
             ],
             timeline: {
               showBarLabels: false,

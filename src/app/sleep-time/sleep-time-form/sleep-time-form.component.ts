@@ -2,7 +2,7 @@ import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 
-import { SleepState } from 'app/sleep-time/shared/sleep-state.model';
+import { State } from 'app/sleep-time/shared/state.model';
 import { SleepTimeService } from 'app/sleep-time/shared/sleep-time.service';
 
 @Component({
@@ -18,10 +18,10 @@ export class SleepTimeFormComponent implements OnInit {
       Validators.required,
       Validators.pattern('(1[0-2]|0?[1-9]):([0-5][0-9]) ([AaPp][Mm])')
     ]],
-    sleepState: ['', Validators.required]
+    state: ['', Validators.required]
   });
 
-  sleepStates = Object.values(SleepState).filter(value => typeof value === 'string') as string[];
+  states = Object.values(State).filter(value => typeof value === 'string') as string[];
 
   constructor(private formBuilder: FormBuilder, private sleepService: SleepTimeService) { }
 
@@ -46,7 +46,7 @@ export class SleepTimeFormComponent implements OnInit {
   }
 
   onsetSleepTime() {
-    this.sleepService.setSleepTime(this.getStartDateTime(), this.sleepTimeForm.value.sleepState);
+    this.sleepService.setSleepTime(this.getStartDateTime(), this.sleepTimeForm.value.state);
   }
 
 }

@@ -12,7 +12,7 @@ import { SleepTimeService } from 'app/sleep-time/shared/sleep-time.service';
   styleUrls: ['./sleep-time-table.component.css']
 })
 export class SleepTimeTableComponent implements OnDestroy, OnInit {
-  displayedColumns = ['startTime', 'sleepState', 'actions'];
+  displayedColumns = ['startTime', 'state', 'actions'];
   dataSource: MatTableDataSource<SleepTime>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   isSleepTime: boolean;

@@ -8,7 +8,7 @@ import { of } from 'rxjs';
 
 import { AuthService, NoUserError } from 'app/auth/shared/auth.service';
 import { LoggerService } from 'app/core/logger.service';
-import { MockLoggerService } from 'testing/mock-logger.service';
+import { FakeLoggerService } from 'testing/mock-logger.service';
 import { StubFirebaseAuthError } from 'testing/stub-firebase-auth-error';
 import { StubFirebaseUser } from 'testing/stub-firebase-user';
 import { StubUserCredential } from 'testing/stub-user-credential';
@@ -21,7 +21,7 @@ describe('AuthService', () => {
   let angularFirestoreSpy: jasmine.SpyObj<AngularFirestore>;
   let collectionSpy: jasmine.SpyObj<AngularFirestoreCollection>;
   let docSpy: jasmine.SpyObj<AngularFirestoreDocument>;
-  let mockLoggerService: LoggerService;
+  let fakeLoggerService: LoggerService;
 
   beforeEach(() => {
     docSpy = jasmine.createSpyObj('AngularFirestoreDocument', ['delete', 'set']);
@@ -40,13 +40,13 @@ describe('AuthService', () => {
         { provide: AngularFirestore, useValue: angularFirestoreSpy },
         { provide: AngularFireAuth, useValue: stubAngularFireAuth },
         AuthService,
-        { provide: LoggerService, useClass: MockLoggerService },
+        { provide: LoggerService, useClass: FakeLoggerService },
       ]
     });
 
     angularFirestoreSpy = TestBed.get(AngularFirestore);
     stubAngularFireAuth = TestBed.get(AngularFireAuth);
-    mockLoggerService = TestBed.get(LoggerService);
+    fakeLoggerService = TestBed.get(LoggerService);
     authService = TestBed.get(AuthService);
   });
 

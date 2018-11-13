@@ -1,4 +1,4 @@
-import { TestBed, inject } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -7,10 +7,10 @@ import { of, throwError } from 'rxjs';
 
 import { AuthService, NoUserError } from 'app/auth/shared/auth.service';
 import { LoggerService } from 'app/core/logger.service';
-import { SleepState } from 'app/sleep-time/shared/sleep-state.model';
+import { State } from 'app/sleep-time/shared/state.model';
 import { SleepTime } from 'app/sleep-time/shared/sleep-time.model';
 import { SleepTimeService } from 'app/sleep-time/shared/sleep-time.service';
-import { MockLoggerService } from 'testing/mock-logger.service';
+import { FakeLoggerService } from 'testing/fake-logger.service';
 import { StubFirebaseUser } from 'testing/stub-firebase-user';
 import { StubFirestoreError } from 'testing/stub-firestore-error';
 import { StubSleepChartRows } from 'testing/stub-sleep-chart-rows';
@@ -18,14 +18,14 @@ import { StubSleepTimes } from 'testing/stub-sleep-times';
 
 describe('SleepTimeService', () => {
   const dummyDate = new Date(0, 0);
-  const dummySleepState = SleepState.Asleep;
+  const dummyState = State.Asleep;
   const dummySleepTimeId = 'dummySleepTimeId';
 
   let angularFirestoreSpy: jasmine.SpyObj<AngularFirestore>;
   let authServiceSpy: jasmine.SpyObj<AuthService>;
   let collectionSpy: jasmine.SpyObj<AngularFirestoreCollection>;
   let docSpy: jasmine.SpyObj<AngularFirestoreDocument>;
-  let mockLoggerService: LoggerService;
+  let fakeLoggerService: LoggerService;
   let sleepTimeService: SleepTimeService;
 
   beforeEach(() => {
@@ -43,14 +43,14 @@ describe('SleepTimeService', () => {
       providers: [
         { provide: AngularFirestore, useValue: angularFirestoreSpy },
         { provide: AuthService, useValue: jasmine.createSpyObj('AuthService', ['getCurrentUser', 'getCurrentUserState']) },
-        { provide: LoggerService, useClass: MockLoggerService },
+        { provide: LoggerService, useClass: FakeLoggerService },
         SleepTimeService,
       ]
     });
 
     angularFirestoreSpy = TestBed.get(AngularFirestore);
     authServiceSpy = TestBed.get(AuthService);
-    mockLoggerService = TestBed.get(LoggerService);
+    fakeLoggerService = TestBed.get(LoggerService);
     sleepTimeService = TestBed.get(SleepTimeService);
   });
 
@@ -63,7 +63,7 @@ describe('SleepTimeService', () => {
       authServiceSpy.getCurrentUser.and.returnValue(Promise.resolve(StubFirebaseUser));
       docSpy.set.and.returnValue(Promise.resolve());
 
-      sleepTimeService.setSleepTime(dummyDate, dummySleepState).then((result: void) => {
+      sleepTimeService.setSleepTime(dummyDate, dummyState).then((result: void) => {
         expect(result).toBeUndefined();
         done();
       });
@@ -73,7 +73,7 @@ describe('SleepTimeService', () => {
       authServiceSpy.getCurrentUser.and.returnValue(Promise.reject(NoUserError));
       docSpy.set.and.returnValue(Promise.resolve);
 
-      sleepTimeService.setSleepTime(dummyDate, dummySleepState).catch((error: Error) => {
+      sleepTimeService.setSleepTime(dummyDate, dummyState).catch((error: Error) => {
         expect(error).toEqual(NoUserError);
         done();
       });
@@ -83,7 +83,7 @@ describe('SleepTimeService', () => {
       authServiceSpy.getCurrentUser.and.returnValue(Promise.resolve(StubFirebaseUser));
       docSpy.set.and.returnValue(Promise.reject(StubFirestoreError));
 
-      sleepTimeService.setSleepTime(dummyDate, dummySleepState).catch((error: firestore.FirestoreError) => {
+      sleepTimeService.setSleepTime(dummyDate, dummyState).catch((error: firestore.FirestoreError) => {
         expect(error).toEqual(StubFirestoreError);
         done();
       });
@@ -93,10 +93,10 @@ describe('SleepTimeService', () => {
       authServiceSpy.getCurrentUser.and.returnValue(Promise.resolve(StubFirebaseUser));
       docSpy.set.and.returnValue(Promise.resolve());
 
-      sleepTimeService.setSleepTime(dummyDate, dummySleepState).then((result: void) => {
+      sleepTimeService.setSleepTime(dummyDate, dummyState).then((result: void) => {
         expect(docSpy.set).toHaveBeenCalledWith({
           startTimestamp: firestore.Timestamp.fromDate(dummyDate),
-          sleepState: dummySleepState
+          state: dummyState
         });
         done();
       });

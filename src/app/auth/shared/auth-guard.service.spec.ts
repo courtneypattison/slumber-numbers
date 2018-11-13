@@ -7,7 +7,7 @@ import { of, throwError } from 'rxjs';
 import { AuthService, NoUserError } from 'app/auth/shared/auth.service';
 import { AuthGuardService } from 'app/auth/shared/auth-guard.service';
 import { LoggerService } from 'app/core/logger.service';
-import { MockLoggerService } from 'testing/mock-logger.service';
+import { FakeLoggerService } from 'testing/fake-logger.service';
 import { StubFirebaseUser } from 'testing/stub-firebase-user';
 
 function getActivatedRouteSnapshot(url: string): ActivatedRouteSnapshot {
@@ -25,7 +25,7 @@ describe('AuthGuardService', () => {
       providers: [
         { provide: AuthService, useValue: jasmine.createSpyObj('AuthService', ['getCurrentUser', 'getCurrentUserState']) },
         AuthGuardService,
-        { provide: LoggerService, useClass: MockLoggerService },
+        { provide: LoggerService, useClass: FakeLoggerService },
       ]
     });
 

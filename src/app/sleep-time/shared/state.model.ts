@@ -1,6 +1,6 @@
-export enum SleepState {
+export enum State {
   Asleep = 'Asleep',
   Awake = 'Awake',
-  Crying = 'Crying',
+  Fussing = 'Fussing',
   Unknown = 'Unknown'
 }

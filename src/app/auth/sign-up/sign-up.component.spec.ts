@@ -7,7 +7,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { SignUpComponent } from 'app/auth/sign-up/sign-up.component';
 import { LoggerService } from 'app/core/logger.service';
 import { config } from 'testing/mock-config';
-import { MockLoggerService } from 'testing/mock-logger.service';
+import { FakeLoggerService } from 'testing/mock-logger.service';
 
 describe('SignUpComponent', () => {
   let component: SignUpComponent;
@@ -22,7 +22,7 @@ describe('SignUpComponent', () => {
       ],
       providers: [
         AngularFireAuth,
-        { provide: LoggerService, useClass: MockLoggerService },
+        { provide: LoggerService, useClass: FakeLoggerService },
       ],
       declarations: [ SignUpComponent ]
     })

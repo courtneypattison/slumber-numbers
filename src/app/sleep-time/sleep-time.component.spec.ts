@@ -4,7 +4,7 @@ import { LoggerService } from 'app/core/logger.service';
 import { SleepTimeComponent } from 'app/sleep-time/sleep-time.component';
 import { SleepTimeChartComponent } from 'app/sleep-time/sleep-time-chart/sleep-time-chart.component';
 import { SleepTimeService } from 'app/sleep-time/shared/sleep-time.service';
-import { MockLoggerService } from 'testing/mock-logger.service';
+import { FakeLoggerService } from 'testing/mock-logger.service';
 
 describe('SleepTimeComponent', () => {
   let component: SleepTimeComponent;
@@ -18,7 +18,7 @@ describe('SleepTimeComponent', () => {
       ],
       providers: [
         SleepTimeService,
-        { provide: LoggerService, useClass: MockLoggerService }
+        { provide: LoggerService, useClass: FakeLoggerService }
       ]
     })
     .compileComponents();

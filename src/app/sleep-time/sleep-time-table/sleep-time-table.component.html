@@ -5,9 +5,9 @@
       <mat-cell *matCellDef="let sleepTime">{{sleepTime.startTimestamp | timestamp | date:'short'}}</mat-cell>
     </ng-container>
 
-    <ng-container matColumnDef="sleepState">
+    <ng-container matColumnDef="state">
       <mat-header-cell *matHeaderCellDef>State</mat-header-cell>
-      <mat-cell *matCellDef="let sleepTime">{{sleepTime.sleepState}}</mat-cell>
+      <mat-cell *matCellDef="let sleepTime">{{sleepTime.state}}</mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="actions">

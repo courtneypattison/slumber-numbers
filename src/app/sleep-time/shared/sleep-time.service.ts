@@ -8,7 +8,7 @@ import { catchError, flatMap, tap } from 'rxjs/operators';
 
 import { AuthService } from 'app/auth/shared/auth.service';
 import { LoggerService } from 'app/core/logger.service';
-import { SleepState } from 'app/sleep-time/shared/sleep-state.model';
+import { State } from 'app/sleep-time/shared/state.model';
 import { SleepTime } from 'app/sleep-time/shared/sleep-time.model';
 import { SleepTimeChartRow } from 'app/sleep-time/shared/sleep-time-chart-row.model';
 
@@ -23,8 +23,8 @@ export class SleepTimeService {
     return `accounts/${uid}/sleepTimes`;
   }
 
-  setSleepTime(startDateTime: Date, sleepState: SleepState): Promise<void> {
-    this.loggerService.log(`setSleepTime(startDateTime: ${startDateTime}, sleepState: ${sleepState})`);
+  setSleepTime(startDateTime: Date, state: State): Promise<void> {
+    this.loggerService.log(`setSleepTime(startDateTime: ${startDateTime}, state: ${state})`);
 
     return this.authService
       .getCurrentUser()
@@ -37,7 +37,7 @@ export class SleepTimeService {
           this.angularFirestore
             .collection<SleepTime>(this.getSleepTimesPath(currentUser.uid))
             .doc(String(startTimestamp))
-            .set({ startTimestamp: startTimestamp, sleepState: sleepState })
+            .set({ startTimestamp: startTimestamp, state: state })
         );
       });
   }
@@ -124,13 +124,13 @@ export class SleepTimeService {
     const datePipe = new DatePipe(navigator.language);
 
     for (let i = 0, j = 0; i < sleepTimes.length; i++ , j++) {
-      const currSleepState = sleepTimes[i].sleepState;
+      const currState = sleepTimes[i].state;
       const currStartDateTime = sleepTimes[i].startTimestamp.toDate();
       const currStartTime = new Date(0, 0, 0, currStartDateTime.getHours(), currStartDateTime.getMinutes());
 
-      if (i > 0 && sleepTimes[i - 1].sleepState !== SleepState.Unknown) {
+      if (i > 0 && sleepTimes[i - 1].state !== State.Unknown) {
         const prevStartTime = sleepTimes[i - 1].startTimestamp.toDate();
-        const prevSleepState = sleepTimes[i - 1].sleepState;
+        const prevState = sleepTimes[i - 1].state;
 
         if (prevStartTime.toDateString() === currStartDateTime.toDateString()) { // Same day
             sleepChartRows[j - 1][endTimeIndex] = currStartTime;
@@ -138,7 +138,7 @@ export class SleepTimeService {
             sleepChartRows[j - 1][endTimeIndex] = new Date(0, 0, 0, 24, 0);
             sleepChartRows.push([
               datePipe.transform(currStartDateTime, 'shortDate'),
-              prevSleepState,
+              prevState,
               new Date(0, 0, 0, 0, 0),
               currStartTime
             ]);
@@ -146,12 +146,12 @@ export class SleepTimeService {
         }
       }
 
-      if (currSleepState === SleepState.Unknown) {
+      if (currState === State.Unknown) {
         j--;
       } else {
         sleepChartRows.push([
           datePipe.transform(currStartDateTime, 'shortDate'),
-          currSleepState,
+          currState,
           currStartTime,
           new Date(currStartTime.valueOf() + 1000)
         ]);

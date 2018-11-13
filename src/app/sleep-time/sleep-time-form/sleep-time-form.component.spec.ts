@@ -16,7 +16,7 @@ import { LoggerService } from 'app/core/logger.service';
 import { config } from 'testing/mock-config';
 import { SleepTimeFormComponent } from 'app/sleep-time/sleep-time-form/sleep-time-form.component';
 import { SleepTimeService } from 'app/sleep-time/shared/sleep-time.service';
-import { MockLoggerService } from 'testing/mock-logger.service';
+import { FakeLoggerService } from 'testing/mock-logger.service';
 
 describe('SleepTimeFormComponent', () => {
   let component: SleepTimeFormComponent;
@@ -40,7 +40,7 @@ describe('SleepTimeFormComponent', () => {
       ],
       providers: [
         SleepTimeService,
-        { provide: LoggerService, useClass: MockLoggerService },
+        { provide: LoggerService, useClass: FakeLoggerService },
         AngularFireAuth
       ],
       declarations: [SleepTimeFormComponent]

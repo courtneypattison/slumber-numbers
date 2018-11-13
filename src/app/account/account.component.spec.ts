@@ -10,7 +10,7 @@ import { AccountDeleteComponent } from 'app/account/account-delete/account-delet
 import { AccountService } from 'app/account/shared/account.service';
 import { LoggerService } from 'app/core/logger.service';
 import { config } from 'testing/mock-config';
-import { MockLoggerService } from 'testing/mock-logger.service';
+import { FakeLoggerService } from 'testing/fake-logger.service';
 
 describe('AccountComponent', () => {
   let component: AccountComponent;
@@ -31,7 +31,7 @@ describe('AccountComponent', () => {
       providers: [
         AngularFireAuth,
         AccountService,
-        { provide: LoggerService, useClass: MockLoggerService },
+        { provide: LoggerService, useClass: FakeLoggerService },
       ]
     })
     .compileComponents();
