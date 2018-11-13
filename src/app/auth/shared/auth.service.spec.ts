@@ -1,4 +1,4 @@
-import { TestBed, inject } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -8,7 +8,7 @@ import { of } from 'rxjs';
 
 import { AuthService, NoUserError } from 'app/auth/shared/auth.service';
 import { LoggerService } from 'app/core/logger.service';
-import { FakeLoggerService } from 'testing/mock-logger.service';
+import { FakeLoggerService } from 'testing/fake-logger.service';
 import { StubFirebaseAuthError } from 'testing/stub-firebase-auth-error';
 import { StubFirebaseUser } from 'testing/stub-firebase-user';
 import { StubUserCredential } from 'testing/stub-user-credential';

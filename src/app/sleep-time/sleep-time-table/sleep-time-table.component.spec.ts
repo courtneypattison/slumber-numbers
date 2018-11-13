@@ -12,7 +12,7 @@ import { TimestampPipe } from 'app/shared/timestamp.pipe';
 import { SleepTimeService } from 'app/sleep-time/shared/sleep-time.service';
 import { SleepTimeTableComponent } from 'app/sleep-time/sleep-time-table/sleep-time-table.component';
 import { config } from 'testing/mock-config';
-import { FakeLoggerService } from 'testing/mock-logger.service';
+import { FakeLoggerService } from 'testing/fake-logger.service';
 
 describe('SleepTimeTableComponent', () => {
   let component: SleepTimeTableComponent;

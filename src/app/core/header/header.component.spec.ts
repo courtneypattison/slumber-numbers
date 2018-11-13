@@ -13,7 +13,7 @@ import { AuthService } from 'app/auth/shared/auth.service';
 import { HeaderComponent } from 'app/core/header/header.component';
 import { LoggerService } from 'app/core/logger.service';
 import { config } from 'testing/mock-config';
-import { FakeLoggerService } from 'testing/mock-logger.service';
+import { FakeLoggerService } from 'testing/fake-logger.service';
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
