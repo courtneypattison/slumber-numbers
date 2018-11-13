@@ -1,7 +1,7 @@
-import { Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 
-import { User, firestore } from 'firebase/app';
+import { User } from 'firebase/app';
 
 import { AuthService } from 'app/auth/shared/auth.service';
 import { LoggerService } from 'app/core/logger.service';
@@ -15,52 +15,49 @@ export class AccountService {
   constructor(
     private angularFirestore: AngularFirestore,
     private authService: AuthService,
-    private loggerService: LoggerService,
+    private logger: LoggerService,
     private sleepTimeService: SleepTimeService,
   ) { }
 
+  deleteAccountDoc(uid: string): Promise<void> {
+    return this.logger.logPromise(
+      'Deleted account doc',
+      'Failed to delete account doc',
+      this.angularFirestore
+        .doc<Account>(`accounts/${uid}`)
+        .delete()
+    );
+  }
+
+  deleteAccountAuth(currentUser: User): Promise<void> {
+    return this.logger.logPromise(
+      'Deleted account auth',
+      'Failed to delete account auth',
+      currentUser.delete()
+    );
+  }
+
+
   deleteAccount(): Promise<void> {
     return new Promise((resolve, reject) => {
-      this.authService
-        .getCurrentUser()
+      this.authService.getCurrentUser()
         .then((currentUser: User) => {
-          // Delete account sleep times
           this.sleepTimeService.deleteAllSleepTimes()
             .then(() => {
-              // Delete account firestore document
-              this.angularFirestore
-                .doc<Account>(`accounts/${currentUser.uid}`)
-                .delete()
+              this.deleteAccountDoc(currentUser.uid)
                 .then(() => {
-                  this.loggerService.log(`Deleted account document at:
-                    'accounts/${currentUser.uid}'`);
-
-                  // Delete account
-                  currentUser
-                    .delete()
-                    .then((result: void) => {
-                      this.loggerService.log(`Deleted account:
-                        currentUser.uid: ${currentUser.uid}`);
+                  this.deleteAccountAuth(currentUser)
+                    .then(() => {
                       this.authService.signOut();
                       resolve();
-                    }).catch((error: firebase.FirebaseError) => {
-                      if (error.code === 'auth/requires-recent-login') {
-                        this.loggerService.error(`Delete account failed:
-                          currentUser.uid: ${currentUser.uid}
-                          ${error.message ? error.message : error.code}`);
-                        reject(error);
-                      }
-                    });
+                    })
+                    .catch((error: Error) => reject(error));;
                 })
-                .catch((error: firestore.FirestoreError) => {
-                  this.loggerService.error(`Couldn't delete account document at:
-                    'accounts/${currentUser.uid}'
-                    ${error.message ? error.message : error.code}`);
-                });
-            });
-        });
+                .catch((error: Error) => reject(error));;
+            })
+            .catch((error: Error) => reject(error));;
+        })
+        .catch((error: Error) => reject(error));
     });
   }
 }
-
-
