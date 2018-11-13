@@ -19,25 +19,6 @@ export class AccountService {
     private sleepTimeService: SleepTimeService,
   ) { }
 
-  deleteAccountDoc(uid: string): Promise<void> {
-    return this.logger.logPromise(
-      'Deleted account doc',
-      'Failed to delete account doc',
-      this.angularFirestore
-        .doc<Account>(`accounts/${uid}`)
-        .delete()
-    );
-  }
-
-  deleteAccountAuth(currentUser: User): Promise<void> {
-    return this.logger.logPromise(
-      'Deleted account auth',
-      'Failed to delete account auth',
-      currentUser.delete()
-    );
-  }
-
-
   deleteAccount(): Promise<void> {
     return new Promise((resolve, reject) => {
       this.authService.getCurrentUser()
@@ -51,13 +32,31 @@ export class AccountService {
                       this.authService.signOut();
                       resolve();
                     })
-                    .catch((error: Error) => reject(error));;
+                    .catch((error: Error) => reject(error));
                 })
-                .catch((error: Error) => reject(error));;
+                .catch((error: Error) => reject(error));
             })
-            .catch((error: Error) => reject(error));;
+            .catch((error: Error) => reject(error));
         })
         .catch((error: Error) => reject(error));
     });
+  }
+
+  private deleteAccountDoc(uid: string): Promise<void> {
+    return this.logger.logPromise(
+      'Deleted account doc',
+      'Failed to delete account doc',
+      this.angularFirestore
+        .doc<Account>(`accounts/${uid}`)
+        .delete()
+    );
+  }
+
+  private deleteAccountAuth(currentUser: User): Promise<void> {
+    return this.logger.logPromise(
+      'Deleted account auth',
+      'Failed to delete account auth',
+      currentUser.delete()
+    );
   }
 }
