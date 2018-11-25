@@ -1,7 +1,8 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { Router } from '@angular/router';
 
-import { User } from 'firebase/app';
+import { User, FirebaseError } from 'firebase/app';
 
 import { AuthService } from 'app/auth/shared/auth.service';
 import { LoggerService } from 'app/core/logger.service';
@@ -16,6 +17,8 @@ export class AccountService {
     private angularFirestore: AngularFirestore,
     private authService: AuthService,
     private logger: LoggerService,
+    private ngZone: NgZone,
+    private router: Router,
     private sleepTimeService: SleepTimeService,
   ) { }
 
@@ -29,10 +32,10 @@ export class AccountService {
                 .then(() => {
                   this.deleteAccountAuth(currentUser)
                     .then(() => {
-                      this.authService.signOut();
+                      this.ngZone.run(() => this.router.navigateByUrl('/'));
                       resolve();
                     })
-                    .catch((error: Error) => reject(error));
+                    .catch((error: FirebaseError) => reject(error));
                 })
                 .catch((error: Error) => reject(error));
             })

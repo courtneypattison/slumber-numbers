@@ -4,6 +4,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 
 import * as firebase from 'firebase/app';
+import { User } from 'firebase/app';
 import { Observable, of } from 'rxjs';
 import { catchError, first, map } from 'rxjs/operators';
 
@@ -17,7 +18,7 @@ export const NoUserError = Error('There is no user signed in.');
 })
 export class AuthService {
 
-  user: Observable<firebase.User>;
+  user: Observable<User>;
 
   constructor(
     private angularFireAuth: AngularFireAuth,
@@ -29,11 +30,11 @@ export class AuthService {
     this.user = angularFireAuth.user;
    }
 
-  getCurrentUser(): Promise<firebase.User> {
+  getCurrentUser(): Promise<User> {
     this.logger.log('getCurrentUser()');
 
     return new Promise((resolve, reject) => {
-      this.getCurrentUserState().subscribe((currentUser: firebase.User) => {
+      this.getCurrentUserState().subscribe((currentUser: User) => {
         resolve(currentUser);
       }, (error) => {
         reject(error);
@@ -41,12 +42,12 @@ export class AuthService {
     });
   }
 
-  getCurrentUserState(): Observable<firebase.User> {
+  getCurrentUserState(): Observable<User> {
     this.logger.log('getCurrentUserState()');
 
     return this.angularFireAuth.user.pipe(
       first(),
-      map((currentUser: firebase.User) => {
+      map((currentUser: User) => {
         if (currentUser) {
           this.logger.log(`Got current user state: currentUser.uid: ${currentUser.uid}`);
 
@@ -65,7 +66,7 @@ export class AuthService {
 
     return this.getCurrentUserState()
       .pipe(
-        map((currentUser: firebase.User) => {
+        map((currentUser: User) => {
           const userInitial = currentUser.email[0];
           this.logger.log(`Got user initial: ${userInitial}`);
 
