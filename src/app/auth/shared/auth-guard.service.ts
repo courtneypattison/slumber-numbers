@@ -43,8 +43,7 @@ export class AuthGuardService implements CanActivate {
 
         }), catchError((error: Error) => { // No user signed in
           if (routeUrl === signUpUrl || routeUrl === signInUrl) {
-            this.loggerService.log(`Can activate '/${routeUrl}'. Navigate to '/${dashboardUrl}'`);
-            this.ngZone.run(() => this.router.navigateByUrl(`/${dashboardUrl}`));
+            this.loggerService.log(`Can activate '/${routeUrl}'.`);
 
             return of(true);
           } else {
