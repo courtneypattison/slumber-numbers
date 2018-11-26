@@ -137,7 +137,7 @@ export class SleepTimeService {
         } else { // New day
             sleepChartRows[j - 1][endTimeIndex] = new Date(0, 0, 0, 24, 0);
             sleepChartRows.push([
-              datePipe.transform(currStartDateTime, 'shortDate'),
+              datePipe.transform(currStartDateTime, 'M/d'),
               prevState,
               new Date(0, 0, 0, 0, 0),
               currStartTime
@@ -150,7 +150,7 @@ export class SleepTimeService {
         j--;
       } else {
         sleepChartRows.push([
-          datePipe.transform(currStartDateTime, 'shortDate'),
+          datePipe.transform(currStartDateTime, 'M/d'),
           currState,
           currStartTime,
           new Date(currStartTime.valueOf() + 1000)

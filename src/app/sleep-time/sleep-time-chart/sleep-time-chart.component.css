@@ -1,10 +1,4 @@
-#chart-wrapper {
-  overflow: scroll;
-  height: 350px;
-}
-
 #sleep-time-chart {
   max-width: 673px;
-  min-width: 390px;
   height: 350px;
 }
