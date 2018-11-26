@@ -1,5 +1,6 @@
 footer {
-  background: #7b1fa2;
+  background: #FFC107;
+  color: black;
   padding: 2% 0;
   text-align: center;
   height: 125px;
@@ -10,5 +11,5 @@ img {
 }
 
 a {
-  color: white;
+  color: black;
 }

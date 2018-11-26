@@ -1,0 +1,10 @@
+@import 'node_modules/@angular/material/theming';
+
+@include mat-core();
+
+$slumber-numbers-primary: mat-palette($mat-amber);
+$slumber-numbers-accent: mat-palette($mat-deep-purple, A200, A100, A400);
+
+$slumber-numbers-theme: mat-dark-theme($slumber-numbers-primary, $slumber-numbers-accent);
+
+@include angular-material-theme($slumber-numbers-theme);

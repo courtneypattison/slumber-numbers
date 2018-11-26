@@ -63,8 +63,8 @@ export class SleepTimeChartComponent implements OnInit, OnDestroy {
           this.options = {
             avoidOverlappingGridLines: false,
             colors: [
-              '#69F0AE', // Awake
-              '#7b1fa2', // Asleep
+              '#FFC107', // Awake
+              '#7c4dff', // Asleep
               '#f44336', // Fussing
             ],
             timeline: {
