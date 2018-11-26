@@ -6,12 +6,16 @@ header {
   margin-bottom: 15px;
 }
 
+#title {
+  font-size: 1.3em;
+}
+
 a:not(:last-of-type) {
   margin-right: 8px;
 }
 
 img {
-  margin-right: 15px;
+  margin-right: 7px;
 }
 
 @media (max-width: 575.98px) {
