@@ -90,9 +90,9 @@ export class SleepTimeChartComponent implements OnInit, OnDestroy {
 
 function getColors(sleepTimes: SleepTime[]): string[] {
   const colorCount = 3;
-  let colors = [];
+  const colors = [];
 
-  for (let sleepTime of sleepTimes) {
+  for (const sleepTime of sleepTimes) {
     switch (sleepTime.state) {
       case State.Awake:
         colors.push(StateColor.Awake);
