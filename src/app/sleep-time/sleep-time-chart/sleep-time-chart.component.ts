@@ -4,6 +4,8 @@ import { untilDestroyed } from 'ngx-take-until-destroy';
 
 import { SleepTime } from 'app/sleep-time/shared/sleep-time.model';
 import { SleepTimeService } from 'app/sleep-time/shared/sleep-time.service';
+import { State } from 'app/sleep-time/shared/state.model';
+import { StateColor } from 'app/sleep-time/shared/state-color.model';
 
 declare var google: any;
 
@@ -62,11 +64,7 @@ export class SleepTimeChartComponent implements OnInit, OnDestroy {
 
           this.options = {
             avoidOverlappingGridLines: false,
-            colors: [
-              '#FFC107', // Awake
-              '#7c4dff', // Asleep
-              '#f44336', // Fussing
-            ],
+            colors: getColors(sleepTimes),
             timeline: {
               showBarLabels: false,
               rowLabelStyle: { color: '#fff' },
@@ -88,4 +86,32 @@ export class SleepTimeChartComponent implements OnInit, OnDestroy {
         });
       });
   }
+}
+
+function getColors(sleepTimes: SleepTime[]): string[] {
+  const colorCount = 3;
+  let colors = [];
+
+  for (let sleepTime of sleepTimes) {
+    switch (sleepTime.state) {
+      case State.Awake:
+        colors.push(StateColor.Awake);
+        break;
+      case State.Asleep:
+        colors.push(StateColor.Asleep);
+        break;
+      case State.Fussing:
+        colors.push(StateColor.Fussing);
+        break;
+      default:
+        // No color for State.Unknown
+        break;
+    }
+
+    if (colors.length === colorCount) {
+      break;
+    }
+  }
+
+  return colors;
 }
