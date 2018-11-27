@@ -12,6 +12,9 @@ import { AccountRoutingModule } from 'app/account/account-routing.module';
     AccountRoutingModule,
     MatButtonModule,
   ],
-  declarations: [AccountComponent, AccountDeleteComponent]
+  declarations: [
+    AccountComponent,
+    AccountDeleteComponent,
+  ]
 })
 export class AccountModule { }

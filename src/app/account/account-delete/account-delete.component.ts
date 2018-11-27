@@ -1,8 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { Router } from '@angular/router';
-
-import { FirebaseError } from 'firebase/app';
 
 import { AccountService } from 'app/account/shared/account.service';
 import { AuthService } from 'app/auth/shared/auth.service';
@@ -11,9 +9,8 @@ import { ErrorDialogComponent } from 'app/shared/error-dialog/error-dialog.compo
 @Component({
   selector: 'sn-account-delete',
   templateUrl: './account-delete.component.html',
-  styleUrls: ['./account-delete.component.css']
 })
-export class AccountDeleteComponent implements OnInit {
+export class AccountDeleteComponent {
 
   constructor(
     private accountService: AccountService,
@@ -21,9 +18,6 @@ export class AccountDeleteComponent implements OnInit {
     private matDialog: MatDialog,
     private router: Router
   ) { }
-
-  ngOnInit() {
-  }
 
   deleteAccount() {
     this.accountService

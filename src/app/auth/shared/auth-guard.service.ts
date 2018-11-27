@@ -1,7 +1,6 @@
 import { Injectable, NgZone } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
 
-import { FirebaseError } from 'firebase';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
@@ -29,7 +28,7 @@ export class AuthGuardService implements CanActivate {
 
     return this.authService.getCurrentUserState()
       .pipe(
-        map((currentUser: firebase.User) => { // User signed in
+        map(() => { // User signed in
           if (routeUrl === dashboardUrl || routeUrl === accountUrl) {
             this.loggerService.log(`Can activate '/${routeUrl}'`);
 
@@ -41,7 +40,7 @@ export class AuthGuardService implements CanActivate {
             return false;
           }
 
-        }), catchError((error: Error) => { // No user signed in
+        }), catchError(() => { // No user signed in
           if (routeUrl === signUpUrl || routeUrl === signInUrl) {
             this.loggerService.log(`Can activate '/${routeUrl}'.`);
 

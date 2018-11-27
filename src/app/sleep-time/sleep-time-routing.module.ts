@@ -13,6 +13,4 @@ const sleepTimeRoutes = [
   exports: [RouterModule],
   providers: [AuthGuardService]
 })
-export class SleepTimeRoutingModule {
-
-}
+export class SleepTimeRoutingModule { }

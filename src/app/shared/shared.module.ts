@@ -10,10 +10,13 @@ import { TimestampPipe } from 'app/shared/timestamp.pipe';
     CommonModule,
     MatDialogModule,
   ],
-  declarations: [TimestampPipe, ErrorDialogComponent],
+  declarations: [
+    TimestampPipe,
+    ErrorDialogComponent,
+  ],
   exports: [
     CommonModule,
-    TimestampPipe
+    TimestampPipe,
   ]
 })
 export class SharedModule { }
