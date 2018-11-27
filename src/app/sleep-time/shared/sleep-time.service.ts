@@ -86,7 +86,7 @@ export class SleepTimeService {
   downloadCSV() {
   }
 
-  getSleepTimes(): Observable<SleepTime[]> {
+  getSleepTimes(directionStr: firestore.OrderByDirection = 'asc'): Observable<SleepTime[]> {
     this.loggerService.log('getSleepTimes()');
 
     return this.authService
@@ -96,7 +96,7 @@ export class SleepTimeService {
           const sleepTimesPath = this.getSleepTimesPath(currentUser.uid);
 
           return this.angularFirestore
-            .collection<SleepTime>(sleepTimesPath, ref => ref.orderBy('startTimestamp'))
+            .collection<SleepTime>(sleepTimesPath, ref => ref.orderBy('startTimestamp', directionStr))
             .valueChanges()
             .pipe(
               tap(() => {
