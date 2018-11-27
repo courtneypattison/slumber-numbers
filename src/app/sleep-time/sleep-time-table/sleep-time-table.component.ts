@@ -27,7 +27,7 @@ export class SleepTimeTableComponent implements OnDestroy, OnInit {
   ngOnDestroy() { }
 
   drawTable() {
-    this.sleepTimeService.getSleepTimes()
+    this.sleepTimeService.getSleepTimes('desc')
       .pipe(untilDestroyed(this))
       .subscribe((sleepTimes: SleepTime[]) => {
         if (sleepTimes.length) {
