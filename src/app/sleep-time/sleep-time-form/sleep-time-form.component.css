@@ -1,3 +1,9 @@
-mat-form-field {
+mat-form-field:not(#hour) {
   margin-right: 8px;
+}
+
+#hour,
+#minute,
+#period {
+  width: 50px;
 }
