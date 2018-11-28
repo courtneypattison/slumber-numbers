@@ -2,6 +2,10 @@ mat-form-field:not(#hour) {
   margin-right: 8px;
 }
 
+#time {
+  display: inline-block;
+}
+
 #hour,
 #minute,
 #period {

@@ -8,23 +8,25 @@
     </mat-error>
   </mat-form-field>
 
-  <mat-form-field id="hour">
-    <mat-select formControlName="hour" placeholder="Time" required>
-      <mat-option *ngFor="let hour of hours" value="{{hour.toString()}}">{{hour}}</mat-option>
-    </mat-select>
-  </mat-form-field>
-  :
-  <mat-form-field id="minute">
-    <mat-select formControlName="minute" required>
-      <mat-option *ngFor="let minute of minutes" value="{{minute.toString()}}">{{minute}}</mat-option>
-    </mat-select>
-  </mat-form-field>
+  <div id="time">
+    <mat-form-field id="hour">
+      <mat-select formControlName="hour" placeholder="Time" required>
+        <mat-option *ngFor="let hour of hours" value="{{hour.toString()}}">{{hour}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    :
+    <mat-form-field id="minute">
+      <mat-select formControlName="minute" required>
+        <mat-option *ngFor="let minute of minutes" value="{{minute.toString()}}">{{minute}}</mat-option>
+      </mat-select>
+    </mat-form-field>
 
-  <mat-form-field id="period">
-    <mat-select formControlName="period" required>
-      <mat-option *ngFor="let period of periods" value="{{period.toString()}}">{{period}}</mat-option>
-    </mat-select>
-  </mat-form-field>
+    <mat-form-field id="period">
+      <mat-select formControlName="period" required>
+        <mat-option *ngFor="let period of periods" value="{{period.toString()}}">{{period}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
 
   <mat-form-field>
     <mat-select formControlName="state" placeholder="State" required>
