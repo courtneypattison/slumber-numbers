@@ -17,8 +17,7 @@ describe('SleepTimeStatisticsComponent', () => {
   let sleepTimeServiceSpy: jasmine.SpyObj<SleepTimeService>;
 
   beforeEach(async(() => {
-    sleepTimeServiceSpy = jasmine.createSpyObj('SleepTimeService', ['getSleepTimes', 'getAverageDailySleep']);
-    sleepTimeServiceSpy.getSleepTimes.and.returnValue(of(StubSleepTimes));
+    sleepTimeServiceSpy = jasmine.createSpyObj('SleepTimeService', ['getAverageDailySleep']);
     sleepTimeServiceSpy.getAverageDailySleep.and.returnValue(1000);
 
     TestBed.configureTestingModule({
@@ -39,6 +38,7 @@ describe('SleepTimeStatisticsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(SleepTimeStatisticsComponent);
     component = fixture.componentInstance;
+    component.sleepTimes = of(StubSleepTimes);
     fixture.detectChanges();
   });
 
