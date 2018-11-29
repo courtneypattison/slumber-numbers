@@ -14,8 +14,6 @@ import { StubSleepTimes } from 'testing/stub-sleep-times';
 describe('SleepTimeStatisticsComponent', () => {
   let component: SleepTimeStatisticsComponent;
   let fixture: ComponentFixture<SleepTimeStatisticsComponent>;
-  let angularFirestoreSpy: jasmine.SpyObj<AngularFirestore>;
-  let authServiceSpy: jasmine.SpyObj<AuthService>;
   let sleepTimeServiceSpy: jasmine.SpyObj<SleepTimeService>;
 
   beforeEach(async(() => {
@@ -29,8 +27,8 @@ describe('SleepTimeStatisticsComponent', () => {
         TimePipe,
       ],
       providers: [
-        { provide: AngularFirestore, useValue: angularFirestoreSpy },
-        { provide: AuthService, useValue: authServiceSpy },
+        { provide: AngularFirestore, useValue: {} },
+        { provide: AuthService, useValue: {} },
         { provide: LoggerService, useClass: FakeLoggerService },
         { provide: SleepTimeService, useValue: sleepTimeServiceSpy },
       ],
