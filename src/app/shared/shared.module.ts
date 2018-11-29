@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MatDialogModule } from '@angular/material';
 
 import { ErrorDialogComponent } from 'app/shared/error-dialog/error-dialog.component';
+import { TimePipe } from 'app/shared/time.pipe';
 import { TimestampPipe } from 'app/shared/timestamp.pipe';
 
 @NgModule({
@@ -11,11 +12,13 @@ import { TimestampPipe } from 'app/shared/timestamp.pipe';
     MatDialogModule,
   ],
   declarations: [
+    TimePipe,
     TimestampPipe,
     ErrorDialogComponent,
   ],
   exports: [
     CommonModule,
+    TimePipe,
     TimestampPipe,
   ]
 })
