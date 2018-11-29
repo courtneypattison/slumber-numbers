@@ -1,7 +1,7 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, MatTableDataSource } from '@angular/material';
 
-import { untilDestroyed } from 'ngx-take-until-destroy';
+import { Observable } from 'rxjs';
 
 import { SleepTime } from 'app/sleep-time/shared/sleep-time.model';
 import { SleepTimeService } from 'app/sleep-time/shared/sleep-time.service';
@@ -11,7 +11,8 @@ import { SleepTimeService } from 'app/sleep-time/shared/sleep-time.service';
   templateUrl: './sleep-time-table.component.html',
   styleUrls: ['./sleep-time-table.component.css']
 })
-export class SleepTimeTableComponent implements OnDestroy, OnInit {
+export class SleepTimeTableComponent implements OnInit {
+  @Input() sleepTimes: Observable<SleepTime[]>;
   displayedColumns = ['startTime', 'state', 'actions'];
   dataSource: MatTableDataSource<SleepTime>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -24,11 +25,8 @@ export class SleepTimeTableComponent implements OnDestroy, OnInit {
     this.drawTable();
   }
 
-  ngOnDestroy() { }
-
   drawTable() {
-    this.sleepTimeService.getSleepTimes('desc')
-      .pipe(untilDestroyed(this))
+    this.sleepTimes
       .subscribe((sleepTimes: SleepTime[]) => {
         if (sleepTimes.length) {
           this.isSleepTime = true;

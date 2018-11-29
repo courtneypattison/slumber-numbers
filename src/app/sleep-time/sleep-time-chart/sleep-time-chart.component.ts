@@ -1,6 +1,6 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 
-import { untilDestroyed } from 'ngx-take-until-destroy';
+import { Observable } from 'rxjs';
 
 import { SleepTime } from 'app/sleep-time/shared/sleep-time.model';
 import { SleepTimeService } from 'app/sleep-time/shared/sleep-time.service';
@@ -15,6 +15,7 @@ declare var google: any;
   styleUrls: ['./sleep-time-chart.component.css']
 })
 export class SleepTimeChartComponent implements OnInit, OnDestroy {
+  @Input() sleepTimes: Observable<SleepTime[]>;
   isSleepTime: boolean;
   chart;
   dataTable;
@@ -40,51 +41,49 @@ export class SleepTimeChartComponent implements OnInit, OnDestroy {
   }
 
   drawChart(): void {
-    this.sleepTimeService.getSleepTimes()
-      .pipe(untilDestroyed(this))
-      .subscribe((sleepTimes: SleepTime[]) => {
-        if (sleepTimes.length) {
-          this.isSleepTime = true;
-        } else {
-          this.isSleepTime = false;
-          return;
-        }
-        const sleepChartRows = this.sleepTimeService.getSleepChartRows(sleepTimes);
+    this.sleepTimes.subscribe((sleepTimes: SleepTime[]) => {
+      if (sleepTimes.length) {
+        this.isSleepTime = true;
+      } else {
+        this.isSleepTime = false;
+        return;
+      }
+      const sleepChartRows = this.sleepTimeService.getSleepChartRows(sleepTimes);
 
-        google.charts.load('current', { packages: ['timeline'] });
-        google.charts.setOnLoadCallback(() => {
-          const container = document.getElementById('sleep-time-chart');
-          this.chart = new google.visualization.Timeline(container);
-          this.dataTable = new google.visualization.DataTable();
-          this.dataTable.addColumn({ type: 'string', id: 'Date' });
-          this.dataTable.addColumn({ type: 'string', id: 'State' });
-          this.dataTable.addColumn({ type: 'date', id: 'Start' });
-          this.dataTable.addColumn({ type: 'date', id: 'End' });
-          this.dataTable.addRows(sleepChartRows);
+      google.charts.load('current', { packages: ['timeline'] });
+      google.charts.setOnLoadCallback(() => {
+        const container = document.getElementById('sleep-time-chart');
+        this.chart = new google.visualization.Timeline(container);
+        this.dataTable = new google.visualization.DataTable();
+        this.dataTable.addColumn({ type: 'string', id: 'Date' });
+        this.dataTable.addColumn({ type: 'string', id: 'State' });
+        this.dataTable.addColumn({ type: 'date', id: 'Start' });
+        this.dataTable.addColumn({ type: 'date', id: 'End' });
+        this.dataTable.addRows(sleepChartRows);
 
-          this.options = {
-            avoidOverlappingGridLines: false,
-            colors: getColors(sleepTimes),
-            timeline: {
-              showBarLabels: false,
-              rowLabelStyle: { color: '#fff' },
-            },
-            backgroundColor: '#303030',
-          };
+        this.options = {
+          avoidOverlappingGridLines: false,
+          colors: getColors(sleepTimes),
+          timeline: {
+            showBarLabels: false,
+            rowLabelStyle: { color: '#fff' },
+          },
+          backgroundColor: '#303030',
+        };
 
-          // Colour horizontal axis white
-          google.visualization.events.addListener(this.chart, 'ready', function () {
-            const labels = container.getElementsByTagName('text');
-            Array.prototype.forEach.call(labels, function (label) {
-              if (label.getAttribute('text-anchor') === 'middle') {
-                label.setAttribute('fill', '#ffffff');
-              }
-            });
+        // Colour horizontal axis white
+        google.visualization.events.addListener(this.chart, 'ready', function () {
+          const labels = container.getElementsByTagName('text');
+          Array.prototype.forEach.call(labels, function (label) {
+            if (label.getAttribute('text-anchor') === 'middle') {
+              label.setAttribute('fill', '#ffffff');
+            }
           });
-
-          this.chart.draw(this.dataTable, this.options);
         });
+
+        this.chart.draw(this.dataTable, this.options);
       });
+    });
   }
 }
 

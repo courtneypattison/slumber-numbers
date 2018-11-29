@@ -1,6 +1,6 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
-import { untilDestroyed } from 'ngx-take-until-destroy';
+import { Observable } from 'rxjs';
 
 import { SleepTime } from 'app/sleep-time/shared/sleep-time.model';
 import { SleepTimeService } from 'app/sleep-time/shared/sleep-time.service';
@@ -9,19 +9,15 @@ import { SleepTimeService } from 'app/sleep-time/shared/sleep-time.service';
   selector: 'sn-sleep-time-statistics',
   templateUrl: './sleep-time-statistics.component.html',
 })
-export class SleepTimeStatisticsComponent implements OnDestroy, OnInit {
+export class SleepTimeStatisticsComponent implements OnInit {
+  @Input() sleepTimes: Observable<SleepTime[]>;
   averageDailySleep: number;
 
   constructor(private sleepTimeService: SleepTimeService) { }
 
   ngOnInit() {
-    this.sleepTimeService.getSleepTimes()
-      .pipe(untilDestroyed(this))
-      .subscribe((sleepTimes: SleepTime[]) => {
-        this.averageDailySleep = this.sleepTimeService.getAverageDailySleep(sleepTimes);
-      });
+    this.sleepTimes.subscribe((sleepTimes: SleepTime[]) => {
+      this.averageDailySleep = this.sleepTimeService.getAverageDailySleep(sleepTimes);
+    });
   }
-
-  ngOnDestroy() {}
-
 }
