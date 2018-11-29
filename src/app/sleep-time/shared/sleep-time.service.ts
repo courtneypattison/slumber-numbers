@@ -105,7 +105,7 @@ export class SleepTimeService {
         } else { // New day
           const beginPrevStartDate = new Date(prevStartDate.getFullYear(), prevStartDate.getMonth(), prevStartDate.getDate(), 0, 0);
           const endPrevStartDate = new Date(prevStartDate.getFullYear(), prevStartDate.getMonth(), prevStartDate.getDate(), 24, 0);
-        
+
           dailySum += endPrevStartDate.valueOf() - prevStartDate.valueOf();
           dailySums.push(dailySum);
           dailySum = 0;
