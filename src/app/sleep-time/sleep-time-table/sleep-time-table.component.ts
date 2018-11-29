@@ -9,7 +9,7 @@ import { SleepTimeService } from 'app/sleep-time/shared/sleep-time.service';
 @Component({
   selector: 'sn-sleep-time-table',
   templateUrl: './sleep-time-table.component.html',
-  styleUrls: ['./sleep-time-table.component.css']
+  styleUrls: ['./sleep-time-table.component.scss']
 })
 export class SleepTimeTableComponent implements OnInit {
   @Input() sleepTimes: Observable<SleepTime[]>;

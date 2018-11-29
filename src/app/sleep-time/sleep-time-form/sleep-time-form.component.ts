@@ -8,7 +8,7 @@ import { SleepTimeService } from 'app/sleep-time/shared/sleep-time.service';
 @Component({
   selector: 'sn-sleep-time-form',
   templateUrl: './sleep-time-form.component.html',
-  styleUrls: ['./sleep-time-form.component.css']
+  styleUrls: ['./sleep-time-form.component.scss']
 })
 export class SleepTimeFormComponent {
   datePipe = new DatePipe(navigator.language);

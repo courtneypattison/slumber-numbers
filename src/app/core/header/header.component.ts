@@ -8,7 +8,7 @@ import { AuthService } from 'app/auth/shared/auth.service';
 @Component({
   selector: 'sn-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.css']
+  styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
   title = 'Slumber Numbers';

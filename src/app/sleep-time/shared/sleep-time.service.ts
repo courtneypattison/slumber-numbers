@@ -143,12 +143,10 @@ export class SleepTimeService {
             .valueChanges()
             .pipe(
               tap(() => {
-                this.loggerService.log(`Got sleep times from firestore:
-                    sleepTimesPath: ${sleepTimesPath}`);
+                this.loggerService.log(`Got sleep times from firestore: sleepTimesPath: ${sleepTimesPath}`);
               }),
               catchError((error: firestore.FirestoreError) => {
-                this.loggerService.error(`Couldn't get sleep times from firestore:
-                    error.message: ${error.message ? error.message : error.code}`);
+                this.loggerService.error(`Couldn't get sleep times from firestore: error.message: ${error.message}`);
                 return of([]);
               })
             );

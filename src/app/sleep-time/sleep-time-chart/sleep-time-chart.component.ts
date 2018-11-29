@@ -12,7 +12,7 @@ declare var google: any;
 @Component({
   selector: 'sn-sleep-time-chart',
   templateUrl: './sleep-time-chart.component.html',
-  styleUrls: ['./sleep-time-chart.component.css']
+  styleUrls: ['./sleep-time-chart.component.scss']
 })
 export class SleepTimeChartComponent implements OnInit, OnDestroy {
   @Input() sleepTimes: Observable<SleepTime[]>;
