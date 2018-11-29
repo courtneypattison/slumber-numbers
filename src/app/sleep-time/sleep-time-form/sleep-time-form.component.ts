@@ -16,7 +16,7 @@ export class SleepTimeFormComponent {
   sleepTimeForm = this.formBuilder.group({
     startDate: [this.currentDate, Validators.required],
     hour: [this.datePipe.transform(this.currentDate, 'h'), Validators.required],
-    minute: [this.datePipe.transform(this.currentDate, 'm'), Validators.required],
+    minute: [this.datePipe.transform(this.currentDate, 'mm'), Validators.required],
     period: [this.datePipe.transform(this.currentDate, 'a'), Validators.required],
     state: ['', Validators.required]
   });

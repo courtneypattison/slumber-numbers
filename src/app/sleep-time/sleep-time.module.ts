@@ -19,6 +19,7 @@ import { SleepTimeFormComponent } from 'app/sleep-time/sleep-time-form/sleep-tim
 import { SleepTimeService } from 'app/sleep-time/shared/sleep-time.service';
 import { SleepTimeTableComponent } from 'app/sleep-time/sleep-time-table/sleep-time-table.component';
 import { SleepTimeRoutingModule } from 'app/sleep-time/sleep-time-routing.module';
+import { SleepTimeStatisticsComponent } from 'app/sleep-time/sleep-time-statistics/sleep-time-statistics.component';
 
 @NgModule({
   imports: [
@@ -43,7 +44,8 @@ import { SleepTimeRoutingModule } from 'app/sleep-time/sleep-time-routing.module
     SleepTimeComponent,
     SleepTimeChartComponent,
     SleepTimeFormComponent,
-    SleepTimeTableComponent
+    SleepTimeTableComponent,
+    SleepTimeStatisticsComponent
   ]
 })
 export class SleepTimeModule { }

@@ -86,6 +86,49 @@ export class SleepTimeService {
   downloadCSV() {
   }
 
+  getAverageDailySleep(sleepTimes: SleepTime[]): number {
+    this.loggerService.log('getAverageDailySleep()');
+    let averageDailySleep = 0;
+    let prevStartDate: Date = null;
+    let prevState: State = null;
+    let dailySum = 0;
+    let dailySums = [];
+    let sum = 0;
+
+    for (const sleepTime of sleepTimes) {
+      const startDate = sleepTime.startTimestamp.toDate();
+      if (prevStartDate) {
+        if (startDate.toDateString() === prevStartDate.toDateString()) { // Same day
+          if (prevState === State.Asleep) {
+            dailySum += startDate.valueOf() - prevStartDate.valueOf();
+          }
+        } else { // New day
+          const beginPrevStartDate = new Date(prevStartDate.getFullYear(), prevStartDate.getMonth(), prevStartDate.getDate(), 0, 0);
+          const endPrevStartDate = new Date(prevStartDate.getFullYear(), prevStartDate.getMonth(), prevStartDate.getDate(), 24, 0);
+        
+          dailySum += endPrevStartDate.valueOf() - prevStartDate.valueOf();
+          dailySums.push(dailySum);
+          dailySum = 0;
+
+          dailySum += startDate.valueOf() - beginPrevStartDate.valueOf();
+        }
+      }
+
+      prevState = sleepTime.state;
+      prevStartDate = startDate;
+    }
+    if (dailySums) {
+      dailySums = dailySums.slice(1);
+    }
+
+    for (const s of dailySums) {
+      sum += s;
+    }
+    averageDailySleep = sum / dailySums.length;
+
+    return averageDailySleep;
+  }
+
   getSleepTimes(directionStr: firestore.OrderByDirection = 'asc'): Observable<SleepTime[]> {
     this.loggerService.log('getSleepTimes()');
 
@@ -133,16 +176,16 @@ export class SleepTimeService {
         const prevState = sleepTimes[i - 1].state;
 
         if (prevStartTime.toDateString() === currStartDateTime.toDateString()) { // Same day
-            sleepChartRows[j - 1][endTimeIndex] = currStartTime;
+          sleepChartRows[j - 1][endTimeIndex] = currStartTime;
         } else { // New day
-            sleepChartRows[j - 1][endTimeIndex] = new Date(0, 0, 0, 24, 0);
-            sleepChartRows.push([
-              datePipe.transform(currStartDateTime, 'M/d'),
-              prevState,
-              new Date(0, 0, 0, 0, 0),
-              currStartTime
-            ]);
-            j++;
+          sleepChartRows[j - 1][endTimeIndex] = new Date(0, 0, 0, 24, 0);
+          sleepChartRows.push([
+            datePipe.transform(currStartDateTime, 'M/d'),
+            prevState,
+            new Date(0, 0, 0, 0, 0),
+            currStartTime
+          ]);
+          j++;
         }
       }
 
