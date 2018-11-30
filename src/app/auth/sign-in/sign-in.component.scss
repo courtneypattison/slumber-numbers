@@ -1,0 +1,14 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.mat-raised-button {
+  padding-left: 0;
+}
+
+span {
+  padding-left: 16px;
+}

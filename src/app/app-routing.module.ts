@@ -7,7 +7,7 @@ import { PageNotFoundComponent } from 'app/core/page-not-found/page-not-found.co
 import { SleepTimeModule } from 'app/sleep-time/sleep-time.module';
 
 const appRoutes: Routes = [
-  { path: '', redirectTo: '/signup', pathMatch: 'full' },
+  { path: '', redirectTo: '/signin', pathMatch: 'full' },
   { path: '**', pathMatch: 'full', component: PageNotFoundComponent }
 ];
 

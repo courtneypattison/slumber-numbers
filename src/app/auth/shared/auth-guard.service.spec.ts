@@ -74,19 +74,19 @@ describe('AuthGuardService', () => {
       });
     });
 
-    it('should activate signup', (done: DoneFn) => {
+    it('should activate signin', (done: DoneFn) => {
       authServiceSpy.getCurrentUserState.and.returnValue(throwError(NoUserError));
 
-      authGuardService.canActivate(getActivatedRouteSnapshot('signup'), dummyRouterStateSnapshot).subscribe((result: boolean) => {
+      authGuardService.canActivate(getActivatedRouteSnapshot('signin'), dummyRouterStateSnapshot).subscribe((result: boolean) => {
         expect(result).toBeTruthy();
         done();
       });
     });
 
-    it('shouldn\'t activate signup', (done: DoneFn) => {
+    it('shouldn\'t activate signin', (done: DoneFn) => {
       authServiceSpy.getCurrentUserState.and.returnValue(of(StubFirebaseUser));
 
-      authGuardService.canActivate(getActivatedRouteSnapshot('signup'), dummyRouterStateSnapshot).subscribe((result: boolean) => {
+      authGuardService.canActivate(getActivatedRouteSnapshot('signin'), dummyRouterStateSnapshot).subscribe((result: boolean) => {
         expect(result).toBeFalsy();
         done();
       });

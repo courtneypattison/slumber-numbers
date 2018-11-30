@@ -8,7 +8,7 @@
 
       <div class="fill-space"></div>
 
-      <div *ngIf="authService.user | async as user; else showSignUpOrIn">
+      <div *ngIf="authService.user | async as user; else showSignIn">
 
         <button mat-mini-fab color="accent" [matMenuTriggerFor]="menu">{{userInitial | async | uppercase}}</button>
         <mat-menu #menu="matMenu">
@@ -18,9 +18,8 @@
         </mat-menu>
       </div>
 
-      <ng-template #showSignUpOrIn>
-        <a mat-button routerLink="/signin">Sign In</a>
-        <a mat-raised-button routerLink="/signup" color="accent">Sign Up</a>
+      <ng-template #showSignIn>
+        <a mat-raised-button routerLink="/signin" color="accent">Sign In</a>
       </ng-template>
     </mat-toolbar>
   </nav>

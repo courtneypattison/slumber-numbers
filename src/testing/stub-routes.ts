@@ -5,7 +5,7 @@ import { PageNotFoundComponent } from 'app/core/page-not-found/page-not-found.co
 import { SleepTimeComponent } from 'app/sleep-time/sleep-time.component';
 
 export const StubRoutes: Routes = [
-  { path: '', redirectTo: '/signup', pathMatch: 'full' },
+  { path: '', redirectTo: '/signin', pathMatch: 'full' },
   { path: 'dashboard', component: SleepTimeComponent },
   { path: 'account', component: AccountComponent },
   { path: '**', pathMatch: 'full', component: PageNotFoundComponent },

@@ -24,7 +24,6 @@ export class AuthGuardService implements CanActivate {
     const accountUrl = 'account';
     const dashboardUrl = 'dashboard';
     const signInUrl = 'signin';
-    const signUpUrl = 'signup';
 
     return this.authService.getCurrentUserState()
       .pipe(
@@ -41,13 +40,13 @@ export class AuthGuardService implements CanActivate {
           }
 
         }), catchError(() => { // No user signed in
-          if (routeUrl === signUpUrl || routeUrl === signInUrl) {
+          if (routeUrl === signInUrl) {
             this.loggerService.log(`Can activate '/${routeUrl}'.`);
 
             return of(true);
           } else {
-            this.loggerService.error(`Cannot activate '/${routeUrl}'. Navigate to '/${signUpUrl}'`);
-            this.ngZone.run(() => this.router.navigateByUrl(`/${signUpUrl}`));
+            this.loggerService.error(`Cannot activate '/${routeUrl}'. Navigate to '/${signInUrl}'`);
+            this.ngZone.run(() => this.router.navigateByUrl(`/${signInUrl}`));
 
             return of(false);
           }
