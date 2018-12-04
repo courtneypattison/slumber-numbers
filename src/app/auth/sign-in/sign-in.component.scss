@@ -1,14 +1,45 @@
-:host {
+@import '../../../styles/constants';
+
+:host,
+#auth-buttons {
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+
+:host {
   align-items: center;
+}
+
+#auth-buttons {
+  align-items: stretch;
 }
 
 .mat-raised-button {
   padding-left: 0;
+  height: $sign-in-button-height;
 }
 
 span {
-  padding-left: 16px;
+  padding-left: $sign-in-space-between;
+}
+
+#google-button,
+#facebook-button {
+  text-align: left;
+}
+
+#google-button {
+  background-color: white;
+  color: $grey-600;
+  margin-bottom: $button-margin;
+}
+
+#facebook-button {
+  background-color: $facebook-blue;
+  color: white;
+
+  img {
+    margin: $sign-in-img-margin;
+  }
 }

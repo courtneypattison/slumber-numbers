@@ -1,6 +1,14 @@
 <h1>Welcome</h1>
 <p>Sign in to track sleeping habits</p>
-<button mat-raised-button color="white" (click)="signIn()">
-  <img alt="" src="assets/images/logos/google-logo.svg" width="40px" height="40px">
-  <span>Sign in with Google</span>
-</button>
+
+<div id="auth-buttons">
+  <button mat-raised-button id="google-button" (click)="signIn(AuthProvider.Google)">
+    <img alt="" src="assets/images/logos/google-auth-logo.svg" width="40px" height="40px">
+    <span>Sign in with Google</span>
+  </button>
+
+  <button mat-raised-button id="facebook-button" (click)="signIn(AuthProvider.Facebook)">
+    <img alt="" src="assets/images/logos/facebook-auth-logo.svg" width="18px" height="18px">
+    <span>Continue with Facebook</span>
+  </button>
+</div>

@@ -10,6 +10,7 @@ import { catchError, first, map } from 'rxjs/operators';
 
 import { LoggerService } from 'app/core/logger.service';
 import { Account } from 'app/account/shared/account.model';
+import { AuthProvider } from 'app/auth/shared/auth-provider.model';
 
 export const NoUserError = Error('There is no user signed in.');
 
@@ -28,7 +29,7 @@ export class AuthService {
     private router: Router,
   ) {
     this.user = angularFireAuth.user;
-   }
+  }
 
   getCurrentUser(): Promise<User> {
     this.logger.log('getCurrentUser()');
@@ -78,59 +79,68 @@ export class AuthService {
       );
   }
 
-  signInWithGoogle(): Promise<void> {
-    this.logger.log('signInWithGoogle()');
-
-    return new Promise((resolve, reject) => {
-      this.angularFireAuth.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider())
-        .then((userCredential: firebase.auth.UserCredential) => {
-          this.logger.log('Signed in with Google');
-
-          this.setAccountDoc(userCredential.user.uid)
-            .then(() => {
-              this.ngZone.run(() => this.router.navigateByUrl('/dashboard'));
-
-              resolve();
-            })
-            .catch((error: firebase.firestore.FirestoreError) => reject(error));
-        })
-        .catch((error: firebase.auth.Error) => {
-          this.logger.error(`Failed to sign in with Google: error: ${error.message}`);
-
-          reject(error);
-        });
-    });
+  private getProvider(authProvider: AuthProvider): firebase.auth.AuthProvider {
+    switch (authProvider) {
+      case AuthProvider.Google:
+        return new firebase.auth.GoogleAuthProvider();
+      case AuthProvider.Facebook:
+        return new firebase.auth.FacebookAuthProvider();
+    }
   }
 
-  signOut(): Promise<void> {
-    this.logger.log('signOut()');
+signIn(authProvider: AuthProvider): Promise<void> {
+  this.logger.log(`signIn(authProvider: ${AuthProvider[authProvider]})`);
 
     return new Promise((resolve, reject) => {
-      this.angularFireAuth.auth.signOut()
-        .then(() => {
-          this.logger.log('Signed out');
-          this.ngZone.run(() => this.router.navigateByUrl('/'));
+    this.angularFireAuth.auth.signInWithPopup(this.getProvider(authProvider))
+      .then((userCredential: firebase.auth.UserCredential) => {
+        this.logger.log(`Signed in with ${AuthProvider[authProvider]}`);
 
-          resolve();
-        })
-        .catch((error: firebase.auth.Error) => {
-          this.logger.error(`Failed to sign out: error: ${error.message}`);
+        this.setAccountDoc(userCredential.user.uid)
+          .then(() => {
+            this.ngZone.run(() => this.router.navigateByUrl('/dashboard'));
 
-          reject(error);
-        });
-    });
-  }
+            resolve();
+          })
+          .catch((error: firebase.firestore.FirestoreError) => reject(error));
+      })
+      .catch((error: firebase.auth.Error) => {
+        this.logger.error(`Failed to sign in with ${authProvider}: error: ${error.message}`);
+
+        reject(error);
+      });
+  });
+}
+
+signOut(): Promise<void> {
+  this.logger.log('signOut()');
+
+  return new Promise((resolve, reject) => {
+    this.angularFireAuth.auth.signOut()
+      .then(() => {
+        this.logger.log('Signed out');
+        this.ngZone.run(() => this.router.navigateByUrl('/'));
+
+        resolve();
+      })
+      .catch((error: firebase.auth.Error) => {
+        this.logger.error(`Failed to sign out: error: ${error.message}`);
+
+        reject(error);
+      });
+  });
+}
 
   private setAccountDoc(uid: string): Promise<void> {
-    this.logger.log(`setAccount(uid: ${uid})`);
+  this.logger.log(`setAccount(uid: ${uid})`);
 
-    return this.logger.logPromise(
-      'Set user account doc in firestore',
-      'Failed to set user account doc in firestore',
-      this.aFirestore
-        .collection<Account>('accounts')
-        .doc(uid)
-        .set({ uid: uid })
-    );
-  }
+  return this.logger.logPromise(
+    'Set user account doc in firestore',
+    'Failed to set user account doc in firestore',
+    this.aFirestore
+      .collection<Account>('accounts')
+      .doc(uid)
+      .set({ uid: uid })
+  );
+}
 }

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 
 import { AuthService } from 'app/auth/shared/auth.service';
+import { AuthProvider } from 'app/auth/shared/auth-provider.model';
 import { ErrorDialogComponent } from 'app/shared/error-dialog/error-dialog.component';
 
 @Component({
@@ -10,17 +11,15 @@ import { ErrorDialogComponent } from 'app/shared/error-dialog/error-dialog.compo
   styleUrls: ['./sign-in.component.scss']
 })
 export class SignInComponent {
+  AuthProvider = AuthProvider;
 
   constructor(public authService: AuthService, private matDialog: MatDialog) { }
 
-  signIn() {
+  signIn(authProvider: AuthProvider) {
     this.authService
-      .signInWithGoogle()
+      .signIn(authProvider)
       .catch((error: firebase.FirebaseError) => {
-        if (error.code === 'auth/account-exists-with-different-credential'
-          || error.code === 'auth/cancelled-popup-request'
-          || error.code === 'auth/popup-blocked'
-          || error.code === 'auth/popup-closed-by-user') {
+        if (error.code === 'auth/account-exists-with-different-credential') {
           this.openErrorDialog(error.message);
         }
       });
