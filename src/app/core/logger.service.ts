@@ -14,13 +14,11 @@ export class LoggerService {
   logPromise(resolveMessage: string, rejectMessage: string, promise: Promise<any>): Promise<any> {
     return new Promise((resolve, reject) => {
         promise.then((result) => {
-          this.log(`${resolveMessage}:
-            result: ${result}`);
+          this.log(`${resolveMessage}: result: ${result}`);
 
           resolve(result);
         }).catch((error) => {
-          this.log(`${rejectMessage}:
-            error: ${error}`);
+          this.log(`${rejectMessage}: error: ${error}`);
 
           reject(error);
         });
