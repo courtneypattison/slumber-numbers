@@ -7,6 +7,7 @@ import * as firebase from 'firebase/app';
 import { of } from 'rxjs';
 
 import { AuthService, NoUserError } from 'app/auth/shared/auth.service';
+import { AuthProvider } from 'app/auth/shared/auth-provider.model';
 import { LoggerService } from 'app/core/logger.service';
 import { FakeLoggerService } from 'testing/fake-logger.service';
 import { StubFirebaseAuthError } from 'testing/stub-firebase-auth-error';
@@ -54,12 +55,12 @@ describe('AuthService', () => {
     expect(authService).toBeTruthy();
   });
 
-  describe('#signInWithGoogle', () => {
+  describe('#signIn', () => {
     it('should return a Promise containing void', (done: DoneFn) => {
       authSpy.signInWithPopup.and.returnValue(Promise.resolve(StubUserCredential));
       docSpy.set.and.returnValue(Promise.resolve());
 
-      authService.signInWithGoogle().then((result: void) => {
+      authService.signIn(AuthProvider.Google).then((result: void) => {
         expect(result).toBeUndefined();
         done();
       });
@@ -69,7 +70,7 @@ describe('AuthService', () => {
       authSpy.signInWithPopup.and.returnValue(Promise.resolve(StubUserCredential));
       docSpy.set.and.returnValue(Promise.resolve());
 
-      authService.signInWithGoogle().then((result: void) => {
+      authService.signIn(AuthProvider.Google).then((result: void) => {
         expect(docSpy.set).toHaveBeenCalledWith({ uid: StubUserCredential.user.uid });
         done();
       });
@@ -78,7 +79,7 @@ describe('AuthService', () => {
     it('should throw a firebase auth error', (done: DoneFn) => {
       authSpy.signInWithPopup.and.returnValue(Promise.reject(StubFirebaseAuthError));
 
-      authService.signInWithGoogle().catch((error: firebase.auth.Error) => {
+      authService.signIn(AuthProvider.Google).catch((error: firebase.auth.Error) => {
         expect(error).toEqual(StubFirebaseAuthError);
         done();
       });
@@ -88,7 +89,7 @@ describe('AuthService', () => {
       authSpy.signInWithPopup.and.returnValue(Promise.resolve(StubUserCredential));
       docSpy.set.and.returnValue(Promise.reject(StubFirestoreError));
 
-      authService.signInWithGoogle().catch((error: firebase.auth.Error) => {
+      authService.signIn(AuthProvider.Google).catch((error: firebase.auth.Error) => {
         expect(error).toEqual(StubFirestoreError);
         done();
       });
