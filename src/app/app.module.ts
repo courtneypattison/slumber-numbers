@@ -20,7 +20,7 @@ import { SharedModule } from 'app/shared/shared.module';
     AppComponent
   ],
   imports: [
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'slumber-numbers' }),
     BrowserAnimationsModule,
 
     CoreModule,

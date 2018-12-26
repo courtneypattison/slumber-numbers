@@ -12,7 +12,7 @@ cache:
   directories: node_modules
 
 script:
-  - yarn build:ci
+  - yarn build:all
   - yarn lint
   - yarn test:ci
   - yarn e2e:ci

@@ -10,7 +10,11 @@
     "test:ci": "ng test --watch=false --browsers ChromeHeadless --code-coverage --progress=false",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "e2e:ci": "ng e2e --webdriver-update"
+    "e2e:ci": "ng e2e --webdriver-update",
+    "webpack:prerender": "webpack --config webpack.prerender.config.js",
+    "build:prerender": "node dist/slumber-numbers/prerender.js",
+    "serve:prerender": "http-server dist/slumber-numbers -o",
+    "build:all": "ng build --prod --progress=false && ng run slumber-numbers:server && npm run webpack:prerender && npm run build:prerender"
   },
   "private": true,
   "dependencies": {
@@ -25,8 +29,10 @@
     "@angular/material": "^7.0.2",
     "@angular/platform-browser": "^7.0.2",
     "@angular/platform-browser-dynamic": "^7.0.2",
+    "@angular/platform-server": "^7.0.2",
     "@angular/router": "^7.0.2",
     "@firebase/app-types": "^0.3.2",
+    "@nguniversal/module-map-ngfactory-loader": "^7.0.2",
     "core-js": "^2.5.4",
     "firebase": "^5.5.7",
     "hammerjs": "^2.0.8",
@@ -44,6 +50,8 @@
     "@types/node": "~10.12.2",
     "codelyzer": "~4.5.0",
     "coveralls": "^3.0.2",
+    "fs-extra": "^7.0.1",
+    "http-server": "^0.11.1",
     "jasmine-core": "~3.3.0",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "~3.1.1",
@@ -51,9 +59,14 @@
     "karma-coverage-istanbul-reporter": "~2.0.4",
     "karma-jasmine": "~1.1.1",
     "karma-jasmine-html-reporter": "^1.4.0",
+    "npm": "^6.5.0",
     "protractor": "~5.4.1",
+    "ts-loader": "^5.3.1",
     "ts-node": "~7.0.1",
     "tslint": "~5.11.0",
-    "typescript": "~3.1.6"
+    "typescript": "~3.1.6",
+    "webpack-cli": "^3.1.2",
+    "ws": "^6.1.2",
+    "xmlhttprequest": "^1.8.0"
   }
 }
