@@ -11,7 +11,7 @@
     "test:pa11y": "./node_modules/.bin/pa11y-ci",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "e2e:ci": "ng e2e --webdriver-update",
+    "e2e:ci": "ng e2e --webdriver-update"
   },
   "private": true,
   "dependencies": {
