@@ -2,32 +2,34 @@ sudo: required
 dist: trusty
 
 language: node_js
-node_js: "8"
+node_js: "10"
 
-addons:
-  chrome: stable
+matrix:
+  include:
+    - script: yarn lint
+    - addons:
+        chrome: stable
 
-cache:
-  yarn: true
-  directories: node_modules
+      cache:
+        yarn: true
+        directories: node_modules
 
-script:
-  - yarn build:ci
-  - yarn lint
-  - yarn test:ci
-  - yarn e2e:ci
-  - cat coverage/lcov.info | yarn coveralls
+      script:
+        - yarn build:ci
+        - yarn test:ci
+        - yarn e2e:ci
+        - cat coverage/lcov.info | yarn coveralls
 
-deploy:
-  skip_cleanup: true
-  provider: firebase
-  token:
-    secure: $FIREBASE_TOKEN
-  project: "slumber-numbers"
-  on:
-    branch: master
+      deploy:
+        skip_cleanup: true
+        provider: firebase
+        token:
+          secure: $FIREBASE_TOKEN
+        project: "slumber-numbers"
+        on:
+          branch: master
 
-notifications:
-  email:
-    on_failure: change
-    on_success: change
+      notifications:
+        email:
+          on_failure: change
+          on_success: change
