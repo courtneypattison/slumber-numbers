@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /dashboard/
+Disallow: /account/
+
+Sitemap: https://slumbernumbers.com/sitemap.xml
+Sitemap: http://www.slumbernumbers.com/sitemap.xml
