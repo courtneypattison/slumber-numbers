@@ -16,7 +16,7 @@ matrix:
     - env: MODE=pa11y
       script:
         - yarn start & sleep 5
-        - yarn pa11y-ci
+        - yarn test:pa11y
 
     - env: MODE=deploy
       addons:
