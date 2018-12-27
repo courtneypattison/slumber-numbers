@@ -11,7 +11,8 @@
     "test:pa11y": "pa11y-ci --sitemap http://slumbernumbers.com/sitemap.xml --sitemap-find slumbernumbers.com --sitemap-replace localhost:4200 --sitemap-find https --sitemap-replace http",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "e2e:ci": "ng e2e --webdriver-update"
+    "e2e:ci": "ng e2e --webdriver-update",
+    "wait": "wait-on http-get://localhost:4200"
   },
   "private": true,
   "dependencies": {
@@ -56,6 +57,7 @@
     "protractor": "~5.4.1",
     "ts-node": "~7.0.1",
     "tslint": "~5.11.0",
-    "typescript": "~3.1.6"
+    "typescript": "~3.1.6",
+    "wait-on": "^3.2.0"
   }
 }

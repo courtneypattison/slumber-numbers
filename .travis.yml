@@ -23,7 +23,8 @@ matrix:
 
     - env: MODE=pa11y
       script:
-        - yarn start & sleep 5
+        - yarn start &
+        - yarn wait
         - yarn test:pa11y
 
     - env: MODE=deploy
