@@ -4,15 +4,23 @@ dist: trusty
 language: node_js
 node_js: "10"
 
+cache:
+  yarn: true
+  directories: node_modules
+
 matrix:
   include:
-    - script: yarn lint
-    - addons:
-        chrome: stable
+    - env: MODE=lint
+      script: yarn lint
 
-      cache:
-        yarn: true
-        directories: node_modules
+    - env: MODE=pa11y
+      script:
+        - yarn start
+        - yarn pa11y-ci
+
+    - env: MODE=deploy
+      addons:
+        chrome: stable
 
       script:
         - yarn build:ci
