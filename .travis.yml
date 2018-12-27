@@ -8,6 +8,14 @@ cache:
   yarn: true
   directories: node_modules
 
+addons:
+  chrome: stable
+
+notifications:
+  email:
+    on_failure: change
+    on_success: change
+
 matrix:
   include:
     - env: MODE=lint
@@ -19,9 +27,6 @@ matrix:
         - yarn test:pa11y
 
     - env: MODE=deploy
-      addons:
-        chrome: stable
-
       script:
         - yarn build:ci
         - yarn test:ci
@@ -36,8 +41,3 @@ matrix:
         project: "slumber-numbers"
         on:
           branch: master
-
-      notifications:
-        email:
-          on_failure: change
-          on_success: change
