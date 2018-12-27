@@ -1,7 +1,0 @@
-{
-  "urls": [
-    "http://localhost:4200/signin",
-    "http://localhost:4200/dashboard",
-    "http://localhost:4200/account"
-  ]
-}

@@ -8,7 +8,7 @@
     "build:ci": "ng build --prod --progress=false",
     "test": "ng test",
     "test:ci": "ng test --watch=false --browsers ChromeHeadless --code-coverage --progress=false",
-    "test:pa11y": "./node_modules/.bin/pa11y-ci",
+    "test:pa11y": "./node_modules/.bin/pa11y-ci --sitemap http://slumbernumbers.com/sitemap.xml --sitemap-find slumbernumbers.com --sitemap-replace localhost:4200 --sitemap-find https --sitemap-replace http",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "e2e:ci": "ng e2e --webdriver-update"
