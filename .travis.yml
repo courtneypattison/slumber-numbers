@@ -2,7 +2,6 @@ sudo: required
 dist: trusty
 
 language: node_js
-node_js: "10"
 
 cache:
   yarn: true
@@ -19,15 +18,24 @@ notifications:
 matrix:
   include:
     - env: MODE=lint
+      node_js:
+        - "9"
+        - "10"
       script: yarn lint
 
     - env: MODE=pa11y
+      node_js:
+        - "9"
+        - "10"
       script:
         - yarn start &
         - yarn wait
         - yarn test:pa11y
 
     - env: MODE=deploy
+      node_js:
+        - "9"
+        - "10"
       script:
         - yarn build:ci
         - yarn test:ci
