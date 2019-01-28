@@ -7,6 +7,11 @@ node_js:
   - "9"
   - "10"
 
+env:
+  - MODE=lint
+  - MODE=pa11y
+  - MODE=test
+
 cache:
   yarn: true
   directories: node_modules
@@ -19,27 +24,29 @@ notifications:
     on_failure: change
     on_success: change
 
-env: MODE=lint
-  script: yarn lint
+matrix:
+  include:
+    - env: MODE=lint
+      script: yarn lint
 
-env: MODE=pa11y
-  script:
-    - yarn start &
-    - yarn wait
-    - yarn test:pa11y
+    - env: MODE=pa11y
+      script:
+        - yarn start &
+        - yarn wait
+        - yarn test:pa11y
 
-env: MODE=deploy
-  script:
-    - yarn build:ci
-    - yarn test:ci
-    - yarn e2e:ci
-    - cat coverage/lcov.info | yarn coveralls
+    - env: MODE=deploy
+      script:
+        - yarn build:ci
+        - yarn test:ci
+        - yarn e2e:ci
+        - cat coverage/lcov.info | yarn coveralls
 
-  deploy:
-    skip_cleanup: true
-    provider: firebase
-    token:
-      secure: $FIREBASE_TOKEN
-    project: "slumber-numbers"
-    on:
-      branch: master
+      # deploy:
+      #   skip_cleanup: true
+      #   provider: firebase
+      #   token:
+      #     secure: $FIREBASE_TOKEN
+      #   project: "slumber-numbers"
+      #   on:
+      #     branch: master
