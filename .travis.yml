@@ -19,16 +19,16 @@ notifications:
     on_failure: change
     on_success: change
 
-- env: MODE=lint
+env: MODE=lint
   script: yarn lint
 
-- env: MODE=pa11y
+env: MODE=pa11y
   script:
     - yarn start &
     - yarn wait
     - yarn test:pa11y
 
-- env: MODE=deploy
+env: MODE=deploy
   script:
     - yarn build:ci
     - yarn test:ci
