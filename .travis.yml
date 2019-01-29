@@ -19,17 +19,13 @@ matrix:
       script: yarn lint
 
     - name: "Pa11y"
-      script:
-        - yarn start &
-        - yarn wait
-        - yarn pa11y
+      script: yarn pa11y:ci
 
-    - name: "Unit, E2E, and Coverage"
-      script:
-        - yarn build:ci
-        - yarn test:ci
-        - yarn e2e:ci
-        - cat coverage/lcov.info | yarn coveralls
+    - name: "Unit"
+      script: yarn test:ci
+
+    - name: "E2E"
+      script: yarn e2e:ci
 
     - name: "Deploy to Firebase"
       stage: deploy
