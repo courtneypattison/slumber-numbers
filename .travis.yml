@@ -31,8 +31,9 @@ matrix:
         - yarn e2e:ci
         - cat coverage/lcov.info | yarn coveralls
 
-    - stage: deploy
-      name: "Deploy to Firebase"
+    - name: "Deploy to Firebase"
+      stage: deploy
+      script: yarn build:ci
       deploy:
         skip_cleanup: true
         provider: firebase
