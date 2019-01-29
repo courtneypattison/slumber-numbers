@@ -22,7 +22,7 @@ matrix:
       script:
         - yarn start &
         - yarn wait
-        - yarn test:pa11y
+        - yarn pa11y
 
     - name: "Unit, E2E, and Coverage"
       script:
