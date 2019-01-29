@@ -9,7 +9,7 @@
     "lint": "ng lint",
     "ng": "ng",
     "pa11y": "pa11y-ci --sitemap http://slumbernumbers.com/sitemap.xml --sitemap-find slumbernumbers.com --sitemap-replace localhost:4200 --sitemap-find https --sitemap-replace http",
-    "pa11y:ci": "yarn start & && yarn wait && yarn pa11y",
+    "pa11y:ci": "yarn start & yarn wait && yarn pa11y",
     "start": "ng serve",
     "test": "ng test",
     "test:ci": "yarn build:ci && yarn test:headless && cat coverage/lcov.info | yarn coveralls",
