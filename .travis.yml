@@ -1,16 +1,5 @@
-sudo: required
-dist: trusty
-
 language: node_js
-
-node_js:
-  - "9"
-  - "10"
-
-env:
-  - MODE=lint
-  - MODE=pa11y
-  - MODE=test
+node_js: "10"
 
 cache:
   yarn: true
@@ -26,27 +15,29 @@ notifications:
 
 matrix:
   include:
-    - env: MODE=lint
+    - name: "Lint"
       script: yarn lint
 
-    - env: MODE=pa11y
+    - name: "Pa11y"
       script:
         - yarn start &
         - yarn wait
         - yarn test:pa11y
 
-    - env: MODE=deploy
+    - name: "Unit, E2E, and Coverage"
       script:
         - yarn build:ci
         - yarn test:ci
         - yarn e2e:ci
         - cat coverage/lcov.info | yarn coveralls
 
-      # deploy:
-      #   skip_cleanup: true
-      #   provider: firebase
-      #   token:
-      #     secure: $FIREBASE_TOKEN
-      #   project: "slumber-numbers"
-      #   on:
-      #     branch: master
+    - stage: deploy
+      name: "Deploy to Firebase"
+      deploy:
+        skip_cleanup: true
+        provider: firebase
+        token:
+          secure: $FIREBASE_TOKEN
+        project: "slumber-numbers"
+        on:
+          branch: master
