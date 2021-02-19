@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 
 import { AuthService } from 'app/auth/shared/auth.service';
 import { AuthProvider } from 'app/auth/shared/auth-provider.model';

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatDialogModule } from '@angular/material';
+import { MatDialogModule } from '@angular/material/dialog';
 
 import { ErrorDialogComponent } from 'app/shared/error-dialog/error-dialog.component';
 import { TimePipe } from 'app/shared/time.pipe';
