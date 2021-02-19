@@ -15,7 +15,7 @@ export class SleepTimeTableComponent implements OnInit {
   @Input() sleepTimes: Observable<SleepTime[]>;
   displayedColumns = ['startTime', 'state', 'actions'];
   dataSource: MatTableDataSource<SleepTime>;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   isSleepTime: boolean;
 
   constructor(private sleepTimeService: SleepTimeService) { }
